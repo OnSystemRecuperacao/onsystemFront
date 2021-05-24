@@ -1,0 +1,138 @@
+<div class="container">
+<p-table>
+    <ng-template pTemplate="caption">
+        <div class="p-d-flex p-ai-center p-jc-between">
+            <h5 class="p-m-0">Cadastro de Prestadores</h5>        
+        </div>
+    </ng-template>
+</p-table>
+</div>
+
+<div class="container" style="margin-top: 15px;">
+    
+<form id="novo-prestador" autocomplete="off" #prestador="ngForm" (ngSubmit)="salvar(prestador)">
+
+    <div class="p-fluid p-formgrid p-grid">
+        <div class="p-field p-col">
+            <label for="nomePrestador">Nome</label>
+            <input type="text" name="nome" pInputText id="nomePrestador" #nome="ngModel" autofocus ngModel required minlength="15"/>
+            <small class="p-error" *ngIf="nome.hasError('required') && nome.dirty">* O campo Nome é obrigatório.</small>
+            <small class="p-error" *ngIf="nome.hasError('minlength') && nome.dirty">* Informe o Nome Completo.</small>
+        </div>        
+    </div>
+    
+    <div class="p-fluid p-formgrid p-grid">
+        <div class="p-field p-col">
+            <label for="rg">RG</label>
+            <p-inputNumber id="rg" name="rg" ngModel [useGrouping]="false" [required]="true" #rg="ngModel"></p-inputNumber>
+            <small class="p-error" *ngIf="rg.hasError('required') && rg.dirty">* O campo RG é obrigatório.</small>            
+        </div>
+        <div class="p-field p-col">
+            <label for="cpf">CPF</label>              
+            <p-inputMask id="cpf" name="cpf" mask="999.999.999-99" ngModel [required]="true" #cpf="ngModel"></p-inputMask>
+            <small class="p-error" *ngIf="cpf.hasError('required') && cpf.dirty">* O campo CPF é obrigatório.</small>
+        </div>
+        <div class="p-field p-col">
+          <label for="cnh">CNH</label>
+          <p-inputNumber id="cnh" name="cnh" mode="decimal" [useGrouping]="false" [required]="true" ngModel #cnh="ngModel"></p-inputNumber>
+          <small class="p-error" *ngIf="cnh.hasError('required') && cnh.dirty">* O campo CNH é obrigatório.</small>
+      </div>
+      <div class="p-field p-col">
+          <label for="categoria">Categoria</label>
+          <input type="text" name="categoria" pInputText id="categoria"  ngModel #categoria="ngModel"/>
+          <small class="p-error" *ngIf="categoria.hasError('required') && categoria.dirty">* O campo Categoria é obrigatório.</small>
+      </div>
+    </div>
+
+    <div class="p-fluid p-formgrid p-grid">
+        <div class="p-field  p-col-9">
+            <label for="name">Endereço</label>
+            <input type="text" name="endereco" pInputText id="endereco"   ngModel/>      
+        </div>
+        <div class="p-field  p-col-3">
+            <label for="numero">Número</label>
+            <input type="text"  name="numero" pInputText id="numero"  ngModel />      
+        </div>
+    </div>
+
+    <div class="p-fluid p-formgrid p-grid">
+        <div class="p-field p-col-5">
+            <label for="cidade">Cidade</label>              
+            <input type="text" name="cidade" pInputText id="cidade" ngModel />  
+        </div>
+
+        <div class="p-field p-col-4">
+            <label for="bairro">Bairro</label>              
+            <input type="text" name="bairro" pInputText id="bairro" ngModel/>  
+        </div>
+        
+        <div class="p-field p-col-2">
+            <label for="cep">CEP</label>
+            <p-inputMask id="cep" name="cep" mask="99999-999" ngModel></p-inputMask>
+        </div>        
+        
+        <div class="p-field p-col">
+          <label for="estado">Estado</label>
+          <input type="text" name="estado" pInputText id="estado" ngModel/>  
+      </div>
+    </div>
+    
+    <div class="p-fluid p-formgrid p-grid">
+        <div class="p-field p-col">
+            <label for="banco">Banco</label>
+            <p-inputNumber id="banco" name="banco" mode="decimal" [useGrouping]="false" ngModel></p-inputNumber>            
+        </div>
+
+        <div class="p-field p-col"> 
+            <label for="agencia">Agência</label>              
+            <p-inputNumber id="agencia" name="agencia" mode="decimal" [useGrouping]="false" ngModel></p-inputNumber> 
+        </div>
+
+        <div class="p-field p-col">
+            <label for="conta">Conta</label>              
+            <p-inputNumber id="conta" name="conta" mode="decimal" [useGrouping]="false" ngModel></p-inputNumber>
+        </div>        
+    </div>
+
+    <div class="p-fluid p-formgrid p-grid">
+        <div class="p-field p-col-3">
+            <label for="telefone">Telefone</label>
+            <p-inputMask id="telefone" name="telefone" mask="(99) 99999-9999" ngModel></p-inputMask>
+        </div>
+
+        <div class="p-field p-col">
+            <label for="email">E-mail</label>              
+            <input type="text" name="email" pInputText id="email" ngModel>  
+        </div>     
+    </div>
+
+    <div class="p-fluid p-formgrid p-grid">
+        <div class="p-field p-col">
+            <label for="antenista">Antenista</label>              
+            <p-dropdown [options]="itens" name="antenista" placeholder="Selecione" ngModel></p-dropdown>
+        </div>   
+
+        <div class="p-field p-col">
+            <label for="escoltaArmada">Escolta Armada</label>              
+            <p-dropdown [options]="itens" name="escoltaArmada" placeholder="Selecione" ngModel></p-dropdown>
+        </div>       
+    </div>
+
+
+    <p-divider></p-divider>
+
+    <div class="p-fluid p-formgrid p-grid  p-jc-end">
+        <div class="p-field p-col-2">
+            <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-danger" (click)="cancelar()"></button> 
+        </div>  
+
+        <div class="p-field p-col-2">
+            <button pButton pRipple label="Salvar" icon="pi pi-check" [disabled]="!prestador.valid" class="p-button-success"></button> 
+        </div>       
+    </div>
+
+</form>
+
+</div>
+
+<p-toast position="top-right"></p-toast>

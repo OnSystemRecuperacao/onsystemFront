@@ -1,0 +1,151 @@
+<div class="container">
+    <p-table>
+        <ng-template pTemplate="caption">
+            <div class="p-d-flex p-ai-center p-jc-between">
+                <h5 class="p-m-0">Editar Clientes</h5>        
+            </div>
+        </ng-template>
+    </p-table>
+</div>
+    
+<div class="container" style="margin-top: 15px;">
+
+    <form id="novo-cliente" autocomplete="off" #clienteForm="ngForm" (ngSubmit)="salvar(clienteForm)">
+
+        <div class="p-fluid p-formgrid p-grid">
+            <div class="p-field p-col">
+                <label for="nomePrestador">Nome</label>
+                <input type="text" name="nome" pInputText id="nomePrestador" #nome="ngModel" autofocus [(ngModel)]="cliente.nomeCliente" required minlength="15"/>
+                <small class="p-error" *ngIf="nome.hasError('required') && nome.dirty">* O campo Nome é obrigatório.</small>
+                <small class="p-error" *ngIf="nome.hasError('minlength') && nome.dirty">* Informe o Nome Completo.</small>
+            </div>        
+        </div>
+
+        <div class="p-fluid p-formgrid p-grid">
+            <div class="p-field p-col">
+                <label for="rg">Nome Responsável</label>
+                <input type="text" name="nomeResponsavel" pInputText id="nomeResponsavel" #nomeResponsavel="ngModel" [(ngModel)]="cliente.nomeResponsavel" required minlength="15"/>
+                <small class="p-error" *ngIf="nomeResponsavel.hasError('required') && nomeResponsavel.dirty">* O campo Nome é obrigatório.</small>
+                <small class="p-error" *ngIf="nomeResponsavel.hasError('minlength') && nomeResponsavel.dirty">* Informe o Nome Completo.</small>           
+            </div>      
+        </div>
+
+        <div class="p-fluid p-formgrid p-grid">
+            <div class="p-field p-col">
+                <label for="rg">Informações do Contrato</label>
+                <input type="text" name="informacaoContrato" pInputText id="informacaoContrato" #informacaoContrato="ngModel" autofocus [(ngModel)]="cliente.informacaoContrato" required/>
+                <small class="p-error" *ngIf="informacaoContrato.hasError('required') && informacaoContrato.dirty">* O campo Nome é obrigatório.</small>                
+            </div>      
+        </div>
+        
+        <div class="p-fluid p-formgrid p-grid">
+            <div class="p-field p-col">
+                <label for="tipoPessoa">Tipo Pessoa</label>              
+                <p-dropdown [options]="tipoPessoa" name="tipoPessoa" placeholder="Selecione" [(ngModel)]="tipoPessoaSelecionada" (onChange)="tipoPessoaChange($event)"></p-dropdown>        
+            </div>
+            
+            <div class="p-field p-col" *ngIf="tipoPessoaSelecionada == 1">
+                <label for="cpf">CPF</label>              
+                <p-inputMask id="cpf" name="cpf" mask="999.999.999-99" [(ngModel)]="cliente.numCpfCnpj" [required]="true" #cpf="ngModel"></p-inputMask>
+                <small class="p-error" *ngIf="cpf.hasError('required') && cpf.dirty">* O campo CPF é obrigatório.</small>
+            </div>
+
+            <div class="p-field p-col" *ngIf="tipoPessoaSelecionada == 2">
+                <label for="cpf">CNPJ</label>              
+                <p-inputMask id="cpf" name="cnpj" mask="99.999.999/9999-99" [(ngModel)]="cliente.numCpfCnpj" [required]="true" #cnpj="ngModel"></p-inputMask>
+                <small class="p-error" *ngIf="cnpj.hasError('required') && cnpj.dirty">* O campo CPF é obrigatório.</small>
+            </div>
+
+            <div class="p-field p-col">
+                <label for="numInscricaoEstadual">Inscrição Estatudal</label>              
+                <p-inputNumber id="numInscricaoEstadual" name="numInscricaoEstadual" mode="decimal" [useGrouping]="false" [(ngModel)]="cliente.numInscricaoEstadual"></p-inputNumber>
+            </div> 
+            
+        </div>
+    
+        <div class="p-fluid p-formgrid p-grid">
+            <div class="p-field  p-col-9">
+                <label for="name">Endereço</label>
+                <input type="text" name="endereco" pInputText id="endereco"   [(ngModel)]="cliente.endereco!.logradouro"/>      
+            </div>
+            <div class="p-field  p-col-3">
+                <label for="numero">Número</label>
+                <input type="text"  name="numero" pInputText id="numero"  [(ngModel)]="cliente.endereco!.numero" />      
+            </div>
+        </div>
+    
+        <div class="p-fluid p-formgrid p-grid">
+            <div class="p-field p-col-5">
+                <label for="cidade">Cidade</label>              
+                <input type="text" name="cidade" pInputText id="cidade" [(ngModel)]="cliente.endereco!.cidade" />  
+            </div>
+    
+            <div class="p-field p-col-4">
+                <label for="bairro">Bairro</label>              
+                <input type="text" name="bairro" pInputText id="bairro" [(ngModel)]="cliente.endereco!.bairro"/>  
+            </div>
+            
+            <div class="p-field p-col-2">
+                <label for="cep">CEP</label>
+                <p-inputMask id="cep" name="cep" mask="99999-999" [(ngModel)]="cliente.endereco!.cep"></p-inputMask>
+            </div>        
+            
+            <div class="p-field p-col">
+              <label for="estado">Estado</label>
+              <input type="text" name="estado" pInputText id="estado" [(ngModel)]="cliente.endereco!.estado"/>  
+          </div>
+        </div>
+        
+        <div class="p-fluid p-formgrid p-grid">
+            <div class="p-field p-col">
+                <label for="banco">Banco</label>
+                <p-inputNumber id="banco" name="banco" mode="decimal" [useGrouping]="false" [(ngModel)]="cliente.contaBancaria!.codBanco"></p-inputNumber>            
+            </div>
+    
+            <div class="p-field p-col"> 
+                <label for="agencia">Agência</label>              
+                <p-inputNumber id="agencia" name="agencia" mode="decimal" [useGrouping]="false" [(ngModel)]="cliente.contaBancaria!.codAgencia"></p-inputNumber> 
+            </div>
+    
+            <div class="p-field p-col">
+                <label for="conta">Conta</label>              
+                <p-inputNumber id="conta" name="conta" mode="decimal" [useGrouping]="false" [(ngModel)]="cliente.contaBancaria!.conta"></p-inputNumber>
+            </div>        
+        </div>
+    
+        <div class="p-fluid p-formgrid p-grid">
+            <div class="p-field p-col-3">
+                <label for="telefone">Telefone</label>
+                <p-inputMask id="telefone" name="telefone" mask="(99) 99999-9999" [(ngModel)]="cliente.telefoneCliente"></p-inputMask>
+            </div>
+            <div class="p-field p-col">
+                <label for="email">E-mail</label>              
+                <input type="text" name="email" pInputText id="email" [(ngModel)]="cliente.emailCliente">  
+            </div>     
+        </div>
+    
+        <div class="p-fluid p-formgrid p-grid">
+            <div class="p-field p-col">
+                <label for="email">Observações</label>              
+                <textarea name="observacoes" [rows]="5" [cols]="30" pInputTextarea [(ngModel)]="cliente.observacoesGerais"></textarea>
+            </div>     
+        </div>
+    
+    
+        <p-divider></p-divider>
+    
+        <div class="p-fluid p-formgrid p-grid  p-jc-end">
+            <div class="p-field p-col-2">
+                <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-danger" (click)="cancelar()"></button> 
+            </div>  
+    
+            <div class="p-field p-col-2">
+                <button pButton pRipple label="Salvar" icon="pi pi-check" [disabled]="!clienteForm.valid" class="p-button-success"></button> 
+            </div>       
+        </div>
+    
+    </form>
+    
+</div>
+
+<p-toast position="top-right" (onClose)="redirectToList($event)"></p-toast>

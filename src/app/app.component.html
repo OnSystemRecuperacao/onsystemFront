@@ -1,0 +1,29 @@
+<app-navbar *ngIf="exibindoNavbar()"></app-navbar>
+<nav class="navbar-class" *ngIf="!exibindoNavbar()">
+    <div class="ui-g" style="height: 80px !important;">
+      <div class="ui-g-12" >
+        <p-menubar>
+          <ng-template pTemplate="start">
+            <br><br>               
+          </ng-template>
+          <ng-template pTemplate="end">            
+        </ng-template>
+      </p-menubar>
+      </div>   
+  </div>
+</nav>
+
+
+<section>
+  <div class="container">
+    <router-outlet></router-outlet>
+  </div>
+</section>
+
+<footer class="py-5 bg-footer">
+  <div class="container">
+    <p class="m-0 text-center text-white">Copyright &copy; 2021</p>
+  </div>
+</footer>
+
+
