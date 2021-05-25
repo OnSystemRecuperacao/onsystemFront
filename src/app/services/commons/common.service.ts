@@ -31,7 +31,8 @@ export class CommomService {
         return [
             {
               label:'Dashboard',
-              icon:'pi pi-fw pi-chart-line'
+              icon:'pi pi-fw pi-chart-line',
+              routerLink: [NavigationEnum.DASHBOARD]
           },
           {
              label:'Ocorrências',
