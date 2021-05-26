@@ -1,7 +1,5 @@
-export class DadosBancarios{
-    idContaBancaria?: any = 0;
-    codBanco?: number = 0;
-    codAgencia?: number = 0;
-    conta?: number = 0;
-    digito?: number = 0
+export class DadosBancarios{   
+    agencia?: string = "";
+    banco?: number = 0;
+    conta?: string = ""    
 }

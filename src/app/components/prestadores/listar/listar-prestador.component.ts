@@ -40,11 +40,11 @@ export class ListarPrestadorComponent implements OnInit{
 
   editar(prestadorSelecionado: Prestador){ 
     this.prestador = prestadorSelecionado;
-    this.commomService.navigateWithParams(NavigationEnum.EDITAR_PRESTADORES, this.prestador.idPrestador)
+    this.commomService.navigateWithParams(NavigationEnum.EDITAR_PRESTADORES, this.prestador.id)
   }
 
   deletar(prestador: Prestador){        
-        let idPrestador = <number> prestador.idPrestador
+        let idPrestador = <number> prestador.id
         this.confirmationService.confirm({
             message: 'Tem certeza que deseja remover o Prestador ' + prestador.nomePrestador + ' ?',
             header: 'Confirmação',
@@ -76,7 +76,7 @@ export class ListarPrestadorComponent implements OnInit{
   listarPrestadores(){
     this.prestadorService.read().subscribe(
       (data: Prestador[]) => {
-        this.prestadores = data;
+        console.log(data);
         this.loading = false;        
       }, error => {
         this.messageService.add(MessageUtils.onErrorMessage(error));

@@ -3,7 +3,6 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Observable, of, throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
 import { Prestador } from 'src/app/model/vo/prestador';
-import { environment } from 'src/environments/environment';
 import Utils from 'src/app/utils/utils';
 
 @Injectable({
@@ -13,7 +12,7 @@ export class PrestadorService {
 
     constructor(private httpClient: HttpClient) { }
 
-    BASE_URL: string = Utils.makeURLRequest("/prestador");
+    BASE_URL: string = Utils.makeURLRequest("/prestadores");
 
     data = {}
 
@@ -54,13 +53,12 @@ export class PrestadorService {
         "categoriaCnh": prestador.categoriaCnh,
         "cep": prestador.endereco?.cep,
         "cidade": prestador.endereco?.cidade,
-        "codAgencia": prestador.contaBancaria?.codAgencia,
-        "codBanco": prestador.contaBancaria?.codBanco,
+        "codAgencia": prestador.contaBancaria?.agencia,
+        "codBanco": prestador.contaBancaria?.banco,
         "codigoUsuarioAlteracao": 0,
         "codigoUsuarioInclusao": 0,
         "complemento": "string",
-        "conta": prestador.contaBancaria?.conta,
-        "digito": prestador.contaBancaria?.digito,
+        "conta": prestador.contaBancaria?.conta,        
         "emailPrestador": prestador.emailPrestador,
         "escoltaArmado": prestador.escoltaArmado,
         "estado": prestador.endereco?.estado,
@@ -70,13 +68,13 @@ export class PrestadorService {
         "nomeVeiculo": " ",
         "numCnh": prestador.numCnh,
         "numCpf": prestador.numCpf,
-        "numRg" : prestador.numRg,
+        "numRg" : prestador.rg,
         "numero": prestador.endereco?.numero,
         "observacoes" : "",
         "pais": prestador.endereco?.pais,
         "regSinistro" : prestador.regSinistro,
         "situacaoPrestador" : "ATIVO",
-        "telefonePrestador" : prestador.telefonePrestador
+        "telefonePrestador" : prestador.telefone
        }       
        console.log(JSON.parse(JSON.stringify(data)));
        return data;

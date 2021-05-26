@@ -62,13 +62,13 @@ export class EditarPrestadorComponent implements OnInit{
    private parseData(form: NgForm) : Prestador{
       let prestador: Prestador = {};
       prestador.nomePrestador = form.value.nome;
-      prestador.numRg = form.value.rg; 
+      prestador.rg = form.value.rg; 
       prestador.numCpf = form.value.cpf;
       prestador.numCnh = form.value.cnh;
       prestador.categoriaCnh = form.value.categoria;
       prestador.endereco = this.getDadosEndereco(form);
       prestador.contaBancaria = this.getDadosBancarios(form);
-      prestador.telefonePrestador = form.value.telefone;
+      prestador.telefone = form.value.telefone;
       prestador.emailPrestador = form.value.email;
       prestador.antenista = form.value.antenista == 1 ? true : false;
       prestador.escoltaArmado = form.value.escoltaArmada == 1 ? true : false;
@@ -91,10 +91,9 @@ export class EditarPrestadorComponent implements OnInit{
   
    private getDadosBancarios(form: NgForm): DadosBancarios{
       let contaBancaria: DadosBancarios = {};
-      contaBancaria.codBanco = form.value.banco;
-      contaBancaria.codAgencia = form.value.agencia;
-      contaBancaria.conta = form.value.conta;
-      contaBancaria.digito = 1
+      contaBancaria.banco = form.value.banco;
+      contaBancaria.agencia = form.value.agencia;
+      contaBancaria.conta = form.value.conta;      
       return contaBancaria;
    }
   
