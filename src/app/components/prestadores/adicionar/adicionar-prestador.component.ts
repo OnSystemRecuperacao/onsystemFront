@@ -60,30 +60,32 @@ export class AdicionarPrestadorComponent implements OnInit{
 
    private parseData(form: NgForm) : Prestador{
       let prestador: Prestador = {};
-      prestador.nomePrestador = form.value.nome;
-      prestador.rg = form.value.rg; 
-      prestador.numCpf = form.value.cpf;
-      prestador.numCnh = form.value.cnh;
-      prestador.categoriaCnh = form.value.categoria;
+      prestador.nome = form.value.nome;
+      prestador.cpfCnpj = form.value.cpf;
+      prestador.rg = form.value.rg;
+      prestador.cnh = form.value.cnh;
+      prestador.categoriaCNH = form.value.categoria;
       prestador.endereco = this.getDadosEndereco(form);
       prestador.contaBancaria = this.getDadosBancarios(form);
       prestador.telefone = form.value.telefone;
-      prestador.emailPrestador = form.value.email;
-      prestador.antenista = form.value.antenista == 1 ? true : false;
-      prestador.escoltaArmado = form.value.escoltaArmada == 1 ? true : false;
-      prestador.regSinistro = false;
-      prestador.dataInclusao = new Date();
+      prestador.email = form.value.email;
+      prestador.antenista = form.value.antenista == 1 ? "SIM" : "NAO";
+      prestador.escoltaArmado = form.value.escoltaArmada == 1 ? "SIM" : "NAO";
+      prestador.observacoes = "";
+      prestador.fotoPrestador = ""
+      prestador.situacao = "ATIVO";      
       return prestador;  
    }
 
    private getDadosEndereco(form: NgForm): Endereco{
       let endereco: Endereco = {};
-      endereco.logradouro = form.value.endereco
-      endereco.numero = form.value.numero
-      endereco.cidade = form.value.cidade
-      endereco.bairro = form.value.bairro
-      endereco.cep = form.value.cep
+      endereco.bairro = form.value.bairro;
+      endereco.cep = form.value.cep;
+      endereco.cidade = form.value.cidade;
+      endereco.complemento = "";
       endereco.estado = form.value.estado;
+      endereco.logradouro = form.value.endereco;
+      endereco.numero = form.value.numero;
       endereco.pais = "BRASIL"
       return endereco;
    }

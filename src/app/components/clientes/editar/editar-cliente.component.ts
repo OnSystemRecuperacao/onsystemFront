@@ -69,8 +69,8 @@ export class EditarClienteComponent implements OnInit{
       this.clienteService.readByID(idCliente).subscribe((data: Cliente) => {
            console.log(data);    
            this.cliente = data;
-           this.idCliente = <number> data.idCliente
-           this.cliente.telefoneCliente = Utils.leftPad(<string> this.cliente.telefoneCliente, 11);              
+           this.idCliente = <number> data.id
+           this.cliente.telefone = Utils.leftPad(<string> this.cliente.telefone, 11);              
          }, error => {
            this.messageService.add(MessageUtils.onErrorMessage(error));                   
          } 
@@ -78,7 +78,7 @@ export class EditarClienteComponent implements OnInit{
     }
 
     private editarCliente(form: NgForm){
-      this.clienteService.update(this.cliente).subscribe((data: any) => {
+      this.clienteService.update(this.cliente).subscribe((data: Cliente) => {
           this.messageService.add(MessageUtils.onSuccessMessage("O cliente foi atualizado com sucesso"));       
       },error => {
           this.messageService.add(MessageUtils.onErrorMessage(error));        
@@ -87,18 +87,19 @@ export class EditarClienteComponent implements OnInit{
 
     private parseData(form: NgForm) : Cliente{
         let cliente: Cliente = {};
-        cliente.idCliente = this.idCliente;
+        cliente.id = this.idCliente;
         cliente.contaBancaria = this.getDadosBancarios(form);
-        cliente.emailCliente = form.value.email;
+        cliente.email = form.value.email;
         cliente.endereco = this.getDadosEndereco(form);        
         cliente.informacaoContrato = form.value.informacaoContrato
-        cliente.nomeCliente = form.value.nome
+        cliente.nome = form.value.nome
         cliente.nomeResponsavel = form.value.nomeResponsavel;
-        cliente.numCpfCnpj = form.value.tipoPessoa == 1 ? form.value.cpf : form.value.cnpj;
-        cliente.numInscricaoEstadual = form.value.numInscricaoEstadual;
-        cliente.observacoesGerais = form.value.observacoes;
-        cliente.telefoneCliente = form.value.telefone;
+        cliente.cpfCnpj = form.value.tipoPessoa == 1 ? form.value.cpf : form.value.cnpj;
+        cliente.incricaoEstadual = form.value.numInscricaoEstadual;
+        cliente.observacoes = form.value.observacoes;
+        cliente.telefone = form.value.telefone;
         cliente.tipoPessoa = form.value.tipoPessoa;
+        cliente.situacao = "ATIVO"
         return cliente;  
      }
 

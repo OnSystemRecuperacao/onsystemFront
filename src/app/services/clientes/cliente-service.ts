@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
-import { Prestador } from 'src/app/model/vo/prestador';
-import { environment } from 'src/environments/environment';
 import Utils from 'src/app/utils/utils';
 import { Cliente } from 'src/app/model/vo/cliente';
 
@@ -14,7 +12,7 @@ export class ClienteService {
 
     constructor(private httpClient: HttpClient) { }
 
-    BASE_URL: string = Utils.makeURLRequest("/cliente");
+    BASE_URL: string = Utils.makeURLRequest("/clientes");
 
     data = {}
 
@@ -39,7 +37,7 @@ export class ClienteService {
     }
 
     update(cliente: Cliente): Observable<Cliente> {
-      const url = `${this.BASE_URL}/${cliente.idCliente}`;
+      const url = `${this.BASE_URL}/${cliente.id}`;
       this.data = this.parseData(cliente); 
       return this.httpClient.put<Cliente>(url, this.data, this.httpOptions).pipe(catchError(this.handleError));
     }
@@ -50,21 +48,7 @@ export class ClienteService {
     }
 
     private parseData(cliente: Cliente): any{
-       let data = {
-        "codigoUsuarioAlteracao": 0,
-        "codigoUsuarioInclusao": 0,
-        "contaBacaria": cliente.contaBancaria,
-        "emailCliente": cliente.emailCliente,
-        "endereco" : cliente.endereco,
-        "informacaoContrato": cliente.informacaoContrato,
-        "nomeCliente" : cliente.nomeCliente,
-        "nomeResponsavel": cliente.nomeResponsavel,
-        "numCpfCnpj" : cliente.numCpfCnpj,
-        "observacoesGerais": cliente.observacoesGerais,
-        "situacaoCliente" : "ATIVO",
-        "telefoneCliente" : cliente.telefoneCliente,
-        "tipoPessoa" : cliente.tipoPessoa
-       }
+       let data = cliente;
        console.log(JSON.parse(JSON.stringify(data)));
        return data;
     }

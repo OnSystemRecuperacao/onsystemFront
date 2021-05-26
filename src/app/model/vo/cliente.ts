@@ -3,21 +3,17 @@ import { DadosBancarios } from "./dados-bancarios";
 import { Endereco } from "./endereco";
 
 export class Cliente{    
-    idCliente?: number;
+    id?: number;
     endereco?: Endereco = {};
     contaBancaria?: DadosBancarios = {};
-    nomeCliente?: string;
+    nome?: string;
     nomeResponsavel?: string;
     tipoPessoa?: string;
-    numCpfCnpj?: string;
-    numInscricaoEstadual?: string;
-    situacaoCliente?: string;
-    telefoneCliente?: string;
-    emailCliente?: string;
+    cpfCnpj?: string;
+    incricaoEstadual?: string;
+    situacao?: string;
+    telefone?: string;
+    email?: string;
     informacaoContrato?: string;
-    observacoesGerais?: string;
-    codigoUsuarioInclusao?: number;
-    dataInclusao?: Data;
-    codigoUsuarioAlteracao?: number;
-    dataAlteracao?: Data;
+    observacoes?: string;    
 }

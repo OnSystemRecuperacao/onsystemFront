@@ -47,35 +47,7 @@ export class PrestadorService {
     }
 
     private parseData(prestador: Prestador): any{
-       let data = {
-        "antenista": prestador.antenista,
-        "bairro": prestador.endereco?.bairro,
-        "categoriaCnh": prestador.categoriaCnh,
-        "cep": prestador.endereco?.cep,
-        "cidade": prestador.endereco?.cidade,
-        "codAgencia": prestador.contaBancaria?.agencia,
-        "codBanco": prestador.contaBancaria?.banco,
-        "codigoUsuarioAlteracao": 0,
-        "codigoUsuarioInclusao": 0,
-        "complemento": "string",
-        "conta": prestador.contaBancaria?.conta,        
-        "emailPrestador": prestador.emailPrestador,
-        "escoltaArmado": prestador.escoltaArmado,
-        "estado": prestador.endereco?.estado,
-        "fotoPrestador": "",
-        "logradouro": prestador.endereco?.logradouro,
-        "nomePrestador": prestador.nomePrestador,
-        "nomeVeiculo": " ",
-        "numCnh": prestador.numCnh,
-        "numCpf": prestador.numCpf,
-        "numRg" : prestador.rg,
-        "numero": prestador.endereco?.numero,
-        "observacoes" : "",
-        "pais": prestador.endereco?.pais,
-        "regSinistro" : prestador.regSinistro,
-        "situacaoPrestador" : "ATIVO",
-        "telefonePrestador" : prestador.telefone
-       }       
+       let data = prestador;      
        console.log(JSON.parse(JSON.stringify(data)));
        return data;
     }

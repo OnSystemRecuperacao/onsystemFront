@@ -15,7 +15,7 @@
         <div class="p-fluid p-formgrid p-grid">
             <div class="p-field p-col">
                 <label for="nomePrestador">Nome</label>
-                <input type="text" name="nome" pInputText id="nomePrestador" #nome="ngModel" autofocus [(ngModel)]="cliente.nomeCliente" required minlength="15"/>
+                <input type="text" name="nome" pInputText id="nomePrestador" #nome="ngModel" autofocus [(ngModel)]="cliente.nome" required minlength="15"/>
                 <small class="p-error" *ngIf="nome.hasError('required') && nome.dirty">* O campo Nome é obrigatório.</small>
                 <small class="p-error" *ngIf="nome.hasError('minlength') && nome.dirty">* Informe o Nome Completo.</small>
             </div>        
@@ -46,19 +46,19 @@
             
             <div class="p-field p-col" *ngIf="tipoPessoaSelecionada == 1">
                 <label for="cpf">CPF</label>              
-                <p-inputMask id="cpf" name="cpf" mask="999.999.999-99" [(ngModel)]="cliente.numCpfCnpj" [required]="true" #cpf="ngModel"></p-inputMask>
+                <p-inputMask id="cpf" name="cpf" mask="999.999.999-99" [(ngModel)]="cliente.cpfCnpj" [required]="true" #cpf="ngModel"></p-inputMask>
                 <small class="p-error" *ngIf="cpf.hasError('required') && cpf.dirty">* O campo CPF é obrigatório.</small>
             </div>
 
             <div class="p-field p-col" *ngIf="tipoPessoaSelecionada == 2">
                 <label for="cpf">CNPJ</label>              
-                <p-inputMask id="cpf" name="cnpj" mask="99.999.999/9999-99" [(ngModel)]="cliente.numCpfCnpj" [required]="true" #cnpj="ngModel"></p-inputMask>
-                <small class="p-error" *ngIf="cnpj.hasError('required') && cnpj.dirty">* O campo CPF é obrigatório.</small>
+                <p-inputMask id="cpf" name="cnpj" mask="99.999.999/9999-99" [(ngModel)]="cliente.cpfCnpj" [required]="true" #cnpj="ngModel"></p-inputMask>
+                <small class="p-error" *ngIf="cnpj.hasError('required') && cnpj.dirty">* O campo CNPJ é obrigatório.</small>
             </div>
 
             <div class="p-field p-col">
                 <label for="numInscricaoEstadual">Inscrição Estatudal</label>              
-                <p-inputNumber id="numInscricaoEstadual" name="numInscricaoEstadual" mode="decimal" [useGrouping]="false" [(ngModel)]="cliente.numInscricaoEstadual"></p-inputNumber>
+                <p-inputNumber id="numInscricaoEstadual" name="numInscricaoEstadual" mode="decimal" [useGrouping]="false" [(ngModel)]="cliente.incricaoEstadual"></p-inputNumber>
             </div> 
             
         </div>
@@ -116,18 +116,18 @@
         <div class="p-fluid p-formgrid p-grid">
             <div class="p-field p-col-3">
                 <label for="telefone">Telefone</label>
-                <p-inputMask id="telefone" name="telefone" mask="(99) 99999-9999" [(ngModel)]="cliente.telefoneCliente"></p-inputMask>
+                <p-inputMask id="telefone" name="telefone" mask="(99) 99999-9999" [(ngModel)]="cliente.telefone"></p-inputMask>
             </div>
             <div class="p-field p-col">
                 <label for="email">E-mail</label>              
-                <input type="text" name="email" pInputText id="email" [(ngModel)]="cliente.emailCliente">  
+                <input type="text" name="email" pInputText id="email" [(ngModel)]="cliente.email">  
             </div>     
         </div>
     
         <div class="p-fluid p-formgrid p-grid">
             <div class="p-field p-col">
                 <label for="email">Observações</label>              
-                <textarea name="observacoes" [rows]="5" [cols]="30" pInputTextarea [(ngModel)]="cliente.observacoesGerais"></textarea>
+                <textarea name="observacoes" [rows]="5" [cols]="30" pInputTextarea [(ngModel)]="cliente.observacoes"></textarea>
             </div>     
         </div>
     

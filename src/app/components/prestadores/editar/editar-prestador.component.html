@@ -15,7 +15,7 @@
         <div class="p-fluid p-formgrid p-grid">
             <div class="p-field p-col">
                 <label for="nomePrestador">Nome</label>
-                <input type="text" name="nome" pInputText id="nomePrestador" #nome="ngModel" autofocus [(ngModel)]="prestador.nomePrestador" required minlength="15"/>
+                <input type="text" name="nome" pInputText id="nomePrestador" #nome="ngModel" autofocus [(ngModel)]="prestador.nome" required minlength="15"/>
                 <small class="p-error" *ngIf="nome.hasError('required') && nome.dirty">* O campo Nome é obrigatório.</small>
                 <small class="p-error" *ngIf="nome.hasError('minlength') && nome.dirty">* Informe o Nome Completo.</small>
             </div>        

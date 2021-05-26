@@ -42,13 +42,13 @@ export class ListarClienteComponent implements OnInit{
 
   editar(cliente: Cliente){ 
     this.cliente = cliente;
-    this.commomService.navigateWithParams(NavigationEnum.EDITAR_CLIENTES, this.cliente.idCliente)
+    this.commomService.navigateWithParams(NavigationEnum.EDITAR_CLIENTES, this.cliente.id)
   }
 
   deletar(cliente: Cliente){        
-        let idCliente = <number> cliente.idCliente
+        let idCliente = <number> cliente.id
         this.confirmationService.confirm({
-            message: 'Tem certeza que deseja remover o Cliente ' + cliente.nomeCliente + ' ?',
+            message: 'Tem certeza que deseja remover o Cliente ' + cliente.nome + ' ?',
             header: 'Confirmação',
             icon: 'pi pi-info-circle',
             accept: () => {

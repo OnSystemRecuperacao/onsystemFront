@@ -67,15 +67,15 @@ export class AdicionarClienteComponent implements OnInit{
     private parseData(form: NgForm) : Cliente{
         let cliente: Cliente = {};
         cliente.contaBancaria = this.getDadosBancarios(form);
-        cliente.emailCliente = form.value.email;
+        cliente.email = form.value.email;
         cliente.endereco = this.getDadosEndereco(form);        
         cliente.informacaoContrato = form.value.informacaoContrato
-        cliente.nomeCliente = form.value.nome
+        cliente.nome = form.value.nome
         cliente.nomeResponsavel = form.value.nomeResponsavel;
-        cliente.numCpfCnpj = form.value.tipoPessoa == 1 ? form.value.cpf : form.value.cnpj;
-        cliente.numInscricaoEstadual = form.value.numInscricaoEstadual;
-        cliente.observacoesGerais = form.value.observacoes;
-        cliente.telefoneCliente = form.value.telefone;
+        cliente.cpfCnpj = form.value.tipoPessoa == 1 ? form.value.cpf : form.value.cnpj;
+        cliente.incricaoEstadual = form.value.numInscricaoEstadual;
+        cliente.observacoes = form.value.observacoes;
+        cliente.telefone = form.value.telefone;
         cliente.tipoPessoa = form.value.tipoPessoa;
         return cliente;  
      }

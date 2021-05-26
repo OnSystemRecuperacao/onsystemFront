@@ -19,10 +19,10 @@
         </ng-template>
         <ng-template pTemplate="body" let-prestador *ngIf="!prestadores.length">
             <tr>
-                <td style="text-align: center;">{{prestador.idPrestador}}</td>
-                <td style="text-align: center;">{{prestador.nomePrestador}}</td>
-                <td style="text-align: center;">{{prestador.emailPrestador}}</td>
-                <td style="text-align: center;">{{prestador.situacaoPrestador}}</td>                
+                <td style="text-align: center;">{{prestador.id}}</td>
+                <td style="text-align: center;">{{prestador.nome}}</td>
+                <td style="text-align: center;">{{prestador.email}}</td>
+                <td style="text-align: center;">{{prestador.situacao}}</td>                
                 <td style="text-align: center;" >
                     <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="editar(prestador)" ></button>
                     <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="deletar(prestador)"></button>

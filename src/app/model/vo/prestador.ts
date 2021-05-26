@@ -3,23 +3,20 @@ import { Endereco } from "./endereco";
 
 export class Prestador {
   id?: number = 0;
-  contaBancaria?: DadosBancarios = {};
-  endereco?: Endereco = {};
-  nomePrestador?: string = "";
-  numCpf?: string= "";
+  nome?: string = "";
+  cpfCnpj?: string= "";
   rg?: string= "";
-  numCnh?: string= "";
-  categoriaCnh?: string = "";
+  cnh?: string= "";
+  categoriaCNH?: string = "";
+  endereco?: Endereco = {};
+  contaBancaria?: DadosBancarios = {};
   telefone?: string = "";
-  emailPrestador?: string = "";
-  antenista?: boolean;
-  regSinistro?: boolean;
-  escoltaArmado?: boolean;
+  email?: string = "";
+  antenista?: string  = "";   
+  regSinistro?: string  = "";
+  escoltaArmado?: string  = "";
   observacoes?: string = "";
   fotoPrestador?: string = "";
   situacao?: string = "";
-  codigoUsuarioInclusao?: number = 0;
-  dataInclusao?: Date;
-  codigoUsuarioAlteracao?: number = 0;
-  dataAlteracao?: string  = "";
+ 
 }

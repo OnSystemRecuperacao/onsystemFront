@@ -46,7 +46,7 @@ export class ListarPrestadorComponent implements OnInit{
   deletar(prestador: Prestador){        
         let idPrestador = <number> prestador.id
         this.confirmationService.confirm({
-            message: 'Tem certeza que deseja remover o Prestador ' + prestador.nomePrestador + ' ?',
+            message: 'Tem certeza que deseja remover o Prestador ' + prestador.nome + ' ?',
             header: 'Confirmação',
             icon: 'pi pi-info-circle',
             accept: () => {
@@ -76,7 +76,7 @@ export class ListarPrestadorComponent implements OnInit{
   listarPrestadores(){
     this.prestadorService.read().subscribe(
       (data: Prestador[]) => {
-        console.log(data);
+        this.prestadores = data;
         this.loading = false;        
       }, error => {
         this.messageService.add(MessageUtils.onErrorMessage(error));

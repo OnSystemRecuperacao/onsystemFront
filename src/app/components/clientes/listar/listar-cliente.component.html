@@ -19,10 +19,10 @@
         </ng-template>
         <ng-template pTemplate="body" let-cliente *ngIf="!clientes.length">
             <tr>
-                <td style="text-align: center;">{{cliente.idCliente}}</td>
-                <td style="text-align: center;">{{cliente.nomeCliente}}</td>
-                <td style="text-align: center;">{{cliente.emailCliente}}</td>
-                <td style="text-align: center;">{{cliente.situacaoCliente}}</td>                
+                <td style="text-align: center;">{{cliente.id}}</td>
+                <td style="text-align: center;">{{cliente.nome}}</td>
+                <td style="text-align: center;">{{cliente.email}}</td>
+                <td style="text-align: center;">{{cliente.situacao}}</td>                
                 <td style="text-align: center;" >
                     <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="editar(cliente)" ></button>
                     <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="deletar(cliente)"></button>
