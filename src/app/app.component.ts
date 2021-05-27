@@ -16,9 +16,14 @@ export class AppComponent {
     private commomService: CommomService
   ){}
   
-  exibindoNavbar() {
+  exibindoNavbarLogin() {
     let route = this.commomService.getRoute();
     return route !== '/login';
+  }
+
+  exibindoNavbar404() {
+    let route = this.commomService.getRoute();
+    return route !== '/pagina-nao-encontrada';
   }
 
 }

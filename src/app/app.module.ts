@@ -25,7 +25,7 @@ import {PasswordModule} from 'primeng/password';
 import {PanelModule} from 'primeng/panel';
 import {ChartModule} from 'primeng/chart';
 
-import { NavbarComponent } from './components/navbar/navbar.component';
+import { NavbarComponent } from './components/core/navbar/navbar.component';
 import { ListarPrestadorComponent } from './components/prestadores/listar/listar-prestador.component';
 import { AdicionarPrestadorComponent } from './components/prestadores/adicionar/adicionar-prestador.component';
 import { OcorrenciasComponent } from './components/ocorrencias/ocorrencias.component';
@@ -36,6 +36,7 @@ import { ListarClienteComponent } from './components/clientes/listar/listar-clie
 import { EditarClienteComponent } from './components/clientes/editar/editar-cliente.component';
 import { LoginComponent } from './components/login/login.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { PaginaNaoEncontradaComponent } from './components/core/pagina-nao-encontrada/pagina-nao-encontrada.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     AdicionarClienteComponent,
     EditarClienteComponent,
     OcorrenciasComponent,
-    NovaOcorrenciaComponent
+    NovaOcorrenciaComponent,
+    PaginaNaoEncontradaComponent
   ],
   imports: [
     BrowserModule,

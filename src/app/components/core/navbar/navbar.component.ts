@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
-import { NavigationEnum } from 'src/app/model/enums/navigation.enum';
 import { CommomService } from 'src/app/services/commons/common.service';
 
 @Component({

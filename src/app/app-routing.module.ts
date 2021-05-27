@@ -11,8 +11,10 @@ import { ListarClienteComponent } from './components/clientes/listar/listar-clie
 import { EditarClienteComponent } from './components/clientes/editar/editar-cliente.component';
 import { LoginComponent } from './components/login/login.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { PaginaNaoEncontradaComponent } from './components/core/pagina-nao-encontrada/pagina-nao-encontrada.component';
 
 const routes: Routes = [
+  {path: '', redirectTo: 'login', pathMatch: 'full'},
   {path: 'login', component: LoginComponent},
   {path: 'dashboard', component: DashboardComponent},
   {path: 'clientes', component: ListarClienteComponent},
@@ -22,7 +24,9 @@ const routes: Routes = [
   {path: 'prestadores/novo', component: AdicionarPrestadorComponent},
   {path: 'prestadores/editar/:id', component: EditarPrestadorComponent},
   {path: 'ocorrencias', component: OcorrenciasComponent},
-  {path: 'ocorrencias/nova', component: NovaOcorrenciaComponent}  
+  {path: 'ocorrencias/nova', component: NovaOcorrenciaComponent}, 
+  {path: 'pagina-nao-encontrada', component: PaginaNaoEncontradaComponent}, 
+  {path: '**', redirectTo: 'pagina-nao-encontrada', pathMatch: 'full'}
 ];
 
 @NgModule({
