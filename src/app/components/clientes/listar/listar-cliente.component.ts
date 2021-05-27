@@ -64,7 +64,8 @@ export class ListarClienteComponent implements OnInit{
 
   removerCliente(idCliente: number) {
     this.clienteService.delete(idCliente).subscribe((data: any) => {  
-      this.messageService.add(MessageUtils.onSuccessMessage("O registro foi excluído com sucesso !"));      
+        this.listar();  
+        this.messageService.add(MessageUtils.onSuccessMessage("O registro foi excluído com sucesso !"));            
      }, 
      error => {
        console.log(error);
