@@ -3,7 +3,7 @@ import { environment } from "src/environments/environment";
 export default class Utils {
     
     static makeURLRequest(path: string): string { 
-        return environment.baseUrl + path;
+        return 'http://3.143.3.15:8080/onsystem/api/v1' + path;
     }  
     
     static leftPad(value: string, totalWidth: number) {

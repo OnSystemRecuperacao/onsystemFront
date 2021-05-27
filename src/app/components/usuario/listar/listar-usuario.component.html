@@ -1,0 +1,36 @@
+<p-table #dt [value]="usuarios" [rows]="10" [paginator]="usuarios.length > 0" [rowHover]="true" dataKey="id">
+
+    <ng-template pTemplate="caption">
+        <div class="p-d-flex p-ai-center p-jc-between">
+            <h5 class="p-m-0">Lista de usuário</h5>
+            <span class="p-input-icon-left">
+              <button pButton pRipple label="Novo" icon="pi pi-plus" class="p-button-success p-mr-2" (click)="novoUsuario()"></button>
+            </span>
+        </div>
+    </ng-template>
+    
+    <ng-template pTemplate="header" >
+        <tr>
+            <th pSortableColumn="id" style="text-align: center;">Id<p-sortIcon field="id"></p-sortIcon></th>
+            <th pSortableColumn="status" style="text-align: center;">Usuário <p-sortIcon field="status"></p-sortIcon></th>
+            <th pSortableColumn="nome" style="text-align: center;">Perfil <p-sortIcon field="nome"></p-sortIcon></th>
+            
+            <th style="text-align: center;">Ações</th>
+          </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-usuario *ngIf="!usuarios.length">
+        <tr>
+            <td style="text-align: center;">{{usuario.id}}</td>
+            <td style="text-align: center;">{{usuario.login}}</td>
+            <td style="text-align: center;">{{usuario.perfil}}</td>
+                          
+            <td style="text-align: center;" >
+                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="editar(usuario)" ></button>
+                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="deletar(usuario)"></button>
+            </td>
+        </tr>
+    </ng-template>
+
+</p-table>
+

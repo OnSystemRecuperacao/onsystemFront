@@ -37,6 +37,9 @@ import { EditarClienteComponent } from './components/clientes/editar/editar-clie
 import { LoginComponent } from './components/login/login.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { PaginaNaoEncontradaComponent } from './components/core/pagina-nao-encontrada/pagina-nao-encontrada.component';
+import { ListarUsuarioComponent } from './components/usuario/listar/listar-usuario.component';
+import { EditarUsuarioComponent } from './components/usuario/editar/editar-usuario.component';
+import { AdicionarUsuarioComponent } from './components/usuario/adicionar/adicionar-usuario.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +55,10 @@ import { PaginaNaoEncontradaComponent } from './components/core/pagina-nao-encon
     EditarClienteComponent,
     OcorrenciasComponent,
     NovaOcorrenciaComponent,
-    PaginaNaoEncontradaComponent
+    PaginaNaoEncontradaComponent,
+    ListarUsuarioComponent,
+    EditarUsuarioComponent,
+    AdicionarUsuarioComponent
   ],
   imports: [
     BrowserModule,

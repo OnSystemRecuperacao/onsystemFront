@@ -90,10 +90,12 @@ export class CommomService {
                {
                   label:'Novo',
                   icon:'pi pi-fw pi-plus',
+                  routerLink: [NavigationEnum.ADICIONAR_USUARIO]
                },
                {
                   label:'Listar Usuários',
-                  icon:'pi pi-fw pi-list'
+                  icon:'pi pi-fw pi-list',
+                  routerLink: [NavigationEnum.LISTAR_USUARIO]
                }
             ]
          },
