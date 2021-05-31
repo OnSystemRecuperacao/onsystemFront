@@ -38,8 +38,17 @@ export class EditarPrestadorComponent implements OnInit{
    salvar(form: NgForm){
       console.log(form); 
       this.prestador = this.parseData(form)
-      //this.adicionarPrestador(form);
+      this.adicionarPrestador();
    }
+
+   private adicionarPrestador(){
+      this.prestadorService.update(this.prestador).subscribe((data: any) => {
+          this.messageService.add(MessageUtils.onSuccessMessage("O prestador foi alterado com sucesso"));       
+        },error => {
+          this.messageService.add(MessageUtils.onErrorMessage(error));        
+        }
+      );      
+     }
 
    cancelar(){
       this.commomService.navigate(NavigationEnum.LISTAR_PRESTADORES)
@@ -74,32 +83,29 @@ export class EditarPrestadorComponent implements OnInit{
       prestador.escoltaArmado = form.value.escoltaArmada == 1 ? "SIM" : "NAO";
       prestador.observacoes = "";
       prestador.fotoPrestador = ""
-      prestador.situacao = "ATIVO";    
+      prestador.situacao = "ATIVO";      
       return prestador;  
    }
-  
+
    private getDadosEndereco(form: NgForm): Endereco{
       let endereco: Endereco = {};
-      endereco.logradouro = form.value.endereco
-      endereco.numero = form.value.numero
-      endereco.cidade = form.value.cidade
-      endereco.bairro = form.value.bairro
-      endereco.cep = form.value.cep
+      endereco.bairro = form.value.bairro;
+      endereco.cep = form.value.cep;
+      endereco.cidade = form.value.cidade;
+      endereco.complemento = "";
       endereco.estado = form.value.estado;
+      endereco.logradouro = form.value.endereco;
+      endereco.numero = form.value.numero;
       endereco.pais = "BRASIL"
       return endereco;
    }
-  
+
    private getDadosBancarios(form: NgForm): DadosBancarios{
-      let contaBancaria: DadosBancarios = {};
-      contaBancaria.banco = form.value.banco;
-      contaBancaria.agencia = form.value.agencia;
-      contaBancaria.conta = form.value.conta;      
-      return contaBancaria;
-   }
-  
-   private limpar(form: NgForm){
-      form.resetForm(); 
+     let contaBancaria: DadosBancarios = {};
+     contaBancaria.banco = form.value.banco;
+     contaBancaria.agencia = form.value.agencia;
+     contaBancaria.conta = form.value.conta;     
+     return contaBancaria;
    }
     
   }

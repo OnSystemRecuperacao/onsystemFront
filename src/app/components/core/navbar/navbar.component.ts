@@ -19,6 +19,8 @@ export class NavbarComponent {
 
    items: MenuItem[] = [];
 
+   userMenuItens: MenuItem[] = [];
+
    usuarioLogado: any;
     
    ngOnInit() {
@@ -37,7 +39,12 @@ export class NavbarComponent {
       let codigoTipoTenancy = <number> this.authService.getUsuarioLogado()["tipo_tenancy"].id;     
       if(codigoTipoTenancy != null){      
         this.items = this.commomService.getMenuOptions(codigoTipoTenancy);
+        this.loadUserMenuItens();
       }
      }     
+   }
+   
+   private loadUserMenuItens(){
+    this.userMenuItens = this.commomService.getUserMenuOptions();
    }
 }

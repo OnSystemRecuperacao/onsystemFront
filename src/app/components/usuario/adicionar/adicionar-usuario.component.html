@@ -8,57 +8,48 @@
     </p-table>
 </div>
 
-<div class="container" style="margin-top:15px;">
-    <div class="p-grid vertical-container">  
-        <div class="p-col-4 p-as-center">
+<div class="container" style="margin-top: 15px;">
+   <form id="novo-cliente" autocomplete="off" #usuario="ngForm" (ngSubmit)="salvar(usuario)">
 
-        </div>          
-        <div class="p-col-4 p-as-center">
-            <div class="box">
-                <form id="novo-cliente" autocomplete="off" #cliente="ngForm">
-                    <p-card>
-                                                   
-                            <div class="p-col-12 p-d-flex-12  p-ai-center p-jc-center">
-                                <div class="p-fluid">
-                                    <div class="p-field">
-                                        <label for="usuario">Usuário</label>
-                                        <div class="p-inputgroup">
-                                            <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
-                                            <input type="text" pInputText ngModel name="usuario" #username="ngModel" placeholder="Usuário">         
-                                        </div>
-                                    </div>
-                                    <div class="p-field">
-                                        <label for="senha">Senha</label>
-                                        <div class="p-inputgroup">
-                                            <span class="p-inputgroup-addon"><i class="pi pi-ellipsis-h"></i></span>
-                                            <input type="text" pInputText ngModel name="senha" #password="ngModel" placeholder="Senha">         
-                                        </div>
-                                    </div>
-                                    <!--
-                                        <div class="p-field">
-                                        <label for="perfil">Perfil</label>
-                                        
-                                        <div class="p-field p-col">
-                                            
-                                            <p-dropdown [options]="perfis" name="perfilUsuario" placeholder="Selecione" [(ngModel)]="tipoPerfilSelecionado" (onChange)="tipoPerfilChange($event)"></p-dropdown>        
-                                        </div>
-                                        </div>
-                                    -->
-                                    
-                                    <div class="p-field">
-                                        <button pButton pRipple label="Salvar"  class="p-button-success"></button>
-                                    </div>
-                                    
-                                </div>
-                            </div>                            
-                    </p-card>
-                </form> 
-            </div>
-        </div>  
-        <div class="p-col-4 p-as-center">
+        <div class="p-fluid p-formgrid p-grid">
+            <div class="p-field p-col">
+                <label for="nome">Nome</label>
+                <input type="text" name="nome" pInputText id="nome" #nome="ngModel" autofocus ngModel required />
+                <small class="p-error" *ngIf="nome.hasError('required') && nome.dirty">* O campo Nome é obrigatório.</small>                
+            </div>        
+        </div>
+
+        <div class="p-fluid p-formgrid p-grid">
             
-        </div>          
-    </div>
+            <div class="p-field p-col">
+                <label for="email">E-mail</label>              
+                <input type="text" name="email" pInputText id="email" ngModel #email="ngModel" email required>
+                <small class="p-error" *ngIf="email.hasError('required') && email.dirty">* O campo Nome é obrigatório.</small> 
+                <small class="p-error" *ngIf="email.hasError('email') && email.dirty">* Informe um email válido.</small>   
+            </div>
+
+            <div class="p-field p-col">
+                <label for="telefone">Senha</label>
+                <input type="password" pInputText ngModel name="password" #password="ngModel" required>
+                <small class="p-error" *ngIf="password.hasError('required') && password.dirty">* O campo Senha é obrigatório.</small>
+            </div>     
+        </div>
+
+        
+
+        <p-divider></p-divider>
+    
+        <div class="p-fluid p-formgrid p-grid  p-jc-end">
+            <div class="p-field p-col-2">
+                <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-danger"></button> 
+            </div>  
+    
+            <div class="p-field p-col-2">
+                <button pButton pRipple label="Salvar" icon="pi pi-check" [disabled]="!usuario.valid" class="p-button-success"></button> 
+            </div>       
+        </div>
+
+   </form>
 </div>
 
     

@@ -14,11 +14,12 @@ export class UsuarioService{
      httpOptions = {
         headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     }
-
     
     constructor(private httpClient: HttpClient) { }
 
     BASE_URL: string = Utils.makeURLRequest("/usuarios");
+
+    
     
     read(): Observable<Usuario[]> {
         return this.httpClient.get<Usuario[]>(this.BASE_URL).pipe(retry(2), catchError(this.handleError))

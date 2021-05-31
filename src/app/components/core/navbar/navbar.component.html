@@ -6,8 +6,9 @@
           <ng-template pTemplate="start">
               <!--<img src="/assets/svg/logo.svg" height="50" class="p-mr-2">-->
           </ng-template>
-          <ng-template pTemplate="end">
-            {{usuarioLogado?.user_name}}
+          <ng-template pTemplate="end">            
+            <button #btn type="button" class="p-button-success" pButton icon="pi pi-user" label="{{usuarioLogado.nome_usuario}}" (click)="menu.toggle($event)"></button>
+            <p-tieredMenu #menu [model]="userMenuItens" [popup]="true"></p-tieredMenu>
         </ng-template>
       </p-menubar>
       </div>

@@ -31,6 +31,10 @@ export class CommomService {
         return this.loadMenuItensByTenancy(codigoTipoTencancy);
     }
 
+    getUserMenuOptions(): MenuItem[]{
+         return this.loadUserMenuItens();
+    }
+
     private loadMenuItensByTenancy(codigoTipoTencancy: number) : MenuItem[] {
       let menu: MenuItem[] = [];
       if(codigoTipoTencancy == 0 || codigoTipoTencancy == 1){
@@ -112,11 +116,8 @@ export class CommomService {
                routerLink: [NavigationEnum.LISTAR_USUARIO]
             }
          ]
-      },
-       {
-          label:'Logoff',
-          icon:'pi pi-fw pi-power-off'
-       }
+      }     
+       
    ];
     }
 
@@ -160,11 +161,21 @@ export class CommomService {
                routerLink: [NavigationEnum.LISTAR_USUARIO]
             }
          ]
-      },
-       {
-          label:'Logoff',
-          icon:'pi pi-fw pi-power-off'
-       }
+      }
+      ];
+   }
+
+   private loadUserMenuItens() : MenuItem[] {
+      return [
+         {
+           label:'Meus Dados',
+           icon:'pi pi-fw pi-user-edit',
+           routerLink: [NavigationEnum.DASHBOARD]
+         },
+         {
+            label:'Logoff',
+            icon:'pi pi-fw pi-power-off'
+         }
       ];
    }
 }

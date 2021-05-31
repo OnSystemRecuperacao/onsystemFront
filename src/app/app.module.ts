@@ -24,6 +24,7 @@ import { CardModule} from 'primeng/card';
 import {PasswordModule} from 'primeng/password';
 import {PanelModule} from 'primeng/panel';
 import {ChartModule} from 'primeng/chart';
+import {TieredMenuModule} from 'primeng/tieredmenu';
 
 import { NavbarComponent } from './components/core/navbar/navbar.component';
 import { ListarPrestadorComponent } from './components/prestadores/listar/listar-prestador.component';
@@ -96,6 +97,7 @@ export function tokenGetter(): any {
         disallowedRoutes: ['http://localhost:8080/oauth/token']
       }
     }),
+    TieredMenuModule
   ],
   providers: [JwtHelperService],
   bootstrap: [AppComponent]

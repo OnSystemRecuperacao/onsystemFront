@@ -37,6 +37,8 @@ export class PrestadorService {
     }
 
     update(prestador: Prestador): Observable<Prestador> {
+      const url = `${this.BASE_URL}/${prestador.id}`;
+      this.data = this.parseData(prestador);  
       return this.httpClient.put<Prestador>(this.BASE_URL, prestador, this.httpOptions).pipe(catchError(this.handleError));
     }
 
