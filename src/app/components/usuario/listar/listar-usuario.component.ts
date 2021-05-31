@@ -56,7 +56,7 @@ export class ListarUsuarioComponent implements OnInit {
   deletar(usuario: Usuario){        
         let idUsuario = <number> usuario.id
         this.confirmationService.confirm({
-            message: 'Tem certeza que deseja remover o Prestador ' + usuario.login + ' ?',
+            message: 'Tem certeza que deseja remover o Usuário ' + usuario.email + ' ?',
             header: 'Confirmação',
             icon: 'pi pi-info-circle',
             accept: () => {

@@ -1,4 +1,5 @@
 export enum NavigationEnum{
+    LOGIN = '/login',
     DASHBOARD = '/dashboard',
     LISTAR_CLIENTES = '/clientes',
     ADICIONAR_CLIENTES = '/clientes/novo',
@@ -8,6 +9,6 @@ export enum NavigationEnum{
     EDITAR_PRESTADORES = '/prestadores/editar/',
     LISTAR_OCORRENCIAS = '/ocorrencias',
     NOVA_OCORRENCIA = '/ocorrencias/nova',
-    LISTAR_USUARIO = '/usuario',
-    ADICIONAR_USUARIO = '/usuario/novo'
+    LISTAR_USUARIO = '/usuarios',
+    ADICIONAR_USUARIO = '/usuarios/novo'
 }

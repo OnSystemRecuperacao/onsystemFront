@@ -15,25 +15,23 @@
         <div class="p-fluid p-formgrid p-grid">
             <div class="p-field p-col">
                 <label for="nomePrestador">Nome</label>
-                <input type="text" name="nome" pInputText id="nomePrestador" #nome="ngModel" autofocus ngModel required minlength="15"/>
-                <small class="p-error" *ngIf="nome.hasError('required') && nome.dirty">* O campo Nome é obrigatório.</small>
-                <small class="p-error" *ngIf="nome.hasError('minlength') && nome.dirty">* Informe o Nome Completo.</small>
+                <input type="text" name="nome" pInputText id="nomePrestador" #nome="ngModel" autofocus ngModel required />
+                <small class="p-error" *ngIf="nome.hasError('required') && nome.dirty">* O campo Nome é obrigatório.</small>                
             </div>        
         </div>
 
         <div class="p-fluid p-formgrid p-grid">
             <div class="p-field p-col">
                 <label for="rg">Nome Responsável</label>
-                <input type="text" name="nomeResponsavel" pInputText id="nomeResponsavel" #nomeResponsavel="ngModel" autofocus ngModel required minlength="15"/>
-                <small class="p-error" *ngIf="nomeResponsavel.hasError('required') && nomeResponsavel.dirty">* O campo Nome é obrigatório.</small>
-                <small class="p-error" *ngIf="nomeResponsavel.hasError('minlength') && nomeResponsavel.dirty">* Informe o Nome Completo.</small>           
+                <input type="text" name="nomeResponsavel" pInputText id="nomeResponsavel" #nomeResponsavel="ngModel" autofocus ngModel required />
+                <small class="p-error" *ngIf="nomeResponsavel.hasError('required') && nomeResponsavel.dirty">* O campo Nome é obrigatório.</small>                
             </div>      
         </div>
 
         <div class="p-fluid p-formgrid p-grid">
             <div class="p-field p-col">
                 <label for="rg">Informações do Contrato</label>
-                <input type="text" name="informacaoContrato" pInputText id="informacaoContrato" #informacaoContrato="ngModel" autofocus ngModel required minlength="15"/>
+                <input type="text" name="informacaoContrato" pInputText id="informacaoContrato" #informacaoContrato="ngModel" autofocus ngModel required/>
                 <small class="p-error" *ngIf="informacaoContrato.hasError('required') && informacaoContrato.dirty">* O campo Nome é obrigatório.</small>                
             </div>      
         </div>

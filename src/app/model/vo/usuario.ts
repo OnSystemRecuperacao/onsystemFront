@@ -2,7 +2,7 @@
 export class Usuario {
     
     id?: number = 0;
-    login?: string = "";
+    email?: string = "";
     senha?: string = "";
     situacao?: boolean;
     //idPrestador?: number = 0;

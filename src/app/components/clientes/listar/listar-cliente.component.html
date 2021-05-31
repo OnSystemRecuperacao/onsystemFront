@@ -1,4 +1,4 @@
-<p-table #dt [value]="clientes" [rows]="10" [paginator]="clientes.length > 0" [loading]="loading"   [rowHover]="true" dataKey="id">
+<p-table #dt [value]="clientes" [rows]="10" [paginator]="exibePaginacao" [loading]="loading"  [rowHover]="true" dataKey="id">
         <ng-template pTemplate="caption">
             <div class="p-d-flex p-ai-center p-jc-between">
                 <h5 class="p-m-0">Lista de Clientes</h5>
@@ -10,17 +10,17 @@
 
         <ng-template pTemplate="header" >
             <tr>
-                <th pSortableColumn="id" style="text-align: center; ">ID <p-sortIcon field="id"></p-sortIcon></th>
-                <th pSortableColumn="nome" style="text-align: center;">Nome <p-sortIcon field="nome"></p-sortIcon></th>
+                <th  style="text-align: center; width: 350px;">Nome </th>
+                <th  style="text-align: center; ">CPF/CNPJ</th>
                 <th style="text-align: center;">Email</th>
-                <th pSortableColumn="status" style="text-align: center;">Status <p-sortIcon field="status"></p-sortIcon></th>
+                <th style="text-align: center; width: 10px;">Status</th>
                 <th style="text-align: center;">Ações</th>
               </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-cliente *ngIf="!clientes.length">
+        <ng-template pTemplate="body" let-cliente *ngIf="!exibePaginacao">
             <tr>
-                <td style="text-align: center;">{{cliente.id}}</td>
                 <td style="text-align: center;">{{cliente.nome}}</td>
+                <td style="text-align: center;">{{cliente.cpfCnpj}}</td>
                 <td style="text-align: center;">{{cliente.email}}</td>
                 <td style="text-align: center;">{{cliente.situacao}}</td>                
                 <td style="text-align: center;" >

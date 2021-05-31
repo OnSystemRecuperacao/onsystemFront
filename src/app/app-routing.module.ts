@@ -9,27 +9,27 @@ import { EditarPrestadorComponent } from './components/prestadores/editar/editar
 import { AdicionarClienteComponent } from './components/clientes/adicionar/adicionar-cliente.component';
 import { ListarClienteComponent } from './components/clientes/listar/listar-cliente.component';
 import { EditarClienteComponent } from './components/clientes/editar/editar-cliente.component';
-import { LoginComponent } from './components/login/login.component';
+import { AuthComponent } from './components/auth/auth.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { PaginaNaoEncontradaComponent } from './components/core/pagina-nao-encontrada/pagina-nao-encontrada.component';
 import { ListarUsuarioComponent } from './components/usuario/listar/listar-usuario.component';
 import { AdicionarUsuarioComponent } from './components/usuario/adicionar/adicionar-usuario.component';
+import { AuthGuard } from './services/auth/auth.guard';
 
 const routes: Routes = [
   {path: '', redirectTo: 'login', pathMatch: 'full'},
-  {path: 'login', component: LoginComponent},
-  {path: 'dashboard', component: DashboardComponent},
-  {path: 'clientes', component: ListarClienteComponent},
-  {path: 'clientes/novo', component: AdicionarClienteComponent},
-  {path: 'clientes/editar/:id', component: EditarClienteComponent},
-  {path: 'prestadores', component: ListarPrestadorComponent},
-  {path: 'prestadores/novo', component: AdicionarPrestadorComponent},
-  {path: 'prestadores/editar/:id', component: EditarPrestadorComponent},
-  {path: 'ocorrencias', component: OcorrenciasComponent},
-  {path: 'ocorrencias/nova', component: NovaOcorrenciaComponent},
-  {path: 'usuario', component: ListarUsuarioComponent },
-  {path: 'usuario/novo', component: AdicionarUsuarioComponent },
-  
+  {path: 'login', component: AuthComponent},
+  {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard], data: { roles:['OPENCODE', 'ONSYSTEM', 'CLIENTE', 'PRESTADOR']}},
+  {path: 'clientes', component: ListarClienteComponent, canActivate: [AuthGuard], data: { roles:['OPENCODE', 'ONSYSTEM']}},
+  {path: 'clientes/novo', component: AdicionarClienteComponent, canActivate: [AuthGuard], data: { roles:['OPENCODE', 'ONSYSTEM']}},
+  {path: 'clientes/editar/:id', component: EditarClienteComponent, canActivate: [AuthGuard], data: { roles:['OPENCODE', 'ONSYSTEM']}},
+  {path: 'prestadores', component: ListarPrestadorComponent, canActivate: [AuthGuard], data: { roles:['OPENCODE', 'ONSYSTEM']}},
+  {path: 'prestadores/novo', component: AdicionarPrestadorComponent, canActivate: [AuthGuard], data: { roles:['OPENCODE', 'ONSYSTEM']}},
+  {path: 'prestadores/editar/:id', component: EditarPrestadorComponent, canActivate: [AuthGuard], data: { roles:['OPENCODE', 'ONSYSTEM']}},
+  {path: 'ocorrencias', component: OcorrenciasComponent, canActivate: [AuthGuard], data: { roles:['OPENCODE', 'ONSYSTEM', 'CLIENTE', 'PRESTADOR']}},
+  {path: 'ocorrencias/nova', component: NovaOcorrenciaComponent, canActivate: [AuthGuard], data: { roles:['OPENCODE', 'ONSYSTEM', 'CLIENTE', 'PRESTADOR']}},
+  {path: 'usuarios', component: ListarUsuarioComponent, canActivate: [AuthGuard], data: { roles:['OPENCODE', 'ONSYSTEM', 'CLIENTE', 'PRESTADOR']}},
+  {path: 'usuarios/novo', component: AdicionarUsuarioComponent, canActivate: [AuthGuard], data: { roles:['OPENCODE', 'ONSYSTEM', 'CLIENTE', 'PRESTADOR']}},  
   {path: 'pagina-nao-encontrada', component: PaginaNaoEncontradaComponent}, 
   {path: '**', redirectTo: 'pagina-nao-encontrada', pathMatch: 'full'}
 ];

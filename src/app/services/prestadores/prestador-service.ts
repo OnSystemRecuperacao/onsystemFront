@@ -47,8 +47,7 @@ export class PrestadorService {
     }
 
     private parseData(prestador: Prestador): any{
-       let data = prestador;      
-       console.log(JSON.parse(JSON.stringify(data)));
+       let data = prestador;
        return data;
     }
 

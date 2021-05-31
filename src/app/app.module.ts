@@ -34,18 +34,23 @@ import { EditarPrestadorComponent } from './components/prestadores/editar/editar
 import { AdicionarClienteComponent } from './components/clientes/adicionar/adicionar-cliente.component';
 import { ListarClienteComponent } from './components/clientes/listar/listar-cliente.component';
 import { EditarClienteComponent } from './components/clientes/editar/editar-cliente.component';
-import { LoginComponent } from './components/login/login.component';
+import { AuthComponent } from './components/auth/auth.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { PaginaNaoEncontradaComponent } from './components/core/pagina-nao-encontrada/pagina-nao-encontrada.component';
 import { ListarUsuarioComponent } from './components/usuario/listar/listar-usuario.component';
 import { EditarUsuarioComponent } from './components/usuario/editar/editar-usuario.component';
 import { AdicionarUsuarioComponent } from './components/usuario/adicionar/adicionar-usuario.component';
+import { JwtHelperService, JwtModule } from '@auth0/angular-jwt';
+
+export function tokenGetter(): any {
+  return localStorage.getItem('access_token');
+}
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
-    LoginComponent,
+    AuthComponent,
     DashboardComponent,
     ListarPrestadorComponent,
     AdicionarPrestadorComponent,
@@ -83,9 +88,16 @@ import { AdicionarUsuarioComponent } from './components/usuario/adicionar/adicio
     CardModule,
     PasswordModule,
     PanelModule,
-    ChartModule
+    ChartModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter,
+        allowedDomains: ['localhost:8080'],
+        disallowedRoutes: ['http://localhost:8080/oauth/token']
+      }
+    }),
   ],
-  providers: [],
+  providers: [JwtHelperService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

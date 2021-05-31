@@ -21,7 +21,9 @@ export class ListarClienteComponent implements OnInit{
 
   cliente: Cliente = {};
 
-  clientes: Cliente[] = [];
+  clientes: Cliente[] = [{}];
+
+  exibePaginacao = false;
 
   position = "top";
     
@@ -62,26 +64,29 @@ export class ListarClienteComponent implements OnInit{
   };
 
   removerCliente(idCliente: number) {
-    this.clienteService.delete(idCliente).subscribe((data: any) => {  
-        this.listar();  
+    this.clienteService.delete(idCliente).subscribe((data: any) => {
         this.messageService.add(MessageUtils.onSuccessMessage("O registro foi excluído com sucesso !"));            
      }, 
      error => {
        console.log(error);
-        this.messageService.add(MessageUtils.onErrorMessage(error));        
-      } 
+       this.messageService.add(MessageUtils.onErrorMessage(error));        
+     },() =>{
+       this.listar(); 
+     } 
     );
   };
 
   listar(){
     this.clienteService.read().subscribe(
       (data: Cliente[]) => {
-        this.clientes = data;
-        this.loading = false;        
+        this.loading = false; 
+        this.clientes = data;                 
       }, error => {
-        this.messageService.add(MessageUtils.onErrorMessage(error));
-        this.loading = false;          
+        this.messageService.add(MessageUtils.onErrorMessage(error));                 
+      },() =>{
+        this.exibePaginacao = this.clientes?.length > 0;  
+        this.loading = false;
       } 
-    );
+    );       
   }
 }

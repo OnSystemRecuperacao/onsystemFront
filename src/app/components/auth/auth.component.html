@@ -1,11 +1,11 @@
 <div class="container" style="margin-top:15px;">
     <div class="p-grid vertical-container">  
         <div class="p-col-4 p-as-center">
-
+                
         </div>          
         <div class="p-col-4 p-as-center">
             <div class="box">
-                <form id="novo-cliente" autocomplete="off" #cliente="ngForm">
+                <form id="novo-cliente" autocomplete="off" #usuario="ngForm" (ngSubmit)="login(usuario);">
                     <p-card>
                         <ng-template pTemplate="header">
                             <p-table>
@@ -20,26 +20,30 @@
                             <div class="p-col-12 p-d-flex-12  p-ai-center p-jc-center">
                                 <div class="p-fluid">
                                     <div class="p-field">
-                                        <label for="username">Usuário</label>
+                                        <label for="email">Email</label>
                                         <div class="p-inputgroup">
                                             <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
-                                            <input type="text" pInputText ngModel name="username" #username="ngModel" placeholder="Username">         
+                                            <input type="text" pInputText ngModel name="email" #email="ngModel" placeholder="Email" email required>                                           
+                                        </div>
+                                        <div class="p-inputgroup">
+                                            <small class="p-error" *ngIf="email.hasError('required') && email.dirty">* O campo Email é obrigatório.</small>
+                                            <small class="p-error" *ngIf="email.hasError('email') && email.dirty">* Informe um Email válido.</small>         
                                         </div>
                                     </div>
                                     <div class="p-field">
                                         <label for="password">Senha</label>
                                         <div class="p-inputgroup">
                                             <span class="p-inputgroup-addon"><i class="pi pi-ellipsis-h"></i></span>
-                                            <input type="password" pInputText ngModel name="password" #password="ngModel" placeholder="Senha">         
+                                            <input type="password" pInputText ngModel name="password" #password="ngModel" placeholder="Senha" required>                                                   
                                         </div>
+                                        <div class="p-inputgroup">
+                                            <small class="p-error" *ngIf="password.hasError('required') && password.dirty">* O campo Senha é obrigatório.</small>                                                
+                                        </div>  
                                     </div>
                                     <div class="p-field">
-                                        <button pButton pRipple label="Entrar"  class="p-button-success"></button>
-                                    </div>
+                                        <button pButton pRipple label="Entrar"  [disabled]="!usuario.valid" class="p-button-success"></button>
+                                    </div>                                   
                                     
-                                    <div class="p-field">
-                                        <button pButton pRipple label="Esqueci a Senha" class="p-button-danger"></button> 
-                                    </div>
                                 </div>
                             </div>                            
                     </p-card>
@@ -52,5 +56,5 @@
     </div>
 </div>
 
-
+<p-toast position="top-right"></p-toast>
 

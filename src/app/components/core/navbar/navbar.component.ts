@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
+import { AuthService } from 'src/app/services/auth/auth.service';
 import { CommomService } from 'src/app/services/commons/common.service';
 
 @Component({
@@ -9,17 +10,34 @@ import { CommomService } from 'src/app/services/commons/common.service';
 })
 export class NavbarComponent {
 
-   items: MenuItem[] = [];
+   
   
-   constructor(  
+   constructor(
+    private authService: AuthService,
     private commomService: CommomService
    ){}
+
+   items: MenuItem[] = [];
+
+   usuarioLogado: any;
     
    ngOnInit() {
-    this.items = this.commomService.getMenuOptions()    
+     this.loadUser();
+     this.loadMenu();    
    }
 
-
-
-
+   private loadUser(){
+     if(this.authService.getUsuarioLogado() != null){
+       this.usuarioLogado = this.authService.getUsuarioLogado()
+     }
+   }
+   
+   private loadMenu(){
+     if(this.authService.jwtIsLoad()){     
+      let codigoTipoTenancy = <number> this.authService.getUsuarioLogado()["tipo_tenancy"].id;     
+      if(codigoTipoTenancy != null){      
+        this.items = this.commomService.getMenuOptions(codigoTipoTenancy);
+      }
+     }     
+   }
 }
