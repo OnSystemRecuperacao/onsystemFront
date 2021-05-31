@@ -9,6 +9,7 @@ export enum NavigationEnum{
     EDITAR_PRESTADORES = '/prestadores/editar/',
     LISTAR_OCORRENCIAS = '/ocorrencias',
     NOVA_OCORRENCIA = '/ocorrencias/nova',
-    LISTAR_USUARIO = '/usuarios',
-    ADICIONAR_USUARIO = '/usuarios/novo'
+    LISTAR_USUARIOS = '/usuarios',
+    ADICIONAR_USUARIOS = '/usuarios/novo',
+    EDITAR_USUARIOS = '/usuarios/editar/'
 }

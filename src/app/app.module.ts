@@ -26,6 +26,7 @@ import {PanelModule} from 'primeng/panel';
 import {ChartModule} from 'primeng/chart';
 import {TieredMenuModule} from 'primeng/tieredmenu';
 
+
 import { NavbarComponent } from './components/core/navbar/navbar.component';
 import { ListarPrestadorComponent } from './components/prestadores/listar/listar-prestador.component';
 import { AdicionarPrestadorComponent } from './components/prestadores/adicionar/adicionar-prestador.component';
@@ -42,6 +43,7 @@ import { ListarUsuarioComponent } from './components/usuario/listar/listar-usuar
 import { EditarUsuarioComponent } from './components/usuario/editar/editar-usuario.component';
 import { AdicionarUsuarioComponent } from './components/usuario/adicionar/adicionar-usuario.component';
 import { JwtHelperService, JwtModule } from '@auth0/angular-jwt';
+
 
 export function tokenGetter(): any {
   return localStorage.getItem('access_token');

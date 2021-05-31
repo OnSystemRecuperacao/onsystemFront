@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { NavigationEnum } from 'src/app/model/enums/navigation.enum';
+import { Tenancy } from 'src/app/model/vo/tenancy';
 import { Usuario } from 'src/app/model/vo/usuario';
+import { AuthService } from 'src/app/services/auth/auth.service';
 import { CommomService } from 'src/app/services/commons/common.service';
 import { UsuarioService } from 'src/app/services/usuario/usuario-service';
 import MessageUtils from 'src/app/utils/message-util';
@@ -9,6 +11,7 @@ import MessageUtils from 'src/app/utils/message-util';
 @Component({
   selector: 'app-usuario',
   templateUrl: './listar-usuario.component.html',
+  styleUrls: ['./listar-usuario.component.css'],
   providers: [ ConfirmationService, MessageService]
 })
 export class ListarUsuarioComponent implements OnInit {
@@ -19,8 +22,12 @@ export class ListarUsuarioComponent implements OnInit {
 
   usuarios: Usuario[] = [];
 
+  usuarioLogado = new Usuario();  
+
+  position = "top";
 
   constructor(
+    private authService: AuthService,
     private confirmationService: ConfirmationService,
     private commomService: CommomService,
     private messageService: MessageService,
@@ -28,55 +35,67 @@ export class ListarUsuarioComponent implements OnInit {
   { }
 
   ngOnInit(): void {
+    this.loadUsuarioLogado();
     this.loading = true;
     this.listarUsuarios()   
   }
 
   novoUsuario(){
-    this.commomService.navigate(NavigationEnum.ADICIONAR_USUARIO)
+    this.commomService.navigate(NavigationEnum.ADICIONAR_USUARIOS)
   };
 
   listarUsuarios(){
-    this.usuarioService.read().subscribe(
-      (data: Usuario[]) => {
-        this.usuarios = data;
-        this.loading = false;        
-      }, error => {
-        this.messageService.add(MessageUtils.onErrorMessage(error));
-        this.loading = false;          
-      } 
+    let idTenancy = <number> this.usuarioLogado.tenancy?.id;
+    this.usuarioService.read(idTenancy).then(response => {
+      this.usuarios = response; 
+      this.loading = false;      
+    }).catch(error => 
+      this.messageService.add(MessageUtils.onErrorMessage(error))
+    );    
+  }
+
+  ativar(usuarioSelecionado: Usuario){
+    this.confirmationService.confirm({
+      message: 'Tem certeza que deseja ATIVAR o Usuário ' + usuarioSelecionado.email + ' ?',
+      header: 'Confirmação',
+      icon: 'pi pi-info-circle',
+      accept: () => {
+          console.log("id prestador - " + usuarioSelecionado);
+          this.alterarStatusUsuario(usuarioSelecionado, true);                         
+      },            
+      key: "positionDialog"
+    });    
+  }
+
+  desativar(usuarioSelecionado: Usuario){        
+      this.confirmationService.confirm({
+        message: 'Tem certeza que deseja DESATIVAR o Usuário ' + usuarioSelecionado.email + ' ?',
+        header: 'Confirmação',
+        icon: 'pi pi-info-circle',
+        accept: () => {
+            console.log("id prestador - " + usuarioSelecionado);
+            this.alterarStatusUsuario(usuarioSelecionado, false);                
+        },            
+        key: "positionDialog"
+      }); 
+  }
+
+  private alterarStatusUsuario(usuario: Usuario, ativar: boolean) {
+    usuario.situacao = ativar ? "ATIVO" : "INATIVO";
+    this.usuarioService.updateUserStatus(usuario)
+      .then(response => {
+        this.messageService.add(MessageUtils.onSuccessMessage("Usuário alterado com sucesso"));
+        this.commomService.navigate(NavigationEnum.LISTAR_USUARIOS)      
+      }).catch(error => 
+        this.messageService.add(MessageUtils.onErrorMessage(error))
     );
   }
 
-  editar(usuarioSelecionado: Usuario){ 
-    this.usuario = usuarioSelecionado;
-    this.commomService.navigateWithParams(NavigationEnum.EDITAR_PRESTADORES, this.usuario.id)
+  private loadUsuarioLogado(){
+    if(this.authService.jwtIsLoad()){
+      let idTenancy = <number> this.authService.getUsuarioLogado().id_tenancy
+      this.usuarioLogado.id = this.authService.getUsuarioLogado().id_usuario;
+      this.usuarioLogado.tenancy = new Tenancy(idTenancy);
+    }
   }
-
-  deletar(usuario: Usuario){        
-        let idUsuario = <number> usuario.id
-        this.confirmationService.confirm({
-            message: 'Tem certeza que deseja remover o Usuário ' + usuario.email + ' ?',
-            header: 'Confirmação',
-            icon: 'pi pi-info-circle',
-            accept: () => {
-              console.log("id prestador - " + idUsuario);
-                this.removerUsuario(idUsuario);                
-            },            
-            key: "positionDialog"
-        });
-  }
-
-  removerUsuario(idUsuario: number) {
-    this.usuarioService.delete(idUsuario).subscribe((data: any) => {  
-      console.log(data);
-      this.messageService.add(MessageUtils.onSuccessMessage("O registro foi excluído com sucesso !"));
-     }, 
-     error => {
-       console.log(error);
-        this.messageService.add(MessageUtils.onErrorMessage(error));        
-      } 
-    );
-  };
-
 }

@@ -29,9 +29,9 @@
             </div>
 
             <div class="p-field p-col">
-                <label for="telefone">Senha</label>
-                <input type="password" pInputText ngModel name="password" #password="ngModel" required>
-                <small class="p-error" *ngIf="password.hasError('required') && password.dirty">* O campo Senha é obrigatório.</small>
+                <label for="senha">Senha</label>
+                <input type="password" pInputText ngModel name="senha" #senha="ngModel" required>
+                <small class="p-error" *ngIf="senha.hasError('required') && senha.dirty">* O campo Senha é obrigatório.</small>
             </div>     
         </div>
 
@@ -41,7 +41,7 @@
     
         <div class="p-fluid p-formgrid p-grid  p-jc-end">
             <div class="p-field p-col-2">
-                <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-danger"></button> 
+                <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-danger" (click)="cancelar()"></button>  
             </div>  
     
             <div class="p-field p-col-2">
@@ -52,4 +52,5 @@
    </form>
 </div>
 
+<p-toast position="top-right"></p-toast>
     

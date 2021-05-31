@@ -4,6 +4,7 @@ import { Usuario } from "src/app/model/vo/usuario";
 import Utils from "src/app/utils/utils";
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from "rxjs/operators";
+import { Tenancy } from "src/app/model/vo/tenancy";
 
 @Injectable({
     providedIn: 'root',
@@ -19,11 +20,26 @@ export class UsuarioService{
 
     BASE_URL: string = Utils.makeURLRequest("/usuarios");
 
-    
-    
-    read(): Observable<Usuario[]> {
-        return this.httpClient.get<Usuario[]>(this.BASE_URL).pipe(retry(2), catchError(this.handleError))
+    create(usuario: Usuario): Promise<Usuario> {  
+       console.log(usuario)  
+       return this.httpClient.post<Usuario>(this.BASE_URL, usuario, this.httpOptions).toPromise();
     }
+        
+    read(idTenancy: number): Promise<any> {
+        const url = `${this.BASE_URL}/${idTenancy}`;
+        return this.httpClient.get<any>(url, this.httpOptions).toPromise();
+    }
+
+    readByID(idTenancy: number, idUsuario: number): Promise<any> {
+        const url = `${this.BASE_URL}/${idTenancy}/${idUsuario}`;
+        return this.httpClient.get<any>(url, this.httpOptions).toPromise();
+    }
+
+    updateUserStatus(usuario: Usuario): Promise<Usuario> {  
+        console.log(usuario)
+        const url = `${this.BASE_URL}/${usuario.id}`;  
+        return this.httpClient.patch<Usuario>(url, usuario, this.httpOptions).toPromise();
+     }
 
     delete(id: number): Observable<{}> {
         const url = `${this.BASE_URL}/${id}`; 
