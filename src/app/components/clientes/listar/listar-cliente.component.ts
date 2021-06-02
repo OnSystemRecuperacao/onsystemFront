@@ -70,11 +70,13 @@ export class ListarClienteComponent implements OnInit{
      error => {
        console.log(error);
        this.messageService.add(MessageUtils.onErrorMessage(error));        
-     },() =>{
-       this.listar(); 
-     } 
+     }
     );
   };
+
+  reload(){
+    this.commomService.reloadComponent();
+  }
 
   listar(){
     this.clienteService.read().subscribe(

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Prestador } from '../../../model/vo/prestador';
 import { PrestadorService } from 'src/app/services/prestadores/prestador-service';
 import { ConfirmationService, ConfirmEventType, MessageService} from 'primeng/api';
@@ -30,13 +30,13 @@ export class ListarPrestadorComponent implements OnInit{
       private messageService: MessageService,     
       private commomService: CommomService, 
       private prestadorService: PrestadorService
-  ) { }
-
+  ) {}
+  
+  
   ngOnInit(): void {
     this.loading = true;
-    this.listarPrestadores()    
+    this.listarPrestadores() 
   }
-
 
   editar(prestadorSelecionado: Prestador){ 
     this.prestador = prestadorSelecionado;
@@ -50,9 +50,8 @@ export class ListarPrestadorComponent implements OnInit{
             header: 'Confirmação',
             icon: 'pi pi-info-circle',
             accept: () => {
-              console.log("id prestador - " + idPrestador);
-                this.removerPrestador(idPrestador);                
-            },            
+              this.removerPrestador(idPrestador);                
+            },          
             key: "positionDialog"
         });
   }
@@ -61,29 +60,31 @@ export class ListarPrestadorComponent implements OnInit{
     this.commomService.navigate(NavigationEnum.ADICIONAR_PRESTADORES)
   };
 
+  reload(){
+    this.commomService.reloadComponent();
+  }
+
   removerPrestador(idPrestador: number) {
     this.prestadorService.delete(idPrestador).subscribe((data: any) => {  
-      console.log(data);
-      this.messageService.add(MessageUtils.onSuccessMessage("O registro foi excluído com sucesso !"));
-     }, 
-     error => {
-       console.log(error);
-        this.messageService.add(MessageUtils.onErrorMessage(error));        
-      } 
+      this.messageService.add(MessageUtils.onSuccessMessage(data.mensagem));
+    }, 
+    error => {
+      console.log(error);
+      this.messageService.add(MessageUtils.onErrorMessage("Ocorreu um erro ao processar a requisição."));        
+     } 
     );
   };
 
+ 
   listarPrestadores(){
-    this.prestadorService.read().subscribe(
-      (data: Prestador[]) => {
-        this.prestadores = data;
-        this.loading = false;        
-      }, error => {
-        this.messageService.add(MessageUtils.onErrorMessage(error));
-        this.loading = false;          
-      } 
-    );
+    this.prestadorService.read().then(data => {
+      this.prestadores = data;
+      this.loading = false;    
+    }).catch(error => {
+      console.error(error)
+      this.messageService.add(MessageUtils.onErrorMessage(error)); 
+      this.loading = false;      
+    })    
   }
-
 
 }

@@ -11,6 +11,13 @@ export class CommomService {
 
     constructor(private router: Router){}
 
+   reloadComponent() {
+      let currentUrl = this.router.url;
+      this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+      this.router.onSameUrlNavigation = 'reload';
+      this.router.navigate([currentUrl]);
+   }  
+
     getRoute() : string {
         return this.router.url
     }

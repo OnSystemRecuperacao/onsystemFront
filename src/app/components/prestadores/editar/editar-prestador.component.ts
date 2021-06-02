@@ -19,9 +19,13 @@ import MessageUtils from "src/app/utils/message-util";
 })
 export class EditarPrestadorComponent implements OnInit{
 
-   prestador: Prestador = {}
+   prestador: Prestador = new Prestador()
 
    itens = [{}]
+
+   antenista = 0;
+
+   escoltaArmada = 0;
     
    constructor(
         private messageService: MessageService, 
@@ -32,22 +36,23 @@ export class EditarPrestadorComponent implements OnInit{
    ) { }
 
    ngOnInit(): void {
+      this.carregarCombos();
       this.buscarPrestador();      
    }  
     
    salvar(form: NgForm){
       console.log(form); 
-      this.prestador = this.parseData(form)
-      this.adicionarPrestador();
+      let prestador = this.parseData(form)
+      this.adicionarPrestador(prestador);
    }
 
-   private adicionarPrestador(){
-      this.prestadorService.update(this.prestador).subscribe((data: any) => {
-          this.messageService.add(MessageUtils.onSuccessMessage("O prestador foi alterado com sucesso"));       
-        },error => {
-          this.messageService.add(MessageUtils.onErrorMessage(error));        
-        }
-      );      
+   private adicionarPrestador(prestador: Prestador){
+      this.prestadorService.update(prestador).then(response => {
+         console.log(response);
+       }).catch(error => {
+         console.error(error)
+         this.messageService.add(MessageUtils.onErrorMessage(error));   
+       })
      }
 
    cancelar(){
@@ -57,7 +62,10 @@ export class EditarPrestadorComponent implements OnInit{
    private buscarPrestador(){
       let idPrestador = <number> this.route.snapshot.params['id'];
       this.prestadorService.readByID(idPrestador).subscribe((data: Prestador) => {
-           console.log(data);                  
+           console.log(data)
+           this.prestador = data; 
+           this.antenista = data.antenista == 'SIM' ? 1: 2
+           this.escoltaArmada = data.regSinistro == 'SIM' ? 1: 2                
          }, error => {
            this.messageService.add(MessageUtils.onErrorMessage(error));                   
          } 
@@ -70,6 +78,7 @@ export class EditarPrestadorComponent implements OnInit{
 
    private parseData(form: NgForm) : Prestador{
       let prestador: Prestador = {};
+      prestador.id = this.prestador.id;
       prestador.nome = form.value.nome;
       prestador.cpfCnpj = form.value.cpf;
       prestador.rg = form.value.rg;
@@ -79,8 +88,8 @@ export class EditarPrestadorComponent implements OnInit{
       prestador.contaBancaria = this.getDadosBancarios(form);
       prestador.telefone = form.value.telefone;
       prestador.email = form.value.email;
-      prestador.antenista = form.value.antenista == 1 ? "SIM" : "NAO";
-      prestador.escoltaArmado = form.value.escoltaArmada == 1 ? "SIM" : "NAO";
+      prestador.antenista = this.antenista == 1 ? "SIM" : "NAO";
+      prestador.escoltaArmado = this.escoltaArmada == 1 ? "SIM" : "NAO";
       prestador.observacoes = "";
       prestador.fotoPrestador = ""
       prestador.situacao = "ATIVO";      
@@ -107,5 +116,7 @@ export class EditarPrestadorComponent implements OnInit{
      contaBancaria.conta = form.value.conta;     
      return contaBancaria;
    }
+
+   
     
   }

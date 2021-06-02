@@ -10,17 +10,17 @@
 
         <ng-template pTemplate="header" >
             <tr>
-                <th pSortableColumn="id" style="text-align: center;">ID <p-sortIcon field="id"></p-sortIcon></th>
-                <th pSortableColumn="nome" style="text-align: center;">Nome <p-sortIcon field="nome"></p-sortIcon></th>
+                <th  style="text-align: center; width: 350px;">Nome </th>
+                <th  style="text-align: center; ">CPF/CNPJ</th>
                 <th style="text-align: center;">Email</th>
-                <th pSortableColumn="status" style="text-align: center;">Status <p-sortIcon field="status"></p-sortIcon></th>
+                <th style="text-align: center; width: 10px;">Status</th>
                 <th style="text-align: center;">Ações</th>
               </tr>
         </ng-template>
         <ng-template pTemplate="body" let-prestador *ngIf="!prestadores.length">
             <tr>
-                <td style="text-align: center;">{{prestador.id}}</td>
                 <td style="text-align: center;">{{prestador.nome}}</td>
+                <td style="text-align: center;">{{prestador.cpfCnpj}}</td>
                 <td style="text-align: center;">{{prestador.email}}</td>
                 <td style="text-align: center;">{{prestador.situacao}}</td>                
                 <td style="text-align: center;" >
@@ -42,4 +42,4 @@
         rejectLabel="NÃO"
         rejectButtonStyleClass="p-button-danger">
 </p-confirmDialog>
-<p-toast position="top-right"></p-toast>
+<p-toast position="top-right" (onClose)="reload()"></p-toast>

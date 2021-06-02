@@ -22,8 +22,8 @@ export class PrestadorService {
     }
 
     
-    read(): Observable<Prestador[]> {
-        return this.httpClient.get<Prestador[]>(this.BASE_URL).pipe(retry(2), catchError(this.handleError))
+    read(): Promise<Prestador[]> {
+        return this.httpClient.get<Prestador[]>(this.BASE_URL).toPromise();
     }
 
     readByID(id: number): Observable<Prestador> {
@@ -36,10 +36,9 @@ export class PrestadorService {
       return this.httpClient.post<any>(this.BASE_URL, this.data, this.httpOptions).pipe(catchError(this.handleError));
     }
 
-    update(prestador: Prestador): Observable<Prestador> {
-      const url = `${this.BASE_URL}/${prestador.id}`;
-      this.data = this.parseData(prestador);  
-      return this.httpClient.put<Prestador>(this.BASE_URL, prestador, this.httpOptions).pipe(catchError(this.handleError));
+    update(prestador: Prestador): Promise<Prestador> {
+      const url = `${this.BASE_URL}/${prestador.id}`;       
+      return this.httpClient.put<Prestador>(url, prestador, this.httpOptions).toPromise();
     }
 
     delete(id: number): Observable<{}> {

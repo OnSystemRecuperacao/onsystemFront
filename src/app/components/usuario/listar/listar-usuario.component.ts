@@ -1,3 +1,4 @@
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { NavigationEnum } from 'src/app/model/enums/navigation.enum';
@@ -59,8 +60,7 @@ export class ListarUsuarioComponent implements OnInit {
       message: 'Tem certeza que deseja ATIVAR o Usuário ' + usuarioSelecionado.email + ' ?',
       header: 'Confirmação',
       icon: 'pi pi-info-circle',
-      accept: () => {
-          console.log("id prestador - " + usuarioSelecionado);
+      accept: () => {          
           this.alterarStatusUsuario(usuarioSelecionado, true);                         
       },            
       key: "positionDialog"
@@ -72,8 +72,7 @@ export class ListarUsuarioComponent implements OnInit {
         message: 'Tem certeza que deseja DESATIVAR o Usuário ' + usuarioSelecionado.email + ' ?',
         header: 'Confirmação',
         icon: 'pi pi-info-circle',
-        accept: () => {
-            console.log("id prestador - " + usuarioSelecionado);
+        accept: () => {            
             this.alterarStatusUsuario(usuarioSelecionado, false);                
         },            
         key: "positionDialog"
@@ -84,11 +83,14 @@ export class ListarUsuarioComponent implements OnInit {
     usuario.situacao = ativar ? "ATIVO" : "INATIVO";
     this.usuarioService.updateUserStatus(usuario)
       .then(response => {
-        this.messageService.add(MessageUtils.onSuccessMessage("Usuário alterado com sucesso"));
-        this.commomService.navigate(NavigationEnum.LISTAR_USUARIOS)      
+        this.messageService.add(MessageUtils.onSuccessMessage("Usuário alterado com sucesso"));            
       }).catch(error => 
         this.messageService.add(MessageUtils.onErrorMessage(error))
     );
+  }
+
+  reload(){
+    this.commomService.reloadComponent();
   }
 
   private loadUsuarioLogado(){
