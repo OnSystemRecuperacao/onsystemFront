@@ -5,6 +5,7 @@ import { ConfirmationService, ConfirmEventType, MessageService} from 'primeng/ap
 import MessageUtils from 'src/app/utils/message-util';
 import { CommomService } from 'src/app/services/commons/common.service';
 import { NavigationEnum } from 'src/app/model/enums/navigation.enum';
+import { NotAuthenticatedError } from 'src/app/interceptors/auth.http.interceptor';
 
 
 @Component({
@@ -35,7 +36,7 @@ export class ListarPrestadorComponent implements OnInit{
   
   ngOnInit(): void {
     this.loading = true;
-    this.listarPrestadores() 
+    this.listarPrestadores()      
   }
 
   editar(prestadorSelecionado: Prestador){ 
@@ -44,16 +45,16 @@ export class ListarPrestadorComponent implements OnInit{
   }
 
   deletar(prestador: Prestador){        
-        let idPrestador = <number> prestador.id
-        this.confirmationService.confirm({
-            message: 'Tem certeza que deseja remover o Prestador ' + prestador.nome + ' ?',
-            header: 'Confirmação',
-            icon: 'pi pi-info-circle',
-            accept: () => {
-              this.removerPrestador(idPrestador);                
-            },          
-            key: "positionDialog"
-        });
+      let idPrestador = <number> prestador.id
+      this.confirmationService.confirm({
+          message: 'Tem certeza que deseja remover o Prestador ' + prestador.nome + ' ?',
+          header: 'Confirmação',
+          icon: 'pi pi-info-circle',
+          accept: () => {
+            this.removerPrestador(idPrestador);                
+          },          
+          key: "positionDialog"
+      });
   }
 
   novoPrestador(){
@@ -82,8 +83,12 @@ export class ListarPrestadorComponent implements OnInit{
       this.loading = false;    
     }).catch(error => {
       console.error(error)
-      this.messageService.add(MessageUtils.onErrorMessage(error)); 
-      this.loading = false;      
+      if (error instanceof NotAuthenticatedError) {
+        this.messageService.add(MessageUtils.onErrorMessage("Sua Sessão Expirou, faça Login Novamente")); 
+        this.commomService.navigate(NavigationEnum.LOGIN);   
+      }
+      this.messageService.add(MessageUtils.onErrorMessage(error));
+      this.loading = false; 
     })    
   }
 

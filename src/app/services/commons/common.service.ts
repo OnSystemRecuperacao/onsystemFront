@@ -9,8 +9,8 @@ import { NavigationEnum } from 'src/app/model/enums/navigation.enum';
 })
 export class CommomService {
 
-    constructor(private router: Router){}
-
+   constructor(private router: Router){}
+   
    reloadComponent() {
       let currentUrl = this.router.url;
       this.router.routeReuseStrategy.shouldReuseRoute = () => false;
@@ -18,9 +18,9 @@ export class CommomService {
       this.router.navigate([currentUrl]);
    }  
 
-    getRoute() : string {
+   getRoute() : string {
         return this.router.url
-    }
+   }
 
     navigate(path: String){
         this.router.navigate([path])
@@ -41,7 +41,7 @@ export class CommomService {
     getUserMenuOptions(): MenuItem[]{
          return this.loadUserMenuItens();
     }
-
+    
     private loadMenuItensByTenancy(codigoTipoTencancy: number) : MenuItem[] {
       let menu: MenuItem[] = [];
       if(codigoTipoTencancy == 0 || codigoTipoTencancy == 1){

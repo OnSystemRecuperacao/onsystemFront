@@ -60,7 +60,7 @@ export class ListarClienteComponent implements OnInit{
   }
 
   novoCliente(){
-    this.commomService.navigate(NavigationEnum.ADICIONAR_CLIENTES)
+    this.commomService.navigate(NavigationEnum.ADICIONAR_CLIENTES)    
   };
 
   removerCliente(idCliente: number) {

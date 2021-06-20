@@ -10,8 +10,7 @@ import { CommomService } from 'src/app/services/commons/common.service';
 })
 export class NavbarComponent {
 
-   
-  
+     
    constructor(
     private authService: AuthService,
     private commomService: CommomService
@@ -21,11 +20,13 @@ export class NavbarComponent {
 
    userMenuItens: MenuItem[] = [];
 
-   usuarioLogado: any;
-    
+   usuarioLogado: any;    
+
+   exibirProgressBar: boolean = false;
+       
    ngOnInit() {
      this.loadUser();
-     this.loadMenu();    
+     this.loadMenu();
    }
 
    private loadUser(){

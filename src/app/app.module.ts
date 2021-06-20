@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { MenubarModule} from 'primeng/menubar';
 import { AppRoutingModule } from './app-routing.module';
@@ -25,6 +25,7 @@ import {PasswordModule} from 'primeng/password';
 import {PanelModule} from 'primeng/panel';
 import {ChartModule} from 'primeng/chart';
 import {TieredMenuModule} from 'primeng/tieredmenu';
+import {ProgressBarModule} from 'primeng/progressbar';
 
 
 import { NavbarComponent } from './components/core/navbar/navbar.component';
@@ -43,6 +44,8 @@ import { ListarUsuarioComponent } from './components/usuario/listar/listar-usuar
 import { EditarUsuarioComponent } from './components/usuario/editar/editar-usuario.component';
 import { AdicionarUsuarioComponent } from './components/usuario/adicionar/adicionar-usuario.component';
 import { JwtHelperService, JwtModule } from '@auth0/angular-jwt';
+import { AuthHttpInterceptor } from './interceptors/auth.http.interceptor';
+
 
 
 export function tokenGetter(): any {
@@ -52,7 +55,7 @@ export function tokenGetter(): any {
 @NgModule({
   declarations: [
     AppComponent,
-    NavbarComponent,
+    NavbarComponent,    
     AuthComponent,
     DashboardComponent,
     ListarPrestadorComponent,
@@ -99,9 +102,18 @@ export function tokenGetter(): any {
         disallowedRoutes: ['http://localhost:8080/oauth/token']
       }
     }),
-    TieredMenuModule
+    TieredMenuModule,
+    ProgressBarModule    
+  ],  
+  providers: [
+    JwtHelperService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthHttpInterceptor,
+      multi: true
+    }
+    
   ],
-  providers: [JwtHelperService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

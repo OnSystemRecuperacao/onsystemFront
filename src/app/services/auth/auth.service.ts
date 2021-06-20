@@ -31,6 +31,24 @@ export class AuthService {
         this.loadToken();
      }
 
+     isAccessTokenInvalido(){
+         const token = localStorage.getItem("access_token");
+         return !token || this.jwtHelper.isTokenExpired(token);
+     }
+
+     obterNovoAccessToken(): Promise<void> {
+        const body = 'grant_type=refresh_token';    
+        return this.httpClient.post<any>(this.BASE_URL, body, this.httpOptions).toPromise()
+        .then(response =>{
+            this.decodeToken(response['access_token'])    
+            return Promise.resolve();
+        }).catch( response =>{
+            return Promise.resolve();
+        });        
+      }
+
+
+
     login(login: Login): Promise<void>{
         const data = `username=${login.email}&password=${login.senha}&grant_type=password`;
         return this.httpClient.post<any>(this.BASE_URL, data, this.httpOptions).toPromise()
