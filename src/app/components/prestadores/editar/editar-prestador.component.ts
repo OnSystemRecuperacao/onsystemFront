@@ -47,13 +47,16 @@ export class EditarPrestadorComponent implements OnInit{
    }
 
    private adicionarPrestador(prestador: Prestador){
-      this.prestadorService.update(prestador).then(response => {
-         console.log(response);
-       }).catch(error => {
-         console.error(error)
-         this.messageService.add(MessageUtils.onErrorMessage(error));   
-       })
-     }
+     this.prestadorService.update(prestador) .then(response => {
+       this.messageService.add(MessageUtils.onSuccessMessage("Prestador alterado com sucesso"));         
+      }).catch(erro => 
+       this.messageService.add(MessageUtils.onErrorMessage(erro))
+     );
+   }
+
+   redirectToList(event: any){
+      this.commomService.navigateByUrl(NavigationEnum.LISTAR_PRESTADORES)
+    }
 
    cancelar(){
       this.commomService.navigate(NavigationEnum.LISTAR_PRESTADORES)
