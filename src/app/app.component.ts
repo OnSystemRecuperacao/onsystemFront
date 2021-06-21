@@ -26,4 +26,9 @@ export class AppComponent {
     return route !== '/pagina-nao-encontrada';
   }
 
+  exibindoNavbar401() {
+    let route = this.commomService.getRoute();
+    return route !== '/nao-autorizado';
+  }
+
 }

@@ -1,5 +1,5 @@
-<app-navbar *ngIf="exibindoNavbarLogin() && exibindoNavbar404()"></app-navbar>
-<nav class="navbar-class" *ngIf="!exibindoNavbarLogin() || !exibindoNavbar404()">
+<app-navbar *ngIf="exibindoNavbarLogin() && exibindoNavbar404() &&  exibindoNavbar401()"></app-navbar>
+<nav class="navbar-class" *ngIf="!exibindoNavbarLogin() || !exibindoNavbar404() ||  !exibindoNavbar401()">
     <div class="ui-g" style="height: 80px !important;">
       <div class="ui-g-12" >
         <p-menubar>

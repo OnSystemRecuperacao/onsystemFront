@@ -11,5 +11,6 @@ export enum NavigationEnum{
     NOVA_OCORRENCIA = '/ocorrencias/nova',
     LISTAR_USUARIOS = '/usuarios',
     ADICIONAR_USUARIOS = '/usuarios/novo',
-    EDITAR_USUARIOS = '/usuarios/editar/'
+    EDITAR_USUARIOS = '/usuarios/editar/',
+    NAO_AUTORIZADO = '/nao-autorizado',
 }

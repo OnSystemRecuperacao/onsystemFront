@@ -4,32 +4,22 @@ import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/c
 import { Observable, from } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 import { AuthService } from '../services/auth/auth.service';
+import { CommomService } from '../services/commons/common.service';
+import { NavigationEnum } from '../model/enums/navigation.enum';
 
 export class NotAuthenticatedError{}
 
 @Injectable()
 export class AuthHttpInterceptor implements HttpInterceptor {
 
-  constructor(private auth: AuthService) {}
+  constructor(private auth: AuthService, private commomService: CommomService) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (!req.url.includes('/oauth/token') && this.auth.isAccessTokenInvalido()) {
-      return from(this.auth.obterNovoAccessToken())
-        .pipe(
-          mergeMap(() => {
-            if (this.auth.isAccessTokenInvalido()) {
-              throw new NotAuthenticatedError();
-            }
-            req = req.clone({
-              setHeaders: {
-                Authorization: `Bearer ${localStorage.getItem('access_token')}`
-              }
-            });
-            return next.handle(req);
-          })
-        );
+      console.log("Acesso não autorizado, realizando logoff")
+      localStorage.setItem("access_token", ""); 
+      this.commomService.navigateByUrl(NavigationEnum.NAO_AUTORIZADO);
     }
-
     return next.handle(req);
   }
 }

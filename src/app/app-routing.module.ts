@@ -16,6 +16,7 @@ import { ListarUsuarioComponent } from './components/usuario/listar/listar-usuar
 import { AdicionarUsuarioComponent } from './components/usuario/adicionar/adicionar-usuario.component';
 import { AuthGuard } from './services/auth/auth.guard';
 import { EditarUsuarioComponent } from './components/usuario/editar/editar-usuario.component';
+import { NaoAutorizadoComponent } from './components/core/nao-autorizado/nao-autorizado.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'login', pathMatch: 'full'},
@@ -31,7 +32,8 @@ const routes: Routes = [
   {path: 'ocorrencias/nova', component: NovaOcorrenciaComponent, canActivate: [AuthGuard], data: { roles:['OPENCODE', 'ONSYSTEM', 'CLIENTE', 'PRESTADOR']}},
   {path: 'usuarios', component: ListarUsuarioComponent, canActivate: [AuthGuard], data: { roles:['OPENCODE', 'ONSYSTEM', 'CLIENTE', 'PRESTADOR']}},
   {path: 'usuarios/novo', component: AdicionarUsuarioComponent, canActivate: [AuthGuard], data: { roles:['OPENCODE', 'ONSYSTEM', 'CLIENTE', 'PRESTADOR']}},
-  {path: 'usuarios/editar/:id', component: EditarUsuarioComponent, canActivate: [AuthGuard], data: { roles:['OPENCODE', 'ONSYSTEM', 'CLIENTE', 'PRESTADOR']}},  
+  {path: 'usuarios/editar/:id', component: EditarUsuarioComponent, canActivate: [AuthGuard], data: { roles:['OPENCODE', 'ONSYSTEM', 'CLIENTE', 'PRESTADOR']}},
+  {path: 'nao-autorizado', component: NaoAutorizadoComponent},  
   {path: 'pagina-nao-encontrada', component: PaginaNaoEncontradaComponent}, 
   {path: '**', redirectTo: 'pagina-nao-encontrada', pathMatch: 'full'}
 ];

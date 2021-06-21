@@ -45,6 +45,7 @@ import { EditarUsuarioComponent } from './components/usuario/editar/editar-usuar
 import { AdicionarUsuarioComponent } from './components/usuario/adicionar/adicionar-usuario.component';
 import { JwtHelperService, JwtModule } from '@auth0/angular-jwt';
 import { AuthHttpInterceptor } from './interceptors/auth.http.interceptor';
+import { NaoAutorizadoComponent } from './components/core/nao-autorizado/nao-autorizado.component';
 
 
 
@@ -57,6 +58,7 @@ export function tokenGetter(): any {
     AppComponent,
     NavbarComponent,    
     AuthComponent,
+    NaoAutorizadoComponent,
     DashboardComponent,
     ListarPrestadorComponent,
     AdicionarPrestadorComponent,

@@ -76,23 +76,25 @@
               <input type="text" name="estado" pInputText id="estado" #estado="ngModel" [(ngModel)]="prestador.endereco!.estado"/>  
           </div>
         </div>
-        
+
         <div class="p-fluid p-formgrid p-grid">
             <div class="p-field p-col">
                 <label for="banco">Banco</label>
-                <p-inputNumber id="banco" name="banco" mode="decimal" #banco="ngModel" [useGrouping]="false" [(ngModel)]="prestador.contaBancaria!.banco"></p-inputNumber>            
+                <input type="text" id="banco" name="banco" pInputText [(ngModel)]="prestador.contaBancaria!.banco"/>            
             </div>
     
             <div class="p-field p-col"> 
                 <label for="agencia">Agência</label>              
-                <p-inputNumber id="agencia" name="agencia" mode="decimal" #agencia="ngModel" [useGrouping]="false" [(ngModel)]="prestador.contaBancaria!.agencia"></p-inputNumber> 
+                <input type="text" id="agencia" name="agencia" pInputText [(ngModel)]="prestador.contaBancaria!.agencia" /> 
             </div>
     
             <div class="p-field p-col">
                 <label for="conta">Conta</label>              
-                <p-inputNumber id="conta" name="conta" mode="decimal" #conta="ngModel" [useGrouping]="false" [(ngModel)]="prestador.contaBancaria!.conta"></p-inputNumber>
+                <input type="text" id="conta" name="conta" pInputText [(ngModel)]="prestador.contaBancaria!.conta" />
             </div>        
         </div>
+        
+       
     
         <div class="p-fluid p-formgrid p-grid">
             <div class="p-field p-col-3">

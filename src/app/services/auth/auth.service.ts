@@ -37,16 +37,17 @@ export class AuthService {
      }
 
      obterNovoAccessToken(): Promise<void> {
-        const body = 'grant_type=refresh_token';    
-        return this.httpClient.post<any>(this.BASE_URL, body, this.httpOptions).toPromise()
-        .then(response =>{
+        const body = 'grant_type=refresh_token';        
+       return this.httpClient.post<any>(this.BASE_URL, body, this.httpOptions).toPromise()
+       .then(response =>{
+            console.log(response);
             this.decodeToken(response['access_token'])    
             return Promise.resolve();
-        }).catch( response =>{
+       }).catch( response =>{
+            console.log(response);
             return Promise.resolve();
-        });        
-      }
-
+       });        
+    }
 
 
     login(login: Login): Promise<void>{
@@ -54,6 +55,7 @@ export class AuthService {
         return this.httpClient.post<any>(this.BASE_URL, data, this.httpOptions).toPromise()
         .then(response => {
           this.decodeToken(response['access_token'])
+          
         })
         .catch(response => {
           if(response.status === 400){
@@ -100,6 +102,7 @@ export class AuthService {
         localStorage.setItem("access_token", token);  
     }
 
+   
     private loadToken(){
         let token = localStorage.getItem("access_token");
         if(token){
