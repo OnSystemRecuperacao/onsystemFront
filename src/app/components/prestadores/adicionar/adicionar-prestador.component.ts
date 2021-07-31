@@ -10,6 +10,9 @@ import { Prestador } from 'src/app/model/vo/prestador';
 import { Endereco } from 'src/app/model/vo/endereco';
 import { DadosBancarios } from 'src/app/model/vo/dados-bancarios';
 
+import { cpf, cnpj } from 'cpf-cnpj-validator'; 
+import { ListaBancos } from 'src/app/model/vo/lista-bancos';
+
 
 @Component({
   selector: 'adicionar-prestador',
@@ -23,6 +26,12 @@ export class AdicionarPrestadorComponent implements OnInit{
   
    prestador: Prestador = {}
 
+   endereco: Endereco = new Endereco();
+
+   listaBancos: ListaBancos[] = [];
+
+   bancoSelecionado!: ListaBancos;
+
    constructor(
       private messageService: MessageService, 
       private commomService: CommomService, 
@@ -32,7 +41,35 @@ export class AdicionarPrestadorComponent implements OnInit{
 
    ngOnInit(): void {
     this.carregarCombos()
+    this.commomService.getListaBancos().subscribe(dados => {
+      console.log(dados);
+      this.listaBancos = dados;
+    });
    }
+
+   bancoChange(event: any){
+      this.bancoSelecionado = event.value;
+  }
+  
+   buscaCep(cep: String){
+
+      this.commomService.buscaCep(cep).subscribe((data: Endereco) => {
+        console.log(data);    
+        this.endereco = data;           
+      }, error => {
+        this.messageService.add(MessageUtils.onErrorMessage(error));                   
+      } 
+   ); 
+    
+    }
+
+   validaDocumento(documento: string){
+      if(documento != ""){
+         return cpf.isValid(documento);
+      }
+      else return true;
+        
+    }
 
    salvar(form: NgForm){     
      this.prestador = this.parseData(form)
@@ -92,7 +129,8 @@ export class AdicionarPrestadorComponent implements OnInit{
 
    private getDadosBancarios(form: NgForm): DadosBancarios{
      let contaBancaria: DadosBancarios = {};
-     contaBancaria.banco = form.value.banco;
+     //contaBancaria.banco = form.value.banco;
+     contaBancaria.banco = this.bancoSelecionado.codigo;
      contaBancaria.agencia = form.value.agencia;
      contaBancaria.conta = form.value.conta;     
      return contaBancaria;

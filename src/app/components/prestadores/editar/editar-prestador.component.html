@@ -31,6 +31,7 @@
                 <label for="cpf">CPF</label>              
                 <p-inputMask id="cpf" name="cpf" mask="999.999.999-99"  [required]="true" #cpf="ngModel" [(ngModel)]="prestador.cpfCnpj"></p-inputMask>
                 <small class="p-error" *ngIf="cpf.hasError('required') && cpf.dirty">* O campo CPF é obrigatório.</small>
+                <small class="p-error" *ngIf="!validaDocumento(cpf.value)">*CPF invalido.</small>
             </div>
             <div class="p-field p-col">
               <label for="cnh">CNH</label>
@@ -80,7 +81,12 @@
         <div class="p-fluid p-formgrid p-grid">
             <div class="p-field p-col">
                 <label for="banco">Banco</label>
-                <input type="text" id="banco" name="banco" pInputText [(ngModel)]="prestador.contaBancaria!.banco"/>            
+                <p-dropdown [options]="listaBancos" [(ngModel)]="bancoSelecionado" optionLabel="banco"
+                    [showClear]="true" (onChange)="bancoChange($event)" placeholder="Selecione">
+                    <ng-template let-banco pTemplate="item">
+                        <div>{{banco.banco}} - {{banco.codigo}}</div>
+                    </ng-template>
+                </p-dropdown>
             </div>
     
             <div class="p-field p-col"> 

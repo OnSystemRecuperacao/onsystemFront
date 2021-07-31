@@ -1,0 +1,65 @@
+<div class="container">
+    <p-table>
+        <ng-template pTemplate="caption">
+            <div class="p-d-flex p-ai-center p-jc-between">
+                <h5 class="p-m-0">Ocorrencia {{ocorrencia?.id}} (FUNCIONALIDADE EM CONSTRUÇÃO)</h5>
+            </div>
+        </ng-template>
+    </p-table>
+
+</div>
+
+<div class="container" style="margin-top: 15px;">
+
+    <div class="p-fluid p-formgrid p-grid">
+        <div class="p-field p-col">
+            <th>Cliente - PORTO SEGURO CIA DE SEGUROS GERAIS</th>
+        </div>
+    </div>
+
+    <div class="p-fluid p-formgrid p-grid">
+        <div class="p-field p-col">
+            <th>Numero Processo - {{ocorrencia?.numeroProcesso}}</th>
+        </div>
+    </div>
+
+    <div class="p-fluid p-formgrid p-grid">
+        <div class="p-field p-col">
+            <th>Prestador empenhado - </th>
+        </div>
+    </div>
+    <div class="p-fluid p-formgrid p-grid">
+        <div class="p-field p-col">
+            <th>Status - Em andamento </th>
+        </div>
+    </div>
+
+
+    <div class="card" *ngFor="let item of interacaoOcorrencia">
+        <p-divider align="center" type="dashed">
+            <div class="p-d-inline-flex p-ai-center">
+                <i class="pi pi-user p-mr-2"></i>
+                <b *ngIf="item.tipoTenancy?.id == 1">Prestador</b>
+                <b *ngIf="item.tipoTenancy?.id == 2">Cliente</b>
+                <b *ngIf="item.tipoTenancy?.id == 3">Central</b>
+            </div>
+        </p-divider>
+        <p>
+            {{item.observacao}}
+        </p>
+    </div>
+
+
+    <div class="p-fluid p-formgrid p-grid ">
+        <div class="p-field p-col">
+            <th>Incluir comentario </th>
+            <textarea name="observacoes" [rows]="5" [cols]="30" pInputTextarea></textarea>
+        </div>
+    </div>
+    <div class="p-field p-col-2">
+        <button pButton pRipple label="Enviar" icon="pi pi-check" class="p-button-success"></button>
+    </div>
+
+</div>
+
+<p-toast position="top-right" (onClose)="redirectToList($event)"></p-toast>

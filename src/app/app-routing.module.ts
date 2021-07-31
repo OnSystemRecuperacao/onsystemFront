@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { ListarPrestadorComponent } from './components/prestadores/listar/listar-prestador.component';
 import { AdicionarPrestadorComponent } from './components/prestadores/adicionar/adicionar-prestador.component';
-import { OcorrenciasComponent } from './components/ocorrencias/ocorrencias.component';
+import { OcorrenciasComponent } from './components/ocorrencias/listar/listar-ocorrencias.component';
 import { NovaOcorrenciaComponent } from './components/ocorrencias/nova-ocorrencia/nova-ocorrencia.component';
 import { EditarPrestadorComponent } from './components/prestadores/editar/editar-prestador.component';
 import { AdicionarClienteComponent } from './components/clientes/adicionar/adicionar-cliente.component';
@@ -17,6 +17,7 @@ import { AdicionarUsuarioComponent } from './components/usuario/adicionar/adicio
 import { AuthGuard } from './services/auth/auth.guard';
 import { EditarUsuarioComponent } from './components/usuario/editar/editar-usuario.component';
 import { NaoAutorizadoComponent } from './components/core/nao-autorizado/nao-autorizado.component';
+import {VisualizarOcorrenciaComponent} from './components/ocorrencias/visualizar/visualizar-ocorrencia.component'
 
 const routes: Routes = [
   {path: '', redirectTo: 'login', pathMatch: 'full'},
@@ -30,6 +31,8 @@ const routes: Routes = [
   {path: 'prestadores/editar/:id', component: EditarPrestadorComponent, canActivate: [AuthGuard], data: { roles:['OPENCODE', 'ONSYSTEM']}},
   {path: 'ocorrencias', component: OcorrenciasComponent, canActivate: [AuthGuard], data: { roles:['OPENCODE', 'ONSYSTEM', 'CLIENTE', 'PRESTADOR']}},
   {path: 'ocorrencias/nova', component: NovaOcorrenciaComponent, canActivate: [AuthGuard], data: { roles:['OPENCODE', 'ONSYSTEM', 'CLIENTE', 'PRESTADOR']}},
+  {path: 'ocorrencias/visualizar/:id', component: VisualizarOcorrenciaComponent, canActivate: [AuthGuard], data: { roles:['OPENCODE', 'ONSYSTEM', 'CLIENTE']}},
+
   {path: 'usuarios', component: ListarUsuarioComponent, canActivate: [AuthGuard], data: { roles:['OPENCODE', 'ONSYSTEM', 'CLIENTE', 'PRESTADOR']}},
   {path: 'usuarios/novo', component: AdicionarUsuarioComponent, canActivate: [AuthGuard], data: { roles:['OPENCODE', 'ONSYSTEM', 'CLIENTE', 'PRESTADOR']}},
   {path: 'usuarios/editar/:id', component: EditarUsuarioComponent, canActivate: [AuthGuard], data: { roles:['OPENCODE', 'ONSYSTEM', 'CLIENTE', 'PRESTADOR']}},

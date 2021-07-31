@@ -1,22 +1,18 @@
 import { Cliente } from "./cliente";
+import { Localizacao } from "./localizacao";
 import { Prestador } from "./prestador";
+import { Tenancy } from "./tenancy";
 
 export class Ocorrencia{
-
-    idOcorrencia?: number;
-    statusOcorrencia?: string;
-    aceiteOcorrencia?: string;
-    dataHoraAberturaOcorrencia?: Date;
-    cliente?: Cliente = {};
-    prestador?: Prestador = {};
-    latitudeOcorrencia?: number;
-    longitudeOcorrencia?: number;
-    latitudePrestador?: number;
-    longitudePrestador?: number;
-    dataHoraInicioOcorrencia?: Date;
-    dataHoraFimOcorrencia?: Date;
+ 
+    id?: number;
+    tenancyCliente?: Tenancy = {};
+    localizacao?: Localizacao = {};
+    observacoes?: String;
+    numeroProcesso?: number;
+    motivo?: String;
     antenista?: Boolean;
     escoltaArmado?: Boolean;
-     reguladorSinis?: Boolean;
+    reguladorSinis?: Boolean;
 
 }

@@ -4,6 +4,7 @@
                 <h5 class="p-m-0">Lista de Clientes</h5>
                 <span class="p-input-icon-left">
                   <button pButton pRipple label="Novo" icon="pi pi-plus" class="p-button-success p-mr-2" (click)="novoCliente()"></button>
+                  <button type="button" pButton pRipple icon="pi pi-file-excel" (click)="exportExcel()" class="p-button-success p-mr-2"  pTooltip="XLS" tooltipPosition="bottom"></button>
                 </span>
             </div>
         </ng-template>

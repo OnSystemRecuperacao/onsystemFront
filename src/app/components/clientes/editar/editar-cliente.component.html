@@ -45,18 +45,24 @@
             </div>
             
             <div class="p-field p-col" *ngIf="tipoPessoaSelecionada == 1">
-                <label for="cpf">CPF</label>              
-                <p-inputMask id="cpf" name="cpf" mask="999.999.999-99" [(ngModel)]="cliente.cpfCnpj" [required]="true" #cpf="ngModel"></p-inputMask>
-                <small class="p-error" *ngIf="cpf.hasError('required') && cpf.dirty">* O campo CPF é obrigatório.</small>
+                <label for="cpf">CPF</label>
+                <p-inputMask id="cpf" name="cpf" mask="999.999.999-99" ngModel [required]="true" #cpf="ngModel">
+                </p-inputMask>
+                <small class="p-error" *ngIf="cpf.hasError('required') && cpf.dirty">* O campo CPF é
+                    obrigatório.</small>
+                <small class="p-error" *ngIf="!validaDocumento(cpf.value, 1)">*CPF invalido.</small>
             </div>
 
             <div class="p-field p-col" *ngIf="tipoPessoaSelecionada == 2">
-                <label for="cpf">CNPJ</label>              
-                <p-inputMask id="cpf" name="cnpj" mask="99.999.999/9999-99" [(ngModel)]="cliente.cpfCnpj" [required]="true" #cnpj="ngModel"></p-inputMask>
-                <small class="p-error" *ngIf="cnpj.hasError('required') && cnpj.dirty">* O campo CNPJ é obrigatório.</small>
+                <label for="cpf">CNPJ</label>
+                <p-inputMask id="cpf" name="cnpj" mask="99.999.999/9999-99" ngModel [required]="true" #cnpj="ngModel">
+                </p-inputMask>
+                <small class="p-error" *ngIf="cnpj.hasError('required') && cnpj.dirty">* O campo CPF é
+                    obrigatório.</small>
+                    <small class="p-error" *ngIf="!validaDocumento(cnpj.value, 2)">*CPF invalido.</small>
             </div>
 
-            <div class="p-field p-col">
+            <div class="p-field p-col" *ngIf="tipoPessoaSelecionada == 2">
                 <label for="numInscricaoEstadual">Inscrição Estatudal</label>              
                 <p-inputNumber id="numInscricaoEstadual" name="numInscricaoEstadual" mode="decimal" [useGrouping]="false" [(ngModel)]="cliente.incricaoEstadual"></p-inputNumber>
             </div> 
@@ -87,7 +93,7 @@
             
             <div class="p-field p-col-2">
                 <label for="cep">CEP</label>
-                <p-inputMask id="cep" name="cep" mask="99999-999" [(ngModel)]="cliente.endereco!.cep"></p-inputMask>
+                <p-inputMask #cep id="cep" name="cep" mask="99999-999" [(ngModel)]="cliente.endereco!.cep" (onBlur)="buscaCep(cep.value)"></p-inputMask>
             </div>        
             
             <div class="p-field p-col">
@@ -99,7 +105,12 @@
         <div class="p-fluid p-formgrid p-grid">
             <div class="p-field p-col">
                 <label for="banco">Banco</label>
-                <input type="text" id="banco" name="banco" pInputText [(ngModel)]="cliente.contaBancaria!.banco"/>            
+                <p-dropdown [options]="listaBancos" [(ngModel)]="bancoSelecionado" optionLabel="banco"
+                    [showClear]="true" (onChange)="bancoChange($event)" placeholder="Selecione">
+                    <ng-template let-banco pTemplate="item">
+                        <div>{{banco.banco}} - {{banco.codigo}}</div>
+                    </ng-template>
+                </p-dropdown>
             </div>
     
             <div class="p-field p-col"> 

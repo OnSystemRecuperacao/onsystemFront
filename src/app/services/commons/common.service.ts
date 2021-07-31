@@ -1,7 +1,13 @@
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {Router} from '@angular/router';
 import { MenuItem } from 'primeng/api';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { NavigationEnum } from 'src/app/model/enums/navigation.enum';
+import { Endereco } from 'src/app/model/vo/endereco';
+import { ListaBancos } from 'src/app/model/vo/lista-bancos';
+import Utils from 'src/app/utils/utils';
 
 
 @Injectable({
@@ -9,7 +15,28 @@ import { NavigationEnum } from 'src/app/model/enums/navigation.enum';
 })
 export class CommomService {
 
-   constructor(private router: Router){}
+   BASE_URL: string = Utils.makeURLRequest("/commons");
+
+    // Headers
+    httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  }
+
+  
+  
+   buscaCep(cep: String): Observable<Endereco> {
+      const url = `${this.BASE_URL}/buscarCep/${cep}`;  
+      return this.httpClient.get<Endereco>(url, this.httpOptions).pipe(catchError(this.handleError));
+    
+  }
+
+     getListaBancos(){
+      const url = `${this.BASE_URL}/buscarBancos`;  
+      return this.httpClient.get<ListaBancos[]>(url, this.httpOptions).pipe(catchError(this.handleError));
+   }
+  
+   constructor(private router: Router,
+      private httpClient: HttpClient){}
    
    reloadComponent() {
       let currentUrl = this.router.url;
@@ -157,11 +184,11 @@ export class CommomService {
          label:'Usuários',
          icon:'pi pi-fw pi-user',
          items:[
-            {
-               label:'Novo',
-               icon:'pi pi-fw pi-plus',
-               routerLink: [NavigationEnum.ADICIONAR_USUARIOS]
-            },
+            // {
+            //    label:'Novo',
+            //    icon:'pi pi-fw pi-plus',
+            //    routerLink: [NavigationEnum.ADICIONAR_USUARIOS]
+            // },
             {
                label:'Listar Usuários',
                icon:'pi pi-fw pi-list',
@@ -185,4 +212,18 @@ export class CommomService {
          }
       ];
    }
+
+   // Manipulação de erros
+   handleError(error: HttpErrorResponse) {
+      let errorMessage = '';
+      if (error.error instanceof ErrorEvent) {      
+          errorMessage =  error.error.message      
+      } else {  
+          errorMessage =  error.message       
+      }    
+      return throwError(errorMessage);
+    }
+
+ 
+
 }

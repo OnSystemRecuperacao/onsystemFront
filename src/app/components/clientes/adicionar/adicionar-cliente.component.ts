@@ -11,6 +11,9 @@ import { Endereco } from 'src/app/model/vo/endereco';
 import { DadosBancarios } from 'src/app/model/vo/dados-bancarios';
 import { ClienteService } from 'src/app/services/clientes/cliente-service';
 import { Cliente } from 'src/app/model/vo/cliente';
+import { ListaBancos } from 'src/app/model/vo/lista-bancos';
+
+import { cpf, cnpj } from 'cpf-cnpj-validator'; 
 
 
 @Component({
@@ -28,8 +31,18 @@ export class AdicionarClienteComponent implements OnInit{
 
     cliente: Cliente = {}
 
+    endereco: Endereco = new Endereco();
+
+    listaBancos: ListaBancos[] = [];
+
+    bancoSelecionado!: ListaBancos;
+
     ngOnInit() {
         this.tipoPessoa = this.comboService.getTipoPessoa();
+        this.commomService.getListaBancos().subscribe(dados => {
+          console.log(dados);
+          this.listaBancos = dados;
+        });
     }
 
     constructor(
@@ -37,12 +50,36 @@ export class AdicionarClienteComponent implements OnInit{
         private commomService: CommomService, 
         private comboService: ComboService, 
         private clienteService: ClienteService
+        
      ) { }
 
 
     salvar(form : NgForm){
         this.cliente = this.parseData(form);
         this.adicionarCliente(form);
+    }
+
+    validaDocumento(documento: string, tipoPessoa: number){
+      console.log(documento);
+      if(tipoPessoa == 1 && documento != ""){
+        return cpf.isValid(documento);
+      }
+      else if(tipoPessoa == 2 && documento != "") {
+        return cnpj.isValid(documento);
+      }
+      else return true;
+    }
+
+    buscaCep(cep: String){
+
+      this.commomService.buscaCep(cep).subscribe((data: Endereco) => {
+        console.log(data);    
+        this.endereco = data;           
+      }, error => {
+        this.messageService.add(MessageUtils.onErrorMessage(error));                   
+      } 
+   ); 
+    
     }
     
     cancelar(){
@@ -52,6 +89,10 @@ export class AdicionarClienteComponent implements OnInit{
     tipoPessoaChange(event: any){
         this.tipoPessoaSelecionada = event.value;
     }
+
+    bancoChange(event: any){
+      this.bancoSelecionado = event.value;
+  }
 
     private adicionarCliente(form: NgForm){
         this.clienteService.create(this.cliente).subscribe((data: any) => {
@@ -94,7 +135,8 @@ export class AdicionarClienteComponent implements OnInit{
   
      private getDadosBancarios(form: NgForm): DadosBancarios{
        let contaBancaria: DadosBancarios = {};
-       contaBancaria.banco = form.value.banco;
+       //contaBancaria.banco = form.value.banco;
+       contaBancaria.banco = this.bancoSelecionado.codigo;
        contaBancaria.agencia = form.value.agencia;
        contaBancaria.conta = form.value.conta;      
        return contaBancaria;

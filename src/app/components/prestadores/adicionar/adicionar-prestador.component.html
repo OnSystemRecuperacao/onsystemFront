@@ -31,6 +31,7 @@
             <label for="cpf">CPF</label>              
             <p-inputMask id="cpf" name="cpf" mask="999.999.999-99" ngModel [required]="true" #cpf="ngModel"></p-inputMask>
             <small class="p-error" *ngIf="cpf.hasError('required') && cpf.dirty">* O campo CPF é obrigatório.</small>
+            <small class="p-error" *ngIf="!validaDocumento(cpf.value)">*CPF invalido.</small>
         </div>
         <div class="p-field p-col">
           <label for="cnh">CNH</label>
@@ -47,7 +48,7 @@
     <div class="p-fluid p-formgrid p-grid">
         <div class="p-field  p-col-9">
             <label for="name">Endereço</label>
-            <input type="text" name="endereco" pInputText id="endereco"   ngModel/>      
+            <input type="text" name="endereco" pInputText id="endereco"   [(ngModel)]="endereco.logradouro"/>      
         </div>
         <div class="p-field  p-col-3">
             <label for="numero">Número</label>
@@ -58,29 +59,34 @@
     <div class="p-fluid p-formgrid p-grid">
         <div class="p-field p-col-5">
             <label for="cidade">Cidade</label>              
-            <input type="text" name="cidade" pInputText id="cidade" ngModel />  
+            <input type="text" name="cidade" pInputText id="cidade" [(ngModel)]="endereco.cidade" />  
         </div>
 
         <div class="p-field p-col-4">
             <label for="bairro">Bairro</label>              
-            <input type="text" name="bairro" pInputText id="bairro" ngModel/>  
+            <input type="text" name="bairro" pInputText id="bairro" [(ngModel)]="endereco.bairro"/>  
         </div>
         
         <div class="p-field p-col-2">
             <label for="cep">CEP</label>
-            <p-inputMask id="cep" name="cep" mask="99999-999" ngModel></p-inputMask>
+            <p-inputMask #cep id="cep" name="cep" mask="99999-999" (onBlur)="buscaCep(cep.value)" ngModel></p-inputMask>
         </div>        
         
         <div class="p-field p-col">
           <label for="estado">Estado</label>
-          <input type="text" name="estado" pInputText id="estado" ngModel/>  
+          <input type="text" name="estado" pInputText id="estado" [(ngModel)]="endereco.estado"/>  
       </div>
     </div>
     
     <div class="p-fluid p-formgrid p-grid">
         <div class="p-field p-col">
             <label for="banco">Banco</label>
-            <input type="text" id="banco" name="banco" pInputText ngModel/>            
+            <p-dropdown [options]="listaBancos" [(ngModel)]="bancoSelecionado" optionLabel="banco"
+                [showClear]="true" (onChange)="bancoChange($event)" placeholder="Selecione">
+                <ng-template let-banco pTemplate="item">
+                    <div>{{banco.banco}} - {{banco.codigo}}</div>
+                </ng-template>
+            </p-dropdown>
         </div>
 
         <div class="p-field p-col"> 

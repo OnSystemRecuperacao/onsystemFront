@@ -16,24 +16,31 @@ import Utils from 'src/app/utils/utils';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { cpf, cnpj } from 'cpf-cnpj-validator'; 
 import { ListaBancos } from 'src/app/model/vo/lista-bancos';
+import { InteracaoOcorrencia } from 'src/app/model/vo/interacao-ocorrencia';
+import { InteracaoService } from 'src/app/services/interacaoOcorrencia/interacao-service';
+import { Ocorrencia } from 'src/app/model/vo/ocorrencia';
 
 
 @Component({
-  selector: 'editar-cliente',
-  templateUrl: './editar-cliente.component.html',
-  styleUrls: ['./editar-cliente.component.css'],
+  selector: 'visualizar-ocorrencia',
+  templateUrl: './visualizar-ocorrencia.component.html',
+  //styleUrls: ['./visualizar-ocorrencia.component.css'],
   providers: [MessageService]
 })
-export class EditarClienteComponent implements OnInit{
+export class VisualizarOcorrenciaComponent implements OnInit{
     
 
     tipoPessoa = [{}];
 
     tipoPessoaSelecionada = 1;
      
-    idCliente = 0;
+    idOcorrencia = 0;
 
-    cliente = new Cliente();
+    ocorrencia?: Ocorrencia = {};
+
+    interacaoOcorrencia: InteracaoOcorrencia[] = [];
+
+    loading: boolean = true;
 
     endereco: Endereco = new Endereco();
 
@@ -43,7 +50,7 @@ export class EditarClienteComponent implements OnInit{
 
     ngOnInit() {
         this.tipoPessoa = this.comboService.getTipoPessoa()
-        this.buscarCliente();
+        this.buscarOcorrencia();
         this.commomService.getListaBancos().subscribe(dados => {
           console.log(dados);
           this.listaBancos = dados;
@@ -54,31 +61,17 @@ export class EditarClienteComponent implements OnInit{
         private messageService: MessageService, 
         private commomService: CommomService, 
         private comboService: ComboService, 
-        private clienteService: ClienteService,
+        private interacaoService: InteracaoService,
         private route: ActivatedRoute
      ) { }
 
-     buscaCep(cep: String){
-
-      this.commomService.buscaCep(cep).subscribe((data: Endereco) => {
-        console.log(data);    
-        this.endereco = data;           
-      }, error => {
-        this.messageService.add(MessageUtils.onErrorMessage(error));                   
-      } 
-   ); 
-    
-    }
-
-    bancoChange(event: any){
-      this.bancoSelecionado = event.value;
-  }
+  
 
 
-    salvar(form : NgForm){
-        this.cliente = this.parseData(form);        
-        this.editarCliente(form);
-    }
+    // salvar(form : NgForm){
+    //     this.cliente = this.parseData(form);        
+    //     this.editarCliente(form);
+    // }
     
     cancelar(){
        this.commomService.navigate(NavigationEnum.LISTAR_CLIENTES)
@@ -103,30 +96,36 @@ export class EditarClienteComponent implements OnInit{
       else return true;
     }
 
-    private buscarCliente(){
-      let idCliente = <number> this.route.snapshot.params['id'];
-      this.clienteService.readByID(idCliente).subscribe((data: Cliente) => {
-           console.log(data);    
-           this.cliente = data;
-           this.idCliente = <number> data.id
-           this.cliente.telefone = Utils.leftPad(<string> this.cliente.telefone, 11);              
+    private buscarOcorrencia(){
+      //let idOcorrencia = <number> this.route.snapshot.params['id'];
+      console.log(<number> this.route.snapshot.params['id']);
+      let idOcorrencia  = 28;
+
+      this.interacaoService.readByOcorrencia(idOcorrencia).then(response => {
+           console.log(response);    
+           this.interacaoOcorrencia = response;
+           this.loading = false;
+           this.ocorrencia = this.interacaoOcorrencia[0].ocorrencia;
+           this.idOcorrencia = idOcorrencia;
+                      
          }, error => {
            this.messageService.add(MessageUtils.onErrorMessage(error));                   
          } 
-      );      
+      ); 
+         
     }
 
-    private editarCliente(form: NgForm){
-      this.clienteService.update(this.cliente).subscribe((data: Cliente) => {
-          this.messageService.add(MessageUtils.onSuccessMessage("O cliente foi atualizado com sucesso"));       
-      },error => {
-          this.messageService.add(MessageUtils.onErrorMessage(error));        
-      });      
-    }
+    // private editarCliente(form: NgForm){
+    //   this.clienteService.update(this.cliente).subscribe((data: Cliente) => {
+    //       this.messageService.add(MessageUtils.onSuccessMessage("O cliente foi atualizado com sucesso"));       
+    //   },error => {
+    //       this.messageService.add(MessageUtils.onErrorMessage(error));        
+    //   });      
+    // }
 
     private parseData(form: NgForm) : Cliente{
         let cliente: Cliente = {};
-        cliente.id = this.idCliente;
+        cliente.id =1;
         cliente.contaBancaria = this.getDadosBancarios(form);
         cliente.email = form.value.email;
         cliente.endereco = this.getDadosEndereco(form);        

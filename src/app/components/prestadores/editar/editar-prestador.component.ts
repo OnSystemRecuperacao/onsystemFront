@@ -10,6 +10,8 @@ import { ComboService } from "src/app/services/combos/combo.service";
 import { CommomService } from "src/app/services/commons/common.service";
 import { PrestadorService } from "src/app/services/prestadores/prestador-service";
 import MessageUtils from "src/app/utils/message-util";
+import { cpf, cnpj } from 'cpf-cnpj-validator'; 
+import { ListaBancos } from "src/app/model/vo/lista-bancos";
 
 @Component({
     selector: 'editar-prestador',
@@ -26,6 +28,12 @@ export class EditarPrestadorComponent implements OnInit{
    antenista = 0;
 
    escoltaArmada = 0;
+
+   endereco: Endereco = new Endereco();
+
+   listaBancos: ListaBancos[] = [];
+
+   bancoSelecionado!: ListaBancos;
     
    constructor(
         private messageService: MessageService, 
@@ -37,9 +45,25 @@ export class EditarPrestadorComponent implements OnInit{
 
    ngOnInit(): void {
       this.carregarCombos();
-      this.buscarPrestador();      
-   }  
-    
+      this.buscarPrestador();
+      this.commomService.getListaBancos().subscribe(dados => {
+         console.log(dados);
+         this.listaBancos = dados;
+       });      
+   } 
+   
+   bancoChange(event: any){
+      this.bancoSelecionado = event.value;
+  }
+
+   validaDocumento(documento: string){
+      if(documento != ""){
+         return cpf.isValid(documento);
+      }
+      else return true;
+        
+    }
+
    salvar(form: NgForm){
       console.log(form); 
       let prestador = this.parseData(form)
@@ -114,7 +138,8 @@ export class EditarPrestadorComponent implements OnInit{
 
    private getDadosBancarios(form: NgForm): DadosBancarios{
      let contaBancaria: DadosBancarios = {};
-     contaBancaria.banco = form.value.banco;
+     //contaBancaria.banco = form.value.banco;
+     contaBancaria.banco = this.bancoSelecionado.codigo;
      contaBancaria.agencia = form.value.agencia;
      contaBancaria.conta = form.value.conta;     
      return contaBancaria;

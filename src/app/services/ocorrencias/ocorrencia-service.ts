@@ -23,12 +23,15 @@ export class OcorrenciaService{
     }
 
     
-    read(): Observable<Ocorrencia[]> {
-        return this.httpClient.get<Ocorrencia[]>(this.BASE_URL).pipe(retry(2), catchError(this.handleError))
+    read(): Promise<any> {
+        let dados = this.httpClient.get<any>(this.BASE_URL, this.httpOptions).toPromise();
+        console.log(dados);
+        //return this.httpClient.get<any>(this.BASE_URL).pipe(retry(2), catchError(this.handleError))
+        return this.httpClient.get<any>(this.BASE_URL, this.httpOptions).toPromise();
     }
 
-    create(prestador: Ocorrencia): Observable<Ocorrencia> {
-        this.data = this.parseData(prestador);      
+    create(ocorrencia: Ocorrencia): Observable<Ocorrencia> {
+        this.data = this.parseData(ocorrencia);      
         return this.httpClient.post<any>(this.BASE_URL, this.data, this.httpOptions).pipe(catchError(this.handleError));
       }
 
@@ -43,10 +46,9 @@ export class OcorrenciaService{
         return throwError(errorMessage);
       }
 
-      private parseData(prestador: Ocorrencia): any{
-        let data = {
-        }       
-        console.log(JSON.parse(JSON.stringify(data)));
-        return data;
+      private parseData(ocorrencia: Ocorrencia): any{
+        let data = ocorrencia;
+       console.log(JSON.parse(JSON.stringify(data)));
+       return data;
      }
 }
