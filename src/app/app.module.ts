@@ -32,6 +32,8 @@ import { NavbarComponent } from './components/core/navbar/navbar.component';
 import { ListarPrestadorComponent } from './components/prestadores/listar/listar-prestador.component';
 import { AdicionarPrestadorComponent } from './components/prestadores/adicionar/adicionar-prestador.component';
 import { OcorrenciasComponent } from './components/ocorrencias/listar/listar-ocorrencias.component'
+import { AceiteOcorrenciasComponent } from './components/ocorrencias/aceite/aceite-ocorrencias.component'
+
 import { NovaOcorrenciaComponent } from './components/ocorrencias/nova-ocorrencia/nova-ocorrencia.component';
 import { EditarPrestadorComponent } from './components/prestadores/editar/editar-prestador.component';
 import { AdicionarClienteComponent } from './components/clientes/adicionar/adicionar-cliente.component';
@@ -47,6 +49,7 @@ import { JwtHelperService, JwtModule } from '@auth0/angular-jwt';
 import { AuthHttpInterceptor } from './interceptors/auth.http.interceptor';
 import { NaoAutorizadoComponent } from './components/core/nao-autorizado/nao-autorizado.component';
 import {VisualizarOcorrenciaComponent} from './components/ocorrencias/visualizar/visualizar-ocorrencia.component'
+import { DynamicDialogModule } from 'primeng/dynamicdialog';
 
 
 
@@ -73,7 +76,8 @@ export function tokenGetter(): any {
     ListarUsuarioComponent,
     EditarUsuarioComponent,
     AdicionarUsuarioComponent,
-    VisualizarOcorrenciaComponent
+    VisualizarOcorrenciaComponent,
+    AceiteOcorrenciasComponent
   ],
   imports: [
     BrowserModule,
@@ -99,9 +103,13 @@ export function tokenGetter(): any {
     PasswordModule,
     PanelModule,
     ChartModule,
+    DynamicDialogModule,
     JwtModule.forRoot({
       config: {
         tokenGetter,
+        //allowedDomains: ['18.223.1.99:8080'],
+        //disallowedRoutes: ['http://18.223.1.99:8080/onsystem/api/v1/oauth/token']
+
         //allowedDomains: ['3.143.3.15:8080'],
         //disallowedRoutes: ['http://3.143.3.15:8080/onsystem/api/v1/oauth/token']
 

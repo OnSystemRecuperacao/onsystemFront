@@ -19,6 +19,10 @@ import { ListaBancos } from 'src/app/model/vo/lista-bancos';
 import { InteracaoOcorrencia } from 'src/app/model/vo/interacao-ocorrencia';
 import { InteracaoService } from 'src/app/services/interacaoOcorrencia/interacao-service';
 import { Ocorrencia } from 'src/app/model/vo/ocorrencia';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { Usuario } from 'src/app/model/vo/usuario';
+import { Tenancy } from 'src/app/model/vo/tenancy';
+import { OcorrenciaService } from 'src/app/services/ocorrencias/ocorrencia-service';
 
 
 @Component({
@@ -38,23 +42,23 @@ export class VisualizarOcorrenciaComponent implements OnInit{
 
     ocorrencia?: Ocorrencia = {};
 
+    cliente?: Cliente = {};
+
     interacaoOcorrencia: InteracaoOcorrencia[] = [];
 
     loading: boolean = true;
 
-    endereco: Endereco = new Endereco();
+    mensagem: string = "";
 
-    listaBancos: ListaBancos[] = [];
+    interacao: InteracaoOcorrencia = {};
 
-    bancoSelecionado!: ListaBancos;
+    usuarioLogado = new Usuario();  
 
     ngOnInit() {
-        this.tipoPessoa = this.comboService.getTipoPessoa()
         this.buscarOcorrencia();
-        this.commomService.getListaBancos().subscribe(dados => {
-          console.log(dados);
-          this.listaBancos = dados;
-        });
+        if(this.authService.jwtIsLoad()){
+          this.loadUsuarioLogado();
+        }
     }
 
     constructor(
@@ -62,7 +66,9 @@ export class VisualizarOcorrenciaComponent implements OnInit{
         private commomService: CommomService, 
         private comboService: ComboService, 
         private interacaoService: InteracaoService,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private authService: AuthService,
+        private ocorrenciaService: OcorrenciaService
      ) { }
 
   
@@ -98,68 +104,66 @@ export class VisualizarOcorrenciaComponent implements OnInit{
 
     private buscarOcorrencia(){
       //let idOcorrencia = <number> this.route.snapshot.params['id'];
-      console.log(<number> this.route.snapshot.params['id']);
-      let idOcorrencia  = 28;
+      console.log(<number> this.route.snapshot.params['id'] + "- ID SNAP");
+      let idOcorrencia  = <number> this.route.snapshot.params['id'];
 
       this.interacaoService.readByOcorrencia(idOcorrencia).then(response => {
            console.log(response);    
            this.interacaoOcorrencia = response;
-           this.loading = false;
-           this.ocorrencia = this.interacaoOcorrencia[0].ocorrencia;
-           this.idOcorrencia = idOcorrencia;
+           console.log(this.cliente); 
                       
          }, error => {
            this.messageService.add(MessageUtils.onErrorMessage(error));                   
          } 
       ); 
-         
+
+      this.ocorrenciaService.readById(idOcorrencia).then(response => {
+        console.log(response);    
+        this.ocorrencia = response;
+        this.idOcorrencia = idOcorrencia;
+        this.cliente = this.ocorrencia?.tenancyCliente;
+
+        console.log(this.cliente); 
+                   
+      }, error => {
+        this.messageService.add(MessageUtils.onErrorMessage(error));                   
+      } 
+   );
+
+    this.loading = false;
+
     }
 
-    // private editarCliente(form: NgForm){
-    //   this.clienteService.update(this.cliente).subscribe((data: Cliente) => {
-    //       this.messageService.add(MessageUtils.onSuccessMessage("O cliente foi atualizado com sucesso"));       
-    //   },error => {
-    //       this.messageService.add(MessageUtils.onErrorMessage(error));        
-    //   });      
-    // }
+    salvarMensagem(){
+      let oco = new Ocorrencia();
+      oco.id = this.ocorrencia?.id; 
+      this.interacao.mensagem = this.mensagem;
+      this.interacao.ocorrencia = oco;
+      this.interacao.tipoTenancy = this.usuarioLogado.tenancy;
 
-    private parseData(form: NgForm) : Cliente{
-        let cliente: Cliente = {};
-        cliente.id =1;
-        cliente.contaBancaria = this.getDadosBancarios(form);
-        cliente.email = form.value.email;
-        cliente.endereco = this.getDadosEndereco(form);        
-        cliente.informacaoContrato = form.value.informacaoContrato
-        cliente.nome = form.value.nome
-        cliente.nomeResponsavel = form.value.nomeResponsavel;
-        cliente.cpfCnpj = form.value.tipoPessoa == 1 ? form.value.cpf : form.value.cnpj;
-        cliente.incricaoEstadual = form.value.numInscricaoEstadual;
-        cliente.observacoes = form.value.observacoes;
-        cliente.telefone = form.value.telefone;
-        cliente.tipoPessoa = form.value.tipoPessoa;
-        cliente.situacao = "ATIVO"
-        return cliente;  
-     }
+      console.log(this.interacao);
 
-     private getDadosEndereco(form: NgForm): Endereco{
-        let endereco: Endereco = {};
-        endereco.logradouro = form.value.endereco
-        endereco.numero = form.value.numero
-        endereco.cidade = form.value.cidade
-        endereco.bairro = form.value.bairro
-        endereco.cep = form.value.cep
-        endereco.estado = form.value.estado;
-        endereco.pais = "BRASIL"
-        return endereco;
-     }
-  
-     private getDadosBancarios(form: NgForm): DadosBancarios{
-       let contaBancaria: DadosBancarios = {};
-       contaBancaria.banco = this.bancoSelecionado.codigo;
-       contaBancaria.agencia = form.value.agencia;
-       contaBancaria.conta = form.value.conta;       
-       return contaBancaria;
-     }
+      this.interacaoService.create(this.interacao).subscribe((data: any) => {
+        this.messageService.add(MessageUtils.onSuccessMessage("Mensagem enviada"));       
+      },error => {
+        this.messageService.add(MessageUtils.onErrorMessage(error));        
+      },() => {
+        this.interacao = {};
+        this.mensagem = "";
+        window.location.reload();  
+      } 
+    );
+      console.log(this.mensagem);
+    }
+
+    private loadUsuarioLogado(){
+      if(this.authService.jwtIsLoad()){
+        let idTenancy =  <number> this.authService.getUsuarioLogado().id_tenancy
+        this.usuarioLogado.id = this.authService.getUsuarioLogado().id_usuario;
+        this.usuarioLogado.tenancy = new Tenancy(idTenancy);
+      }
+    }
+
   
      private limpar(form: NgForm){
         form.resetForm(); 

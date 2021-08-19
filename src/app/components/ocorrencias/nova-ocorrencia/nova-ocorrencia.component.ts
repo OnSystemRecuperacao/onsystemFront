@@ -11,18 +11,21 @@ import { ComboService } from 'src/app/services/combos/combo.service';
 import { CommomService } from 'src/app/services/commons/common.service';
 import { OcorrenciaService } from 'src/app/services/ocorrencias/ocorrencia-service';
 import MessageUtils from 'src/app/utils/message-util';
+import {DialogService, DynamicDialogModule} from 'primeng/dynamicdialog';
+import { AceiteOcorrenciasComponent } from '../aceite/aceite-ocorrencias.component';
 
 @Component({
   selector: 'app-nova-ocorrencia',
   templateUrl: './nova-ocorrencia.component.html',
-  styleUrls: ['./nova-ocorrencia.component.scss'],
-  providers: [MessageService]
+  providers: [MessageService, DialogService]
 })
 export class NovaOcorrenciaComponent implements OnInit {
 
   ocorrencia: Ocorrencia = {};
 
   ocorrencias: Ocorrencia[] = [];
+
+  id?: number;
 
   itens = [{}]
 
@@ -33,7 +36,8 @@ export class NovaOcorrenciaComponent implements OnInit {
                 private commomService: CommomService, 
                 private comboService: ComboService, 
                 private ocorrenciaService: OcorrenciaService,
-                private authService: AuthService,) { }
+                private authService: AuthService,
+                public dialogService: DialogService) { }
 
   ngOnInit(): void {
     this.carregarCombos()
@@ -49,12 +53,16 @@ export class NovaOcorrenciaComponent implements OnInit {
 
  private adicionarOcorrencia(form: NgForm){
   this.ocorrenciaService.create(this.ocorrencia).subscribe((data: any) => {
+    console.log(data);
+    this.id = data.id;
+    console.log(this.id);
       this.messageService.add(MessageUtils.onSuccessMessage("Ocorrencia cadastrada, buscando prestador"));       
     },error => {
       this.messageService.add(MessageUtils.onErrorMessage(error));        
     },() => {
       this.limpar(form);
-      this.commomService.navigate(NavigationEnum.LISTAR_OCORRENCIAS);   
+      this.show();
+      //this.commomService.navigate(NavigationEnum.LISTAR_OCORRENCIAS);   
     } 
   );      
  }
@@ -92,6 +100,17 @@ carregarCombos(){
     this.usuarioLogado.tenancy = new Tenancy(idTenancy);
 
   }
+}
+
+show() {
+  const ref = this.dialogService.open(AceiteOcorrenciasComponent, {
+    data: {
+        idOcorrencia: this.id
+      },
+      header: 'Lista de Prestadores proximos',
+      width: '70%'
+  });
+  
 }
 
 }

@@ -2,7 +2,7 @@
     <p-table>
         <ng-template pTemplate="caption">
             <div class="p-d-flex p-ai-center p-jc-between">
-                <h5 class="p-m-0">Ocorrencia {{ocorrencia?.id}} (FUNCIONALIDADE EM CONSTRUÇÃO)</h5>
+                <h5 class="p-m-0">Ocorrencia {{ocorrencia?.id}}</h5>
             </div>
         </ng-template>
     </p-table>
@@ -13,7 +13,7 @@
 
     <div class="p-fluid p-formgrid p-grid">
         <div class="p-field p-col">
-            <th>Cliente - PORTO SEGURO CIA DE SEGUROS GERAIS</th>
+            <th>Cliente - {{cliente?.nome}}</th>
         </div>
     </div>
 
@@ -30,7 +30,13 @@
     </div>
     <div class="p-fluid p-formgrid p-grid">
         <div class="p-field p-col">
-            <th>Status - Em andamento </th>
+            <th>Status - {{ocorrencia?.status}}</th>
+        </div>
+    </div>
+
+    <div class="p-fluid p-formgrid p-grid">
+        <div class="p-field p-col">
+            <th>Motivo - {{ocorrencia?.motivo}}</th>
         </div>
     </div>
 
@@ -39,27 +45,30 @@
         <p-divider align="center" type="dashed">
             <div class="p-d-inline-flex p-ai-center">
                 <i class="pi pi-user p-mr-2"></i>
-                <b *ngIf="item.tipoTenancy?.id == 1">Prestador</b>
-                <b *ngIf="item.tipoTenancy?.id == 2">Cliente</b>
-                <b *ngIf="item.tipoTenancy?.id == 3">Central</b>
+                <b *ngIf="item.tipoTenancy?.id == 1">Central - {{item.dataHora | date : 'dd/MM/yyyy HH:mm'}}</b>
+                <b *ngIf="item.tipoTenancy?.id == 2">Cliente - {{item.dataHora | date : 'dd/MM/yyyy HH:mm'}}</b>
+                <b *ngIf="item.tipoTenancy?.id == 3">Prestador - {{item.dataHora | date : 'dd/MM/yyyy HH:mm'}}</b>
             </div>
         </p-divider>
         <p>
-            {{item.observacao}}
+            {{item.mensagem}}
         </p>
     </div>
 
+    <p-divider></p-divider>
 
     <div class="p-fluid p-formgrid p-grid ">
         <div class="p-field p-col">
-            <th>Incluir comentario </th>
-            <textarea name="observacoes" [rows]="5" [cols]="30" pInputTextarea></textarea>
+            <label>Digite sua mensagem</label>
+            <textarea name="mensagem" [rows]="5" [cols]="30" pInputTextarea id="mensagem" [(ngModel)]="mensagem"></textarea>
         </div>
-    </div>
-    <div class="p-field p-col-2">
-        <button pButton pRipple label="Enviar" icon="pi pi-check" class="p-button-success"></button>
+
     </div>
 
+    <div class="p-field p-col-2">
+        <button pButton pRipple label="Enviar" icon="pi pi-check" class="p-button-success" (click)="salvarMensagem()"></button>
+    </div>
+    
 </div>
 
 <p-toast position="top-right" (onClose)="redirectToList($event)"></p-toast>

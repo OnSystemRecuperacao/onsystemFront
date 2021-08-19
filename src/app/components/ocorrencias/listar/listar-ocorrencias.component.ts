@@ -50,8 +50,10 @@ export class OcorrenciasComponent implements OnInit {
 
   visualizar(ocorrencia: Ocorrencia){ 
     this.ocorrencia = ocorrencia;
-    let id = 28;
-    this.commomService.navigateWithParams(NavigationEnum.VISUALIZAR_OCORRENCIA, 28);
+    console.log(ocorrencia);
+    let id = <number> this.ocorrencia.id;
+    console.log("VISUALIZAR - " + id);
+    this.commomService.navigateWithParams(NavigationEnum.VISUALIZAR_OCORRENCIA, id);
   }
 
   cancelar(ocorrencia: Ocorrencia){ 

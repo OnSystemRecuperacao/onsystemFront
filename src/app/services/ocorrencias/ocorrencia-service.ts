@@ -30,6 +30,11 @@ export class OcorrenciaService{
         return this.httpClient.get<any>(this.BASE_URL, this.httpOptions).toPromise();
     }
 
+    readById(idOcorrencia: number): Promise <any> {
+        const url = `${this.BASE_URL}/${idOcorrencia}`;
+        return this.httpClient.get<any>(url, this.httpOptions).toPromise();
+      }
+
     create(ocorrencia: Ocorrencia): Observable<Ocorrencia> {
         this.data = this.parseData(ocorrencia);      
         return this.httpClient.post<any>(this.BASE_URL, this.data, this.httpOptions).pipe(catchError(this.handleError));

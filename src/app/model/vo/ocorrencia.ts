@@ -14,5 +14,7 @@ export class Ocorrencia{
     antenista?: Boolean;
     escoltaArmado?: Boolean;
     reguladorSinis?: Boolean;
+    idPrestador?: number;
+    status?: String;
 
 }

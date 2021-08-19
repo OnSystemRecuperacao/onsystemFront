@@ -108,6 +108,7 @@ export class AdicionarPrestadorComponent implements OnInit{
       prestador.email = form.value.email;
       prestador.antenista = form.value.antenista == 1 ? "SIM" : "NAO";
       prestador.escoltaArmado = form.value.escoltaArmada == 1 ? "SIM" : "NAO";
+      prestador.regSinistro = form.value.regSinistro == 1 ? "SIM" : "NAO";
       prestador.observacoes = "";
       prestador.fotoPrestador = ""
       prestador.situacao = "ATIVO";      

@@ -24,7 +24,7 @@
 
     <ng-template pTemplate="body" let-ocorrencia *ngIf="!ocorrencias.length">
         <tr>
-            <td style="text-align: center;">{{ocorrencia.id}}</td>
+            <td style="text-align: center;">{{ocorrencia.idCentral}}</td>
             <td style="text-align: center;">{{ocorrencia.numeroProcesso}}</td>
             <td style="text-align: center;">{{ocorrencia.status}}</td>
             <td style="text-align: center;">{{ocorrencia.dataAbertura | date : 'dd/MM/yyyy HH:mm'}}</td>

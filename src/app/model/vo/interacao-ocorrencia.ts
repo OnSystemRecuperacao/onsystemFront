@@ -4,7 +4,8 @@ import { Tenancy } from "./tenancy";
 export class InteracaoOcorrencia{
 
     ocorrencia?: Ocorrencia = {} ;
-    observacao?: string;
+    mensagem?: string;
     tipoTenancy?: Tenancy = {};
+    dataHora?: Date;
 
 }
