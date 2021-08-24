@@ -73,7 +73,7 @@ export class AceiteOcorrenciasComponent implements OnInit {
     this.ocorrencia = {};
     this.pre = {};
     this.tempoPrestadorOcorrencia = tempo;
-    this.pre.id = tempo.localizacao?.prestador?.id;
+    this.pre.id = 10;
     this.ocorrencia.id = this.config.data.idOcorrencia;
     console.log("TEMPO PRESTADOR - ");
     console.log(this.pre);

@@ -9,6 +9,8 @@ import { NgForm } from '@angular/forms';
 import { Prestador } from 'src/app/model/vo/prestador';
 import { Endereco } from 'src/app/model/vo/endereco';
 import { DadosBancarios } from 'src/app/model/vo/dados-bancarios';
+import {FileUploadModule} from 'primeng/fileupload';
+import {HttpClientModule} from '@angular/common/http';
 
 import { cpf, cnpj } from 'cpf-cnpj-validator'; 
 import { ListaBancos } from 'src/app/model/vo/lista-bancos';

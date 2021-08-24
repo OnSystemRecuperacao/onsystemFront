@@ -15,7 +15,7 @@ export class NotificacaoService {
 
     constructor(private httpClient: HttpClient) {}
 
-    BASE_URL: string = Utils.makeURLRequest("/notificacaoMobile");
+    BASE_URL: string = Utils.makeURLRequest("/localizacaoPrestador");
     
     data = {};
 
