@@ -19,7 +19,7 @@
 
     <ng-template pTemplate="body" let-tempoPrestadorOcorrencia *ngIf="!tempoPrestadorOcorrencias.length" >
         <tr>
-            <td style="text-align: center;">{{tempoPrestadorOcorrencia.prestador.tenancy.nome}}</td>
+            <td style="text-align: center;">{{tempoPrestadorOcorrencia.localizacao.tenancy.nome}}</td>
             <td style="text-align: center;">{{tempoPrestadorOcorrencia?.tempo}} minutos</td>
             <td style="text-align: center;">Aguardando</td>
             <td style="text-align: center;" >

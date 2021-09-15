@@ -16,7 +16,9 @@ export class Prestador {
   regSinistro?: string  = "";
   escoltaArmado?: string  = "";
   observacoes?: string = "";
-  fotoPrestador?: string = "";
   situacao?: string = "";
+  // fotoCnh?: any ;
+  // fotoPrestador?: any;
+  
  
 }

@@ -204,13 +204,23 @@ export class CommomService {
          {
            label:'Meus Dados',
            icon:'pi pi-fw pi-user-edit',
-           routerLink: [NavigationEnum.DASHBOARD]
+           command: () =>{
+            this.navigateWithParams(NavigationEnum.EDITAR_USUARIOS, localStorage.getItem("id_usuario"))
+           }
+           
          },
          {
             label:'Logoff',
-            icon:'pi pi-fw pi-power-off'
+            icon:'pi pi-fw pi-power-off',
+            command: () => {
+               this.logout();
+           }
          }
       ];
+   }
+   logout() {
+      localStorage.removeItem("access_token");
+      this.navigate(NavigationEnum.LOGIN)
    }
 
    // Manipulação de erros

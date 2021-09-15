@@ -118,7 +118,7 @@ export class EditarPrestadorComponent implements OnInit{
       prestador.antenista = this.antenista == 1 ? "SIM" : "NAO";
       prestador.escoltaArmado = this.escoltaArmada == 1 ? "SIM" : "NAO";
       prestador.observacoes = "";
-      prestador.fotoPrestador = ""
+      //prestador.fotoPrestador = ""
       prestador.situacao = "ATIVO";      
       return prestador;  
    }

@@ -131,6 +131,38 @@
 
     <p-divider></p-divider>
 
+    <div class="p-fluid p-formgrid p-grid">
+
+        <div class="p-field p-col">
+            <label for="fotoPrestador">Foto Prestador</label>  
+            <p-fileUpload 
+                [auto]="true" 
+                [customUpload]="true"
+                (uploadHandler)="onUploadFotoPrestador($event)"
+                accept="image/*"
+                chooseLabel="Buscar" >
+            </p-fileUpload>
+        </div>
+
+        <div class="p-field p-col">
+            <label for="fotoCnh">Foto CNH</label>  
+            <p-fileUpload 
+                [auto]="true" 
+                [customUpload]="true"
+                (uploadHandler)="onUploadFotoCnh($event)"
+                accept="image/*"
+                chooseLabel="Buscar" >
+            </p-fileUpload>
+        </div>
+
+        <!-- <div class="p-field p-col-2">
+            <button pButton pRipple label="VER" icon="pi pi-check" class="p-button-success" (click)="ver()"></button> 
+        </div>       -->
+
+    </div>
+
+    <p-divider></p-divider>
+
     <div class="p-fluid p-formgrid p-grid  p-jc-end">
         <div class="p-field p-col-2">
             <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-danger" (click)="cancelar()"></button> 

@@ -100,6 +100,7 @@ export class AuthService {
     private decodeToken(token : string){
         this.jwtPayload = this.jwtHelper.decodeToken(token);
         localStorage.setItem("access_token", token);  
+        localStorage.setItem("id_usuario", this.jwtPayload["id_usuario"])
     }
 
    

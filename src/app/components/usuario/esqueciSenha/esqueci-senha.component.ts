@@ -19,10 +19,10 @@ import { Tenancy } from 'src/app/model/vo/tenancy';
 
 @Component({
   selector: 'app-ocorrencias',
-  templateUrl: './aceite-ocorrencias.component.html',
+  templateUrl: './esqueci-senha.component.html',
   providers: [MessageService]
 })
-export class AceiteOcorrenciasComponent implements OnInit {
+export class EsqueciSenhaComponent implements OnInit {
 
   dialog: boolean = false;
 
@@ -53,57 +53,16 @@ export class AceiteOcorrenciasComponent implements OnInit {
   
 
   ngOnInit() {
-    console.log(this.config.data.idOcorrencia);
-    this.buscarPrestadores()
-  }
-
-  buscarPrestadores(){
-    this.ocorrencia = this.config.data.novaOcorrencia;
-    console.log(this.config.data.idOcorrencia)
-    this.localizacaoPrestadorService.buscarPrestadorLocalizacao(this.config.data.idOcorrencia).then(response => {
-      this.tempoPrestadorOcorrencias = response; 
-      console.log(this.tempoPrestadorOcorrencias);
-      this.loading = false;      
-    }).catch(error => 
-      this.messageService.add(MessageUtils.onErrorMessage(error))
-    );    
-  }
-
-  aprovar(tempo: TempoPrestadorOcorrencia){
-    this.tempoPrestadorOcorrencia = {};
-    this.ocorrencia = {};
-    this.pre = {};
-    this.tempoPrestadorOcorrencia = tempo;
-    this.pre.id = this.tempoPrestadorOcorrencia.localizacao?.prestador?.id;
-    this.ocorrencia.id = this.config.data.idOcorrencia;
-    console.log("TEMPO PRESTADOR - ");
-    console.log(this.tempoPrestadorOcorrencia);
-    console.log("OCORRENCIA - ");
-    console.log(this.ocorrencia);
-    console.log("TEMPO ");
-    console.log(tempo);
-    console.log("TENANCY ID ");
-    console.log(tempo.idPrestador);
-
-    this.notificacao.prestador = new Tenancy(tempo.idPrestador!);
-    this.notificacao.ocorrencia = this.ocorrencia;
-    console.log(this.notificacao);
-    this.notificacaoService.notificarPrestador(this.notificacao).then(response => {
-      this.tempoPrestadorOcorrencias = response; 
-      console.log(this.tempoPrestadorOcorrencias);
-      this.loading = false;      
-    }).catch(error => 
-      this.messageService.add(MessageUtils.onErrorMessage(error))
-    );    
-
-    this.messageService.add(MessageUtils.onSuccessMessage("Prestador notificado"));
-    this.ref.close();
-    this.commomService.navigateByUrl(NavigationEnum.LISTAR_OCORRENCIAS)
   }
 
   redirectToList(event: any){
     this.commomService.navigateByUrl(NavigationEnum.LISTAR_OCORRENCIAS)
   }
+
+
+  submit(form: NgForm){ 
+    
+  } 
 
 }
 

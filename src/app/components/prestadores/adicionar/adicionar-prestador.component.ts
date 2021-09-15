@@ -34,6 +34,10 @@ export class AdicionarPrestadorComponent implements OnInit{
 
    bancoSelecionado!: ListaBancos;
 
+   fotoCnh: any[] = [];
+
+   fotoPrestador: any[] = [];
+
    constructor(
       private messageService: MessageService, 
       private commomService: CommomService, 
@@ -48,6 +52,24 @@ export class AdicionarPrestadorComponent implements OnInit{
       this.listaBancos = dados;
     });
    }
+
+
+onUploadFotoCnh(event: { files: any; }) {
+  for(let file of event.files) {
+      this.fotoCnh.push(file);
+  }
+  
+  this.messageService.add({severity: 'info', summary: 'File Uploaded', detail: ''});
+}
+
+onUploadFotoPrestador(event: { files: any; }) {
+  for(let file of event.files) {
+      this.fotoPrestador = file;
+  }
+
+  this.messageService.add({severity: 'info', summary: 'File Uploaded', detail: ''});
+}
+
 
    bancoChange(event: any){
       this.bancoSelecionado = event.value;
@@ -73,7 +95,29 @@ export class AdicionarPrestadorComponent implements OnInit{
         
     }
 
-   salvar(form: NgForm){     
+    ver(){
+      const reader = new FileReader();
+
+      //const teste = reader.readAsDataURL(this.fotoCnh[0]);
+
+      let file = this.fotoCnh[0];
+      let formData = new FormData();
+      formData.append('file', file);
+
+      console.log("TESTE")
+      console.log(formData)
+
+      console.log("foto Prestador ")
+      console.log(this.fotoPrestador)
+      //console.log(this.fotoPrestador?.arrayBuffer)
+  
+      console.log("foto CNH")
+      console.log(this.fotoCnh)
+
+    }
+
+   salvar(form: NgForm){  
+    
      this.prestador = this.parseData(form)
      this.adicionarPrestador(form);
     }      
@@ -112,8 +156,20 @@ export class AdicionarPrestadorComponent implements OnInit{
       prestador.escoltaArmado = form.value.escoltaArmada == 1 ? "SIM" : "NAO";
       prestador.regSinistro = form.value.regSinistro == 1 ? "SIM" : "NAO";
       prestador.observacoes = "";
-      prestador.fotoPrestador = ""
-      prestador.situacao = "ATIVO";      
+      prestador.situacao = "ATIVO";
+      
+      // if(this.fotoCnh.length > 0){
+      //   let formData = new FormData();
+      //   formData.append('file', this.fotoCnh[0]);
+      //   prestador.fotoCnh = formData;
+
+      // }
+      // if(this.fotoPrestador.length > 0){
+      //   let formData = new FormData();
+      //   formData.append('file', this.fotoCnh[0]);
+      //   prestador.fotoPrestador = formData;
+      // }
+      
       return prestador;  
    }
 

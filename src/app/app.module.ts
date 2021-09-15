@@ -33,6 +33,7 @@ import { ListarPrestadorComponent } from './components/prestadores/listar/listar
 import { AdicionarPrestadorComponent } from './components/prestadores/adicionar/adicionar-prestador.component';
 import { OcorrenciasComponent } from './components/ocorrencias/listar/listar-ocorrencias.component'
 import { AceiteOcorrenciasComponent } from './components/ocorrencias/aceite/aceite-ocorrencias.component'
+import {EsqueciSenhaComponent} from './components/usuario/esqueciSenha/esqueci-senha.component'
 
 import { NovaOcorrenciaComponent } from './components/ocorrencias/nova-ocorrencia/nova-ocorrencia.component';
 import { EditarPrestadorComponent } from './components/prestadores/editar/editar-prestador.component';
@@ -50,6 +51,7 @@ import { AuthHttpInterceptor } from './interceptors/auth.http.interceptor';
 import { NaoAutorizadoComponent } from './components/core/nao-autorizado/nao-autorizado.component';
 import {VisualizarOcorrenciaComponent} from './components/ocorrencias/visualizar/visualizar-ocorrencia.component'
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
+import { FileUploadModule } from 'primeng/fileupload';
 
 
 
@@ -77,9 +79,11 @@ export function tokenGetter(): any {
     EditarUsuarioComponent,
     AdicionarUsuarioComponent,
     VisualizarOcorrenciaComponent,
-    AceiteOcorrenciasComponent
+    AceiteOcorrenciasComponent,
+    EsqueciSenhaComponent
   ],
   imports: [
+    FileUploadModule,
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,

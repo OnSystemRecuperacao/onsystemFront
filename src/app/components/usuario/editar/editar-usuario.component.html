@@ -2,7 +2,7 @@
     <p-table>
         <ng-template pTemplate="caption">
             <div class="p-d-flex p-ai-center p-jc-between">
-                <h5 class="p-m-0">Ativar/Desativar Usuários</h5>        
+                <h5 class="p-m-0">Meus dados</h5>        
             </div>
         </ng-template>
     </p-table>
@@ -14,7 +14,7 @@
         <div class="p-fluid p-formgrid p-grid">
             <div class="p-field p-col">
                 <label for="nome">Nome</label>
-                <input type="text" name="nome" pInputText id="nome" #nome="ngModel" [(ngModel)]="usuario.nome" autofocus ngModel required disabled="true"/>
+                <input type="text" name="nome" pInputText id="nome" #nome="ngModel" [(ngModel)]="usuario.nome" autofocus ngModel required />
                 <small class="p-error" *ngIf="nome.hasError('required') && nome.dirty">* O campo Nome é obrigatório.</small>                
             </div>
             <div class="p-field p-col">
@@ -32,11 +32,11 @@
                 <small class="p-error" *ngIf="email.hasError('email') && email.dirty">* Informe um email válido.</small>   
             </div>
 
-            <div class="p-field p-col">
+            <!-- <div class="p-field p-col">
                 <label for="senha">Senha</label>
                 <input type="password" pInputText ngModel name="senha" #senha="ngModel" [(ngModel)]="usuario.senha" required disabled="true">
                 <small class="p-error" *ngIf="senha.hasError('required') && senha.dirty">* O campo Senha é obrigatório.</small>
-            </div>     
+            </div>      -->
         </div>
 
         
