@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ComboService } from 'src/app/services/combos/combo.service';
 import { PrestadorService } from 'src/app/services/prestadores/prestador-service';
 import {MessageService} from 'primeng/api';
 import  MessageUtils from 'src/app/utils/message-util';
 import { CommomService } from 'src/app/services/commons/common.service';
 import { NavigationEnum } from 'src/app/model/enums/navigation.enum';
-import { NgForm } from '@angular/forms';
+import { FormBuilder, FormGroup, NgForm, Validators  } from '@angular/forms';
 import { Prestador } from 'src/app/model/vo/prestador';
 import { Endereco } from 'src/app/model/vo/endereco';
 import { DadosBancarios } from 'src/app/model/vo/dados-bancarios';
@@ -24,12 +24,38 @@ import { Usuario } from 'src/app/model/vo/usuario';
 import { Tenancy } from 'src/app/model/vo/tenancy';
 import { OcorrenciaService } from 'src/app/services/ocorrencias/ocorrencia-service';
 
+import * as firebase from 'firebase/app';
+import * as database from 'firebase/database';
+import { getDatabase, onValue, ref, set } from 'firebase/database';
+import { ThisReceiver } from '@angular/compiler';
+import { UsuarioService } from 'src/app/services/usuario/usuario-service';
+
+export const snapshotToArray = (snapshot: any, identificacaoMsg?: any[]) => {
+  const returnArr: any[] = [];
+
+  snapshot.forEach((childSnapshot: any) => {
+    identificacaoMsg?.forEach(function(i){
+      if(childSnapshot.key == i){
+        const item = childSnapshot.val();
+        console.log("SNAP OCORRENCIA")
+        console.log(childSnapshot)
+        console.log(childSnapshot.key)
+        item.key = childSnapshot.key;
+        returnArr.push(item);
+      }
+    })
+    
+
+  });
+
+  return returnArr;
+};
 
 @Component({
   selector: 'visualizar-ocorrencia',
   templateUrl: './visualizar-ocorrencia.component.html',
   //styleUrls: ['./visualizar-ocorrencia.component.css'],
-  providers: [MessageService]
+  providers: [MessageService, FormBuilder]
 })
 export class VisualizarOcorrenciaComponent implements OnInit{
     
@@ -54,11 +80,31 @@ export class VisualizarOcorrenciaComponent implements OnInit{
 
     usuarioLogado = new Usuario();  
 
+    chatForm?: FormGroup;
+
+    chats: any[] | undefined;
+
+    identificacaoMsg: String[] = [];
+
+    @ViewChild('chatcontent') chatcontent: ElementRef | undefined;
+    
+    scrolltop: number = 0;
+
+    roomname = '';
+
     ngOnInit() {
         this.buscarOcorrencia();
         if(this.authService.jwtIsLoad()){
           this.loadUsuarioLogado();
         }
+
+        this.chatForm = this.formBuilder.group({
+          'message' : [null, Validators.required]
+        });
+
+      this.buscarMensagens();
+
+     
     }
 
     constructor(
@@ -68,39 +114,58 @@ export class VisualizarOcorrenciaComponent implements OnInit{
         private interacaoService: InteracaoService,
         private route: ActivatedRoute,
         private authService: AuthService,
-        private ocorrenciaService: OcorrenciaService
-     ) { }
+        private ocorrenciaService: OcorrenciaService,
+        private formBuilder: FormBuilder,
+        private usuarioService: UsuarioService
+     ) { 
 
-  
+      const db = getDatabase();
+      const starCountRef = ref(db, '/ocorrencia');
+      onValue(starCountRef, (snapshot) => {
+        this.chats = [];
+        this.chats = snapshotToArray(snapshot, this.identificacaoMsg);
+       
+      });
+       
+     }
 
+     writeUserData() {
+      const db = getDatabase();
+      var date = new Date().toString();
+      console.log(date);
 
-    // salvar(form : NgForm){
-    //     this.cliente = this.parseData(form);        
-    //     this.editarCliente(form);
-    // }
-    
-    cancelar(){
-       this.commomService.navigate(NavigationEnum.LISTAR_CLIENTES)
+      set(ref(db, 'ocorrencia/' + this.ocorrencia?.id + '/' + date), {
+        username:  this.usuarioLogado.nome,
+        email:  this.usuarioLogado.email,
+        message: 'teste5',
+        idOcorrencia: this.ocorrencia?.id
+        //profile_picture : imageUrl
+      });
     }
 
+  
+    validaMensagem(idOcorrencia: string){
+      return this.ocorrencia?.id?.toString() == idOcorrencia;
+
+    }
+
+    buscarMensagens() {
+      let idOcorrencia  = <number> this.route.snapshot.params['id'];
+      const db = getDatabase();
+      const starCountRef = ref(db, '/ocorrencia');
+      onValue(starCountRef, (snapshot) => {
+        this.chats = [];
+        this.chats = snapshotToArray(snapshot, this.identificacaoMsg);
+        //setTimeout(() => this.scrolltop = this.chatcontent.nativeElement.scrollHeight, 500);
+      });
+    }
+
+
+  
     tipoPessoaChange(event: any){
         this.tipoPessoaSelecionada = event.value;
     }
-
-    redirectToList(event: any){
-      this.commomService.navigateByUrl(NavigationEnum.LISTAR_CLIENTES)
-    }
-
-    validaDocumento(documento: string, tipoPessoa: number){
-      console.log(documento);
-      if(tipoPessoa == 1 && documento != ""){
-        return cpf.isValid(documento);
-      }
-      else if(tipoPessoa == 2 && documento != "") {
-        return cnpj.isValid(documento);
-      }
-      else return true;
-    }
+ 
 
     private buscarOcorrencia(){
       //let idOcorrencia = <number> this.route.snapshot.params['id'];
@@ -135,31 +200,69 @@ export class VisualizarOcorrenciaComponent implements OnInit{
     }
 
     salvarMensagem(){
-      let oco = new Ocorrencia();
-      oco.id = this.ocorrencia?.id; 
-      this.interacao.mensagem = this.mensagem;
-      this.interacao.ocorrencia = oco;
-      this.interacao.tipoTenancy = this.usuarioLogado.tenancy;
+      console.log(this.ocorrencia?.id);
 
-      console.log(this.interacao);
+      const db = getDatabase();
+      var tipo_tenancy = <String> this.authService.getUsuarioLogado()["tipo_tenancy"].id
+      var date = new Date().toString();
+      var array = new Uint32Array(1);
+      var newIdOcorrencia = window.crypto.getRandomValues(array).toString() + this.ocorrencia?.id;
+      console.log(newIdOcorrencia);
+      this.identificacaoMsg?.push(newIdOcorrencia);
+      console.log("AQUI")
+      
+      console.log(this.identificacaoMsg)
+   
+      set(ref(db, 'ocorrencia/' +  newIdOcorrencia), {
+        usuario:  this.usuarioLogado.nome,
+        tenancy: this.usuarioLogado.tenancy?.id,
+        email:  this.usuarioLogado.email,
+        mensagem: this.mensagem,
+        idOcorrencia: this.ocorrencia?.id,
+        tipoTenancy: tipo_tenancy,
+        imagem : "",
+        dataHora: date
+      });
+      this.messageService.add(MessageUtils.onSuccessMessage("Mensagem enviada"));
+      this.mensagem = "";
 
-      this.interacaoService.create(this.interacao).subscribe((data: any) => {
-        this.messageService.add(MessageUtils.onSuccessMessage("Mensagem enviada"));       
-      },error => {
-        this.messageService.add(MessageUtils.onErrorMessage(error));        
-      },() => {
-        this.interacao = {};
-        this.mensagem = "";
-        window.location.reload();  
-      } 
-    );
-      console.log(this.mensagem);
+    //   console.log('testando chat');
+    //   this.writeUserData();
+    //   console.log(this.chats);
+    //   let oco = new Ocorrencia();
+    //   oco.id = this.ocorrencia?.id; 
+    //   this.interacao.mensagem = this.mensagem;
+    //   this.interacao.ocorrencia = oco;
+    //   this.interacao.tipoTenancy = this.usuarioLogado.tenancy;
+
+    //   console.log(this.interacao);
+
+    //   this.interacaoService.create(this.interacao).subscribe((data: any) => {
+    //     this.messageService.add(MessageUtils.onSuccessMessage("Mensagem enviada"));       
+    //   },error => {
+    //     this.messageService.add(MessageUtils.onErrorMessage(error));        
+    //   },() => {
+        
+    //     window.location.reload();  
+    //   } 
+    // );
+    //   this.interacao = {};
+    //   this.mensagem = "";
+    //   this.commomService.navigateWithParams(NavigationEnum.VISUALIZAR_OCORRENCIA, oco.id);
+    //   console.log(this.mensagem);
     }
 
     private loadUsuarioLogado(){
       if(this.authService.jwtIsLoad()){
         let idTenancy =  <number> this.authService.getUsuarioLogado().id_tenancy
-        this.usuarioLogado.id = this.authService.getUsuarioLogado().id_usuario;
+        this.usuarioService.readByID(idTenancy, this.authService.getUsuarioLogado().id_usuario).then(response => {
+          this.usuarioLogado = response;
+                     
+        }, error => {
+          this.messageService.add(MessageUtils.onErrorMessage(error));                   
+        } 
+     ); 
+        //this.usuarioLogado.id = this.authService.getUsuarioLogado().id_usuario;
         this.usuarioLogado.tenancy = new Tenancy(idTenancy);
       }
     }
@@ -169,3 +272,5 @@ export class VisualizarOcorrenciaComponent implements OnInit{
         form.resetForm(); 
      }
 }
+
+

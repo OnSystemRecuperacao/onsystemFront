@@ -41,7 +41,7 @@
     </div>
 
 
-    <div class="card" *ngFor="let item of interacaoOcorrencia">
+    <!-- <div class="card" *ngFor="let item of interacaoOcorrencia">
         <p-divider align="center" type="dashed">
             <div class="p-d-inline-flex p-ai-center">
                 <i class="pi pi-user p-mr-2"></i>
@@ -53,7 +53,24 @@
         <p>
             {{item.mensagem}}
         </p>
+    </div> -->
+
+    <div class="card" *ngFor="let chat of chats" >
+        <p-divider align="center" type="dashed">
+            <div class="p-d-inline-flex p-ai-center">
+                <i class="pi pi-user p-mr-2"></i>
+                <b *ngIf="chat.tipoTenancy == 0">Open Code - {{chat.dataHora | date : 'dd/MM/yyyy HH:mm'}}</b>
+                <b *ngIf="chat.tipoTenancy == 1">Central - {{chat.dataHora | date : 'dd/MM/yyyy HH:mm'}}</b>
+                <b *ngIf="chat.tipoTenancy == 2">Cliente - {{chat.dataHora | date : 'dd/MM/yyyy HH:mm'}}</b>
+                <b *ngIf="chat.tipoTenancy == 3">Prestador - {{chat.dataHora | date : 'dd/MM/yyyy HH:mm'}}</b>
+            </div>
+        </p-divider>
+        <p *ngIf="validaMensagem(chat.idOcorrencia)">
+            {{chat.mensagem}}
+        </p>
     </div>
+
+    <!-- *ngIf="validaMensagem(chat.idOcorrencia)" -->
 
     <p-divider></p-divider>
 
@@ -71,4 +88,4 @@
     
 </div>
 
-<p-toast position="top-right" (onClose)="redirectToList($event)"></p-toast>
+<p-toast position="top-right"></p-toast>

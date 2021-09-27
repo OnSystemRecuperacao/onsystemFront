@@ -5,8 +5,8 @@
 export const environment = {
   production: false,
   //baseUrl: 'http://3.143.3.15:8080/onsystem/api/v1'
-  baseUrl: 'http://18.223.1.99:8080/onsystem/api/v1'  
-  // baseUrl: 'http://localhost:8080/onsystem/api/v1'  
+  //baseUrl: 'http://18.223.1.99:8080/onsystem/api/v1'  
+  baseUrl: 'http://localhost:8080/onsystem/api/v1'  
 };
 
 /*

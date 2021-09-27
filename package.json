@@ -25,6 +25,7 @@
     "chart.js": "^2.9.4",
     "cpf-cnpj-validator": "^1.0.3",
     "file-saver": "^2.0.5",
+    "firebase": "^9.0.2",
     "jwt-decode": "^3.1.2",
     "primeflex": "^2.0.0",
     "primeicons": "^4.1.0",
