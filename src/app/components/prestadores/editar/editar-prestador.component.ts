@@ -88,6 +88,7 @@ export class EditarPrestadorComponent implements OnInit{
 
    private buscarPrestador(){
       let idPrestador = <number> this.route.snapshot.params['id'];
+      
       this.prestadorService.readByID(idPrestador).subscribe((data: Prestador) => {
            console.log(data)
            this.prestador = data; 
@@ -139,9 +140,14 @@ export class EditarPrestadorComponent implements OnInit{
    private getDadosBancarios(form: NgForm): DadosBancarios{
      let contaBancaria: DadosBancarios = {};
      //contaBancaria.banco = form.value.banco;
-     contaBancaria.banco = this.bancoSelecionado.codigo;
-     contaBancaria.agencia = form.value.agencia;
-     contaBancaria.conta = form.value.conta;     
+   //   contaBancaria.banco = this.bancoSelecionado.codigo;
+   //   contaBancaria.agencia = form.value.agencia;
+   //   contaBancaria.conta = form.value.conta;     
+
+     contaBancaria.banco = this.prestador.contaBancaria?.banco;
+     contaBancaria.agencia = this.prestador.contaBancaria?.agencia;
+     contaBancaria.conta = this.prestador.contaBancaria?.conta; 
+
      return contaBancaria;
    }
 

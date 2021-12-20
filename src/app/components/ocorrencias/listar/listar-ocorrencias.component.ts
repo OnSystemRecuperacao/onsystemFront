@@ -6,6 +6,9 @@ import { CommomService } from 'src/app/services/commons/common.service';
 import { OcorrenciaService } from 'src/app/services/ocorrencias/ocorrencia-service';
 import MessageUtils from 'src/app/utils/message-util';
 import * as FileSaver from 'file-saver';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { Usuario } from 'src/app/model/vo/usuario';
+import { Tenancy } from 'src/app/model/vo/tenancy';
 
 
 @Component({
@@ -24,13 +27,19 @@ export class OcorrenciasComponent implements OnInit {
 
   loading: boolean = true;
 
+  usuarioLogado = new Usuario();  
+
 
   constructor(private messageService: MessageService, 
     private ocorrenciaService: OcorrenciaService,
-    private commomService: CommomService) { }
+    private commomService: CommomService,
+    private authService: AuthService,) { }
   
 
   ngOnInit(): void {
+    if(this.authService.jwtIsLoad()){
+      this.loadUsuarioLogado();
+    }
     this.listarOcorrencias()
   }
 
@@ -39,8 +48,8 @@ export class OcorrenciasComponent implements OnInit {
   };
 
   listarOcorrencias(){
-    //let idTenancy = <number> this.usuarioLogado.tenancy?.id;
-    this.ocorrenciaService.read().then(response => {
+    let idTenancy = <number> this.usuarioLogado.tenancy?.id;
+    this.ocorrenciaService.readByCliente(idTenancy).then(response => {
       this.ocorrencias = response; 
       this.loading = false;      
     }).catch(error => 
@@ -78,6 +87,15 @@ saveAsExcelFile(buffer: any, fileName: string): void {
         type: EXCEL_TYPE
     });
     FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
+}
+
+private loadUsuarioLogado(){
+  if(this.authService.jwtIsLoad()){
+    let idTenancy =  <number> this.authService.getUsuarioLogado().id_tenancy
+    this.usuarioLogado.id = this.authService.getUsuarioLogado().id_usuario;
+    this.usuarioLogado.tenancy = new Tenancy(idTenancy);
+
+  }
 }
 
 }

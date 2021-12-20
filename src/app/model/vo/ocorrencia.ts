@@ -16,5 +16,6 @@ export class Ocorrencia{
     reguladorSinis?: Boolean;
     idPrestador?: number;
     status?: String;
+    idCentral?: String;
 
 }

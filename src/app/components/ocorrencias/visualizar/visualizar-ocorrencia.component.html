@@ -41,32 +41,18 @@
     </div>
 
 
-    <!-- <div class="card" *ngFor="let item of interacaoOcorrencia">
-        <p-divider align="center" type="dashed">
-            <div class="p-d-inline-flex p-ai-center">
-                <i class="pi pi-user p-mr-2"></i>
-                <b *ngIf="item.tipoTenancy?.id == 1">Central - {{item.dataHora | date : 'dd/MM/yyyy HH:mm'}}</b>
-                <b *ngIf="item.tipoTenancy?.id == 2">Cliente - {{item.dataHora | date : 'dd/MM/yyyy HH:mm'}}</b>
-                <b *ngIf="item.tipoTenancy?.id == 3">Prestador - {{item.dataHora | date : 'dd/MM/yyyy HH:mm'}}</b>
-            </div>
-        </p-divider>
-        <p>
-            {{item.mensagem}}
-        </p>
-    </div> -->
-
     <div class="card" *ngFor="let chat of chats" >
         <p-divider align="center" type="dashed">
             <div class="p-d-inline-flex p-ai-center">
                 <i class="pi pi-user p-mr-2"></i>
-                <b *ngIf="chat.tipoTenancy == 0">Open Code - {{chat.dataHora | date : 'dd/MM/yyyy HH:mm'}}</b>
-                <b *ngIf="chat.tipoTenancy == 1">Central - {{chat.dataHora | date : 'dd/MM/yyyy HH:mm'}}</b>
-                <b *ngIf="chat.tipoTenancy == 2">Cliente - {{chat.dataHora | date : 'dd/MM/yyyy HH:mm'}}</b>
-                <b *ngIf="chat.tipoTenancy == 3">Prestador - {{chat.dataHora | date : 'dd/MM/yyyy HH:mm'}}</b>
+                <b *ngIf="chat.user!.tipoTenancy == 0">Open Code - {{chat.createdAt | date : 'dd/MM/yyyy HH:mm'}}</b>
+                <b *ngIf="chat.user!.tipoTenancy == 1">Central - {{chat.createdAt | date : 'dd/MM/yyyy HH:mm'}}</b>
+                <b *ngIf="chat.user!.tipoTenancy == 2">Cliente - {{chat.createdAt | date : 'dd/MM/yyyy HH:mm'}}</b>
+                <b *ngIf="chat.user!.tipoTenancy == 3">Prestador - {{chat.createdAt | date : 'dd/MM/yyyy HH:mm'}}</b>
             </div>
         </p-divider>
-        <p *ngIf="validaMensagem(chat.idOcorrencia)">
-            {{chat.mensagem}}
+        <p>
+            {{chat.text}}
         </p>
     </div>
 
@@ -77,15 +63,32 @@
     <div class="p-fluid p-formgrid p-grid ">
         <div class="p-field p-col">
             <label>Digite sua mensagem</label>
-            <textarea name="mensagem" [rows]="5" [cols]="30" pInputTextarea id="mensagem" [(ngModel)]="mensagem"></textarea>
+            <textarea name="mensagem" [rows]="5" [cols]="30" pInputTextarea id="mensagem" [(ngModel)]="mensagemEnviar"></textarea>
         </div>
 
     </div>
 
     <div class="p-field p-col-2">
-        <button pButton pRipple label="Enviar" icon="pi pi-check" class="p-button-success" (click)="salvarMensagem()"></button>
+        <button pButton pRipple label="Enviar" icon="pi pi-check" class="p-button-success" (click)="enviarMensagem()"></button>
+    </div>
+
+    <p-divider></p-divider>
+
+    <div class="p-field p-col-2">
+        <button pButton pRipple label="Encerrar ocorrencia" icon="pi pi-check" class="p-button-danger" (click)="encerrar()"></button>
     </div>
     
 </div>
+
+<p-confirmDialog 
+        [style]="{width: '50vw'}" 
+        key="positionDialog" 
+        [position]="position" 
+        [baseZIndex]="10000" 
+        acceptLabel="SIM"
+        acceptButtonStyleClass="p-button-success"
+        rejectLabel="NÃO"
+        rejectButtonStyleClass="p-button-danger">
+</p-confirmDialog>
 
 <p-toast position="top-right"></p-toast>

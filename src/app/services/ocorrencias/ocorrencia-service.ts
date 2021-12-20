@@ -10,6 +10,9 @@ import Utils from "src/app/utils/utils";
 })
 
 export class OcorrenciaService{
+  
+  
+  
 
     data = {}
 
@@ -29,6 +32,15 @@ export class OcorrenciaService{
         //return this.httpClient.get<any>(this.BASE_URL).pipe(retry(2), catchError(this.handleError))
         return this.httpClient.get<any>(this.BASE_URL, this.httpOptions).toPromise();
     }
+    readByCliente(idCliente: number): Promise<any> {
+      const url = `${this.BASE_URL}/listarPorCliente/${idCliente}`;
+      let dados = this.httpClient.get<any>(url, this.httpOptions).toPromise();
+      console.log(dados);
+      //return this.httpClient.get<any>(this.BASE_URL).pipe(retry(2), catchError(this.handleError))
+      return this.httpClient.get<any>(this.BASE_URL, this.httpOptions).toPromise();
+  }
+
+    
 
     readById(idOcorrencia: number): Promise <any> {
         const url = `${this.BASE_URL}/${idOcorrencia}`;
@@ -38,6 +50,12 @@ export class OcorrenciaService{
     create(ocorrencia: Ocorrencia): Observable<Ocorrencia> {
         this.data = this.parseData(ocorrencia);      
         return this.httpClient.post<any>(this.BASE_URL, this.data, this.httpOptions).pipe(catchError(this.handleError));
+      }
+
+      encerrarOcorrencia(obs: String, idOcorrencia: number): Promise<any> {
+        const url = `${this.BASE_URL}/encerrarOcorrenciaCliente/${idOcorrencia}`; 
+        console.log(url)
+        return this.httpClient.put(url, this.httpOptions).toPromise();
       }
 
     // Manipulação de erros

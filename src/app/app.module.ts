@@ -52,6 +52,7 @@ import { NaoAutorizadoComponent } from './components/core/nao-autorizado/nao-aut
 import {VisualizarOcorrenciaComponent} from './components/ocorrencias/visualizar/visualizar-ocorrencia.component'
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { FileUploadModule } from 'primeng/fileupload';
+import { EncerrarOcorrenciaComponent } from './components/ocorrencias/encerrar/encerrar-ocorrencia.component';
 
 
 
@@ -80,7 +81,8 @@ export function tokenGetter(): any {
     AdicionarUsuarioComponent,
     VisualizarOcorrenciaComponent,
     AceiteOcorrenciasComponent,
-    EsqueciSenhaComponent
+    EsqueciSenhaComponent,
+    EncerrarOcorrenciaComponent
   ],
   imports: [
     FileUploadModule,

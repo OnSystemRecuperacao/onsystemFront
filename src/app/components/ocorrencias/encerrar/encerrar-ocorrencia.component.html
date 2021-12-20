@@ -1,0 +1,22 @@
+<div class="container" style="margin-top: 15px;">
+    <form id="obs" #obs="ngForm" >
+  
+        <div class="p-fluid p-formgrid p-grid">
+            <div class="p-field p-col">
+                <label for="observacao">Observação</label>
+                <textarea name="observacao" [rows]="5" [cols]="30" pInputTextarea ngModel required></textarea>
+            </div>
+        </div>
+    
+        <div class="p-fluid p-formgrid p-grid  p-jc-end">
+            
+            <div class="p-field p-col-2">
+                <button pButton pRipple label="Salvar" icon="pi pi-check" class="p-button-success"  (click)="salvar(obs)"></button> 
+            </div>       
+        </div>
+    
+    </form>
+    
+</div>
+
+<p-toast position="top-right" (onClose)="redirectToList($event)"></p-toast>

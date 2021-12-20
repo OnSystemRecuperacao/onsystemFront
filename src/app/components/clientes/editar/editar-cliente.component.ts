@@ -156,9 +156,13 @@ export class EditarClienteComponent implements OnInit{
   
      private getDadosBancarios(form: NgForm): DadosBancarios{
        let contaBancaria: DadosBancarios = {};
-       contaBancaria.banco = this.bancoSelecionado.codigo;
-       contaBancaria.agencia = form.value.agencia;
-       contaBancaria.conta = form.value.conta;       
+      //  contaBancaria.banco = this.bancoSelecionado.codigo;
+      //  contaBancaria.agencia = form.value.agencia;
+      //  contaBancaria.conta = form.value.conta;   
+       
+       contaBancaria.banco = this.cliente.contaBancaria?.banco;
+     contaBancaria.agencia = this.cliente.contaBancaria?.agencia;
+     contaBancaria.conta = this.cliente.contaBancaria?.conta; 
        return contaBancaria;
      }
   
