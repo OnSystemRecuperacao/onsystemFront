@@ -36,3 +36,11 @@
     </ng-template>
 
 </p-table>
+
+    <p-table *ngIf="error404">
+        <ng-template pTemplate="caption">
+            <div class="p-d-flex p-ai-center p-jc-between">
+                <h6 class="p-m-0">Você ainda não possui ocorrências</h6>        
+            </div>
+        </ng-template>
+    </p-table>

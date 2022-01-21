@@ -53,6 +53,8 @@ import {VisualizarOcorrenciaComponent} from './components/ocorrencias/visualizar
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { FileUploadModule } from 'primeng/fileupload';
 import { EncerrarOcorrenciaComponent } from './components/ocorrencias/encerrar/encerrar-ocorrencia.component';
+import { ListarPrestadorInativoComponent } from './components/prestadores/listarInativos/listar-prestador-inativo.component';
+
 
 
 
@@ -82,7 +84,8 @@ export function tokenGetter(): any {
     VisualizarOcorrenciaComponent,
     AceiteOcorrenciasComponent,
     EsqueciSenhaComponent,
-    EncerrarOcorrenciaComponent
+    EncerrarOcorrenciaComponent,
+    ListarPrestadorInativoComponent
   ],
   imports: [
     FileUploadModule,
@@ -115,9 +118,6 @@ export function tokenGetter(): any {
         tokenGetter,
         // allowedDomains: ['18.223.1.99:8080'],
         // disallowedRoutes: ['http://18.223.1.99:8080/onsystem/api/v1/oauth/token']
-
-        //allowedDomains: ['3.143.3.15:8080'],
-        //disallowedRoutes: ['http://3.143.3.15:8080/onsystem/api/v1/oauth/token']
 
         allowedDomains: ['localhost:8080'],
         disallowedRoutes: ['http://localhost:8080/oauth/token']

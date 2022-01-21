@@ -5,6 +5,7 @@ export enum NavigationEnum{
     ADICIONAR_CLIENTES = '/clientes/novo',
     EDITAR_CLIENTES = '/clientes/editar/',
     LISTAR_PRESTADORES = '/prestadores',
+    LISTAR_PRESTADORES_INATIVOS = '/prestadores/inativos',
     ADICIONAR_PRESTADORES = '/prestadores/novo',
     EDITAR_PRESTADORES = '/prestadores/editar/',
     LISTAR_OCORRENCIAS = '/ocorrencias',

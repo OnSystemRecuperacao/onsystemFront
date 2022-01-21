@@ -136,7 +136,7 @@ export class AdicionarClienteComponent implements OnInit{
      private getDadosBancarios(form: NgForm): DadosBancarios{
        let contaBancaria: DadosBancarios = {};
        //contaBancaria.banco = form.value.banco;
-       contaBancaria.banco = this.bancoSelecionado.codigo;
+       contaBancaria.banco = 341; //this.bancoSelecionado.codigo;
        contaBancaria.agencia = form.value.agencia;
        contaBancaria.conta = form.value.conta;      
        return contaBancaria;

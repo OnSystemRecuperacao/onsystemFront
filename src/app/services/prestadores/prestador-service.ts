@@ -9,7 +9,7 @@ import Utils from 'src/app/utils/utils';
     providedIn: 'root',
 })
 export class PrestadorService {
-
+    
     constructor(private httpClient: HttpClient) { }
 
     BASE_URL: string = Utils.makeURLRequest("/prestadores");
@@ -26,6 +26,11 @@ export class PrestadorService {
         return this.httpClient.get<Prestador[]>(this.BASE_URL).toPromise();
     }
 
+    listarPrestadoresInativos(): Observable<Prestador[]>{
+      const url = `${this.BASE_URL}/prestadorInativo`;
+      return this.httpClient.get<Prestador[]>(url, this.httpOptions).pipe(catchError(this.handleError));
+    }
+
     readByID(id: number): Observable<Prestador> {
       const url = `${this.BASE_URL}/${id}`;
       return this.httpClient.get<Prestador>(url, this.httpOptions).pipe(catchError(this.handleError));
@@ -39,6 +44,11 @@ export class PrestadorService {
     update(prestador: Prestador): Promise<Prestador> {
       const url = `${this.BASE_URL}/${prestador.id}`;       
       return this.httpClient.put<Prestador>(url, prestador, this.httpOptions).toPromise();
+    }
+
+    aprovarPrestador(id: number | undefined): Observable<Prestador> {
+      const url = `${this.BASE_URL}/aprovarPrestador/${id}`;       
+      return this.httpClient.put<Prestador>(url, this.httpOptions).pipe(catchError(this.handleError));
     }
 
     delete(id: number): Observable<{}> {

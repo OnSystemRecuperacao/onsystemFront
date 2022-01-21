@@ -5,5 +5,6 @@ import { Tenancy } from "./tenancy";
 export class TempoPrestadorOcorrencia{
     localizacao?: LocalizacaoPrestador;
     idPrestador?: number;
+    tempoTexto?: string;
     tempo?: number;
 }

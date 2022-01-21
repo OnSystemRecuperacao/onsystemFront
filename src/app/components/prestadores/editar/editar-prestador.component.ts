@@ -71,7 +71,7 @@ export class EditarPrestadorComponent implements OnInit{
    }
 
    private adicionarPrestador(prestador: Prestador){
-     this.prestadorService.update(prestador) .then(response => {
+     this.prestadorService.update(prestador).then(response => {
        this.messageService.add(MessageUtils.onSuccessMessage("Prestador alterado com sucesso"));         
       }).catch(erro => 
        this.messageService.add(MessageUtils.onErrorMessage(erro))

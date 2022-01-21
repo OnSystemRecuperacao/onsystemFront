@@ -19,6 +19,7 @@ import { EditarUsuarioComponent } from './components/usuario/editar/editar-usuar
 import { NaoAutorizadoComponent } from './components/core/nao-autorizado/nao-autorizado.component';
 import {VisualizarOcorrenciaComponent} from './components/ocorrencias/visualizar/visualizar-ocorrencia.component'
 import {AceiteOcorrenciasComponent} from './components/ocorrencias/aceite/aceite-ocorrencias.component'
+import { ListarPrestadorInativoComponent } from './components/prestadores/listarInativos/listar-prestador-inativo.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'login', pathMatch: 'full'},
@@ -28,6 +29,7 @@ const routes: Routes = [
   {path: 'clientes/novo', component: AdicionarClienteComponent, canActivate: [AuthGuard], data: { roles:['OPENCODE', 'ONSYSTEM']}},
   {path: 'clientes/editar/:id', component: EditarClienteComponent, canActivate: [AuthGuard], data: { roles:['OPENCODE', 'ONSYSTEM']}},
   {path: 'prestadores', component: ListarPrestadorComponent, canActivate: [AuthGuard], data: { roles:['OPENCODE', 'ONSYSTEM']}},
+  {path: 'prestadores/inativos', component: ListarPrestadorInativoComponent, canActivate: [AuthGuard], data: { roles:['OPENCODE', 'ONSYSTEM']}},
   {path: 'prestadores/novo', component: AdicionarPrestadorComponent, canActivate: [AuthGuard], data: { roles:['OPENCODE', 'ONSYSTEM']}},
   {path: 'prestadores/editar/:id', component: EditarPrestadorComponent, canActivate: [AuthGuard], data: { roles:['OPENCODE', 'ONSYSTEM']}},
   {path: 'ocorrencias', component: OcorrenciasComponent, canActivate: [AuthGuard], data: { roles:['OPENCODE', 'ONSYSTEM', 'CLIENTE', 'PRESTADOR']}},

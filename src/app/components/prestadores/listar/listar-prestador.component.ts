@@ -26,6 +26,8 @@ export class ListarPrestadorComponent implements OnInit{
 
   itens = [{}]
   
+  error404: boolean = false
+
   constructor(
       private confirmationService: ConfirmationService,
       private messageService: MessageService,     
@@ -83,6 +85,11 @@ export class ListarPrestadorComponent implements OnInit{
       this.loading = false;    
     }).catch(error => {
       console.error(error)
+      if(error.includes('404')){
+        this.messageService.add(MessageUtils.onErrorMessage("Cliente não possui Ocorrências"));
+        this.error404 = true;
+        this.loading = false;
+      }
       if (error instanceof NotAuthenticatedError) {
         this.messageService.add(MessageUtils.onErrorMessage("Sua Sessão Expirou, faça Login Novamente")); 
         this.commomService.navigate(NavigationEnum.LOGIN);   

@@ -132,7 +132,12 @@ export class CommomService {
               label:'Listar Prestadores',
               icon:'pi pi-fw pi-list',
               routerLink: [NavigationEnum.LISTAR_PRESTADORES]
-           }
+           },
+           {
+            label:'Aprovações',
+            icon:'pi pi-fw pi-check-circle',
+            routerLink: [NavigationEnum.LISTAR_PRESTADORES_INATIVOS]
+         }
         ]
        },
        {

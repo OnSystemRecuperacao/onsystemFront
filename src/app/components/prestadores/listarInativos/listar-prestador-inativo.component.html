@@ -1,0 +1,194 @@
+<p-table #dt [value]="prestadores" [rows]="10" [paginator]="prestadores.length > 0" [loading]="loading"
+    [rowHover]="true" dataKey="id">
+    <ng-template pTemplate="caption">
+        <div class="p-d-flex p-ai-center p-jc-between">
+            <h5 class="p-m-0">Prestadores pendentes de aprovação</h5>
+            <!-- <span class="p-input-icon-left">
+                  <button pButton pRipple label="Novo" icon="pi pi-plus" class="p-button-success p-mr-2" (click)="novoPrestador()"></button>
+                </span> -->
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="header">
+        <tr>
+            <th style="text-align: center; width: 350px;">Nome </th>
+            <th style="text-align: center; ">CPF/CNPJ</th>
+            <th style="text-align: center;">Email</th>
+            <th style="text-align: center; width: 10px;">Status</th>
+            <th style="text-align: center;">Ações</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-prestador *ngIf="!prestadores.length">
+        <tr>
+            <td style="text-align: center;">{{prestador.nome}}</td>
+            <td style="text-align: center;">{{prestador.cpfCnpj}}</td>
+            <td style="text-align: center;">{{prestador.email}}</td>
+            <td style="text-align: center;">{{prestador.situacao}}</td>
+            <td style="text-align: center;">
+                <button pButton pRipple icon="pi pi-search" class="p-button-rounded p-button-success p-mr-2"
+                    (click)="aprovacao(prestador)"></button>
+
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+
+
+<p-confirmDialog [style]="{width: '50vw'}" key="positionDialog" [position]="position" [baseZIndex]="10000"
+    acceptLabel="SIM" acceptButtonStyleClass="p-button-success" rejectLabel="NÃO"
+    rejectButtonStyleClass="p-button-danger">
+</p-confirmDialog>
+<p-toast position="top-right" (onClose)="reload()"></p-toast>
+
+<p-dialog header="Aprovação prestador" [(visible)]="displayBasic2" [style]="{width: '55vw'}">
+    <form id="novo-prestador" autocomplete="off" #prestadorForm="ngForm">
+
+        <div class="p-fluid p-formgrid p-grid">
+            <div class="p-field p-col">
+                <label for="nomePrestador">Nome</label>
+                <input type="text" name="nome" pInputText id="nomePrestador" #nome="ngModel"
+                    [(ngModel)]="prestador.nome" autofocus ngModel required minlength="15" [disabled]="true" />
+                
+            </div>
+        </div>
+
+        <div class="p-fluid p-formgrid p-grid">
+            <div class="p-field p-col">
+                <label for="rg">RG</label>
+                <p-inputNumber id="rg" name="rg" ngModel [useGrouping]="false" [required]="true" #rg="ngModel"
+                    [(ngModel)]="prestador.rg" [disabled]="true"></p-inputNumber>
+                
+            </div>
+            <div class="p-field p-col">
+                <label for="cpf">CPF</label>
+                <p-inputMask id="cpf" name="cpf" mask="999.999.999-99" [required]="true" #cpf="ngModel"
+                    [(ngModel)]="prestador.cpfCnpj" [disabled]="true"></p-inputMask>
+               
+
+            </div>
+            <div class="p-field p-col">
+                <label for="cnh">CNH</label>
+                <p-inputNumber id="cnh" name="cnh" mode="decimal" [useGrouping]="false" [required]="true" ngModel
+                    #cnh="ngModel" [(ngModel)]="prestador.cnh" [disabled]="true"></p-inputNumber>
+                
+            </div>
+            <div class="p-field p-col">
+                <label for="categoria">Categoria</label>
+                <input type="text" name="categoria" pInputText id="categoria" ngModel #categoria="ngModel"
+                    [(ngModel)]="prestador.categoriaCNH" [disabled]="true"/>
+                
+            </div>
+        </div>
+
+        <div class="p-fluid p-formgrid p-grid">
+            <div class="p-field  p-col-9">
+                <label for="name">Endereço</label>
+                <input type="text" name="endereco" pInputText id="endereco" #endereco="ngModel"
+                    [(ngModel)]="prestador.endereco!.logradouro" [disabled]="true"/>
+            </div>
+            <div class="p-field  p-col-3">
+                <label for="numero">Número</label>
+                <input type="text" name="numero" pInputText id="numero" #numero="ngModel"
+                    [(ngModel)]="prestador.endereco!.numero" [disabled]="true"/>
+            </div>
+        </div>
+
+        <div class="p-fluid p-formgrid p-grid">
+            <div class="p-field p-col-5">
+                <label for="cidade">Cidade</label>
+                <input type="text" name="cidade" pInputText id="cidade" #cidade="ngModel"
+                    [(ngModel)]="prestador.endereco!.cidade" [disabled]="true"/>
+            </div>
+
+            <div class="p-field p-col-4">
+                <label for="bairro">Bairro</label>
+                <input type="text" name="bairro" pInputText id="bairro" #bairro="ngModel"
+                    [(ngModel)]="prestador.endereco!.bairro" [disabled]="true"/>
+            </div>
+
+            <div class="p-field p-col-2">
+                <label for="cep">CEP</label>
+                <p-inputMask id="cep" name="cep" mask="99999-999" #cep="ngModel" [(ngModel)]="prestador.endereco!.cep" [disabled]="true">
+                </p-inputMask>
+            </div>
+
+            <div class="p-field p-col">
+                <label for="estado">Estado</label>
+                <input type="text" name="estado" pInputText id="estado" #estado="ngModel"
+                    [(ngModel)]="prestador.endereco!.estado" [disabled]="true"/>
+            </div>
+        </div>
+
+
+
+        <div class="p-fluid p-formgrid p-grid">
+            <div class="p-field p-col-3">
+                <label for="telefone">Telefone</label>
+                <p-inputMask id="telefone" name="telefone" mask="(99) 99999-9999" #telefone="ngModel"
+                    [(ngModel)]="prestador.telefone" [disabled]="true"></p-inputMask>
+            </div>
+
+            <div class="p-field p-col">
+                <label for="email">E-mail</label>
+                <input type="text" name="email" pInputText id="email" #email="ngModel" [(ngModel)]="prestador.email" [disabled]="true">
+            </div>
+        </div>
+
+        <p-divider></p-divider>
+
+        <div class="p-fluid p-formgrid p-grid" *ngIf="fotoCnh == '' && fotoPrestador ==''" style="align-items: center; flex-direction: column;" >
+            <label >Carregando CNH e Foto de perfil do prestador</label>
+            <i class="pi pi-spin pi-spinner" style="font-size: 2rem;"></i>
+        </div>
+ 
+        <div class="p-fluid p-formgrid p-grid" *ngIf="fotoCnh != '' && fotoPrestador !=''">
+
+            <div class="p-field p-col" >
+                <label>CNH do Prestador</label>
+                <img style="object-fit:contain;
+                width:400px;
+                height:500px;" 
+                loading="lazy"
+                [src]="fotoCnh">
+            </div>
+
+            <p-divider layout="vertical"></p-divider>
+
+            <div class="p-field p-col">
+                <label>Foto do Prestador</label>
+                <img style="object-fit:contain;
+                width:400px;
+                height:500px;"
+                loading="lazy"
+                [src]="fotoPrestador">
+            </div>
+
+        </div>
+
+        <p-divider></p-divider>
+
+       
+            <div class="p-fluid p-formgrid p-grid  p-jc-end">
+                <div class="p-field p-col-2">
+                    <button pButton pRipple label="Reprovar" icon="pi pi-times" class="p-button-danger" (click)="reprovar()"></button>
+                </div>
+
+                <div class="p-field p-col-2">
+                    <button pButton pRipple label="Aprovar" icon="pi pi-check" class="p-button-success" (click)="aprovar()"></button>
+                </div>
+            </div>
+    
+
+    </form>
+
+
+</p-dialog>
+
+<style>
+    .scaled {
+        width: 150px;
+        height: 150px;
+        transform-origin: left;
+        transform: scale(1);
+    }
+</style>

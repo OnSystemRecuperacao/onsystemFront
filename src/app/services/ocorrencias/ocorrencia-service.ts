@@ -32,12 +32,9 @@ export class OcorrenciaService{
         //return this.httpClient.get<any>(this.BASE_URL).pipe(retry(2), catchError(this.handleError))
         return this.httpClient.get<any>(this.BASE_URL, this.httpOptions).toPromise();
     }
-    readByCliente(idCliente: number): Promise<any> {
+    readByCliente(idCliente: number): Observable<Ocorrencia[]> {
       const url = `${this.BASE_URL}/listarPorCliente/${idCliente}`;
-      let dados = this.httpClient.get<any>(url, this.httpOptions).toPromise();
-      console.log(dados);
-      //return this.httpClient.get<any>(this.BASE_URL).pipe(retry(2), catchError(this.handleError))
-      return this.httpClient.get<any>(this.BASE_URL, this.httpOptions).toPromise();
+      return this.httpClient.get<any>(url, this.httpOptions).pipe(catchError(this.handleError));
   }
 
     

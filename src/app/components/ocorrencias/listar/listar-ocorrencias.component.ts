@@ -29,6 +29,8 @@ export class OcorrenciasComponent implements OnInit {
 
   usuarioLogado = new Usuario();  
 
+  error404: boolean = false
+
 
   constructor(private messageService: MessageService, 
     private ocorrenciaService: OcorrenciaService,
@@ -49,12 +51,16 @@ export class OcorrenciasComponent implements OnInit {
 
   listarOcorrencias(){
     let idTenancy = <number> this.usuarioLogado.tenancy?.id;
-    this.ocorrenciaService.readByCliente(idTenancy).then(response => {
+    this.ocorrenciaService.readByCliente(idTenancy).subscribe(response => {
       this.ocorrencias = response; 
       this.loading = false;      
-    }).catch(error => 
-      this.messageService.add(MessageUtils.onErrorMessage(error))
-    );    
+    },error => {
+      if(error.includes('404')){
+        this.messageService.add(MessageUtils.onErrorMessage("Cliente não possui Ocorrências"));
+        this.error404 = true;
+        this.loading = false;
+      }
+    })
   }
 
   visualizar(ocorrencia: Ocorrencia){ 
