@@ -23,11 +23,11 @@
         </div>
     </div>
 
-    <div class="p-fluid p-formgrid p-grid">
+    <!-- <div class="p-fluid p-formgrid p-grid">
         <div class="p-field p-col">
             <th>Prestador empenhado - </th>
         </div>
-    </div>
+    </div> -->
     <div class="p-fluid p-formgrid p-grid">
         <div class="p-field p-col">
             <th>Status - {{ocorrencia?.status}}</th>
@@ -51,8 +51,17 @@
                 <b *ngIf="chat.user!.tipoTenancy == 3">Prestador - {{chat.createdAt | date : 'dd/MM/yyyy HH:mm'}}</b>
             </div>
         </p-divider>
-        <p>
+        <p *ngIf="chat.text">
             {{chat.text}}
+        </p>
+
+        <p *ngIf="chat.image">
+            <img style="object-fit:contain;
+            width:300px;
+            height:400px;
+            margin-left: 385px;"
+            loading="lazy"
+            [src]="chat.image">
         </p>
     </div>
 

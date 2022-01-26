@@ -50,7 +50,7 @@ export class VisualizarOcorrenciaComponent implements OnInit, AfterViewInit {
     _id: '',
     tipoTenancy: 0,
     name: '',
-    avatar: "https://placeimg.com/140/140/people"
+    avatar: "https://firebasestorage.googleapis.com/v0/b/onsystemapp-38e3c.appspot.com/o/logo.png?alt=media&token=d4969140-f893-4ce1-b877-f60b4458a291"
   }
 
 
@@ -118,13 +118,14 @@ export class VisualizarOcorrenciaComponent implements OnInit, AfterViewInit {
       _id: this.cliente!.id!.toString(),
       tipoTenancy: this.authService.getUsuarioLogado()["tipo_tenancy"].id,
       name: this.authService.getUsuarioLogado()["nome_usuario"],
-      avatar: "https://placeimg.com/140/140/people"
+      avatar: "https://firebasestorage.googleapis.com/v0/b/onsystemapp-38e3c.appspot.com/o/logo.png?alt=media&token=d4969140-f893-4ce1-b877-f60b4458a291"
     }
 
     const db = getDatabase();
 
     push(ref(db, this.idBancoFirebase), {
       text: this.mensagemEnviar,
+      image: '',
       user: this.user,
       createdAt: new Date().getTime()
     });
@@ -197,9 +198,9 @@ export class VisualizarOcorrenciaComponent implements OnInit, AfterViewInit {
   }
 
   private parse(snapshot: any){
-    const { createdAt, text, user } = snapshot.val();
+    const { createdAt, text,image, user } = snapshot.val();
     const { key: _id } = snapshot;
-    const message = { _id, createdAt, text, user };
+    const message = { _id, createdAt, text, image, user };
     return message;
   };
 
