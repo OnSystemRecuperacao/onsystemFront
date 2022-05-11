@@ -41,7 +41,7 @@
     </div>
 
 
-    <div class="card" *ngFor="let chat of chats" >
+    <div class="card" *ngFor="let chat of chats">
         <p-divider align="center" type="dashed">
             <div class="p-d-inline-flex p-ai-center">
                 <i class="pi pi-user p-mr-2"></i>
@@ -59,9 +59,7 @@
             <img style="object-fit:contain;
             width:300px;
             height:400px;
-            margin-left: 385px;"
-            loading="lazy"
-            [src]="chat.image">
+            margin-left: 385px;" loading="lazy" [src]="chat.image">
         </p>
     </div>
 
@@ -72,32 +70,50 @@
     <div class="p-fluid p-formgrid p-grid ">
         <div class="p-field p-col">
             <label>Digite sua mensagem</label>
-            <textarea name="mensagem" [rows]="5" [cols]="30" pInputTextarea id="mensagem" [(ngModel)]="mensagemEnviar"></textarea>
+            <textarea name="mensagem" [rows]="5" [cols]="30" pInputTextarea id="mensagem"
+                [(ngModel)]="mensagemEnviar"></textarea>
         </div>
 
     </div>
 
     <div class="p-field p-col-2">
-        <button pButton pRipple label="Enviar" icon="pi pi-check" class="p-button-success" (click)="enviarMensagem()"></button>
+        <button pButton pRipple label="Enviar" icon="pi pi-check" class="p-button-success"
+            (click)="enviarMensagem()"></button>
     </div>
 
     <p-divider></p-divider>
 
     <div class="p-field p-col-2">
-        <button pButton pRipple label="Encerrar ocorrencia" icon="pi pi-check" class="p-button-danger" (click)="encerrar()"></button>
+        <button pButton pRipple label="Encerrar ocorrencia" icon="pi pi-check" class="p-button-danger"
+            (click)="encerrar()"></button>
     </div>
-    
+
+    <p-divider align="center" type="dashed">
+        <div class="p-d-inline-flex p-ai-center">
+            <b>Localização do prestador</b>
+        </div>
+    </p-divider>
+
+    <div *ngIf="localizacao.latitude != 0">
+        <agm-map [zoom]="15" [latitude]="localizacao!.latitude" [longitude]="localizacao!.longitude">
+            <agm-marker [latitude]="localizacao!.latitude" [longitude]="localizacao!.longitude"></agm-marker>
+            <agm-direction [visible]="rota" [origin]="origem" [destination]="destino"  [markerOptions]="markerOptions" [renderOptions]="renderOptions" >
+            </agm-direction>
+        </agm-map>
+        <p-divider align="center" type="dashed">
+        </p-divider>
+        <div class="p-field p-col-2">
+            <button *ngIf="!rota" pButton pRipple label="Exibir rota" icon="pi pi-directions" class="p-button-success" (click)="exibirRota()"></button>
+            <button *ngIf="rota" pButton pRipple label="Ocultar rota" icon="pi pi-directions" class="p-button-success" (click)="exibirRota()"></button>
+        </div>
+    </div>
+
+
 </div>
 
-<p-confirmDialog 
-        [style]="{width: '50vw'}" 
-        key="positionDialog" 
-        [position]="position" 
-        [baseZIndex]="10000" 
-        acceptLabel="SIM"
-        acceptButtonStyleClass="p-button-success"
-        rejectLabel="NÃO"
-        rejectButtonStyleClass="p-button-danger">
+<p-confirmDialog [style]="{width: '50vw'}" key="positionDialog" [position]="position" [baseZIndex]="10000"
+    acceptLabel="SIM" acceptButtonStyleClass="p-button-success" rejectLabel="NÃO"
+    rejectButtonStyleClass="p-button-danger">
 </p-confirmDialog>
 
 <p-toast position="top-right"></p-toast>

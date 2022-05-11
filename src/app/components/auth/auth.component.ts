@@ -50,7 +50,7 @@ export class AuthComponent implements OnInit {
   show() {
     const ref = this.dialogService.open(EsqueciSenhaComponent, {
         header: 'Esqueci minha senha',
-        width: '30%'
+        width: '20%'
     });
     
   }

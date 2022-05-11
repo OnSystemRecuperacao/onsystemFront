@@ -13,16 +13,16 @@
     
         <div class="p-fluid p-formgrid p-grid">
             <div class="p-field p-col">
-                <label for="latitudeOcorrencia">Latitude ocorrencia</label>
-                <input type="text" name="latitude" pInputText id="latitude" required autofocus #latitude="ngModel" ngModel required/>
-                <small class="p-error" *ngIf="latitude.hasError('required') && latitude.dirty">* O campo Latitude é
+                <label for="localizacaoOcorrencia">Latitude, Longitude da ocorrência</label>
+                <input type="text" name="localizacao" pInputText id="localizacao" required autofocus #localizacao="ngModel" ngModel required/>
+                <small class="p-error" *ngIf="localizacao.hasError('required') && localizacao.dirty">* A Latitude e Longitude  é
                     obrigatório.</small>
             </div> 
             
-            <div class="p-field p-col">
+            <!-- <div class="p-field p-col">
                 <label for="longitudeOcorrencia">Longitude ocorrencia</label>
                 <input type="text" name="longitude" pInputText id="longitude" required autofocus ngModel/>
-            </div>      
+            </div>       -->
     
         </div>
     
@@ -53,10 +53,10 @@
                 <p-dropdown [options]="itens" name="escoltaArmado" placeholder="Selecione" ngModel></p-dropdown>
             </div>      
             
-            <div class="p-field p-col">
+            <!-- <div class="p-field p-col">
                 <label for="escoltaArmada">Regulador sinistro</label>              
                 <p-dropdown [options]="itens" name="reguladorSinis" placeholder="Selecione" ngModel></p-dropdown>
-            </div>  
+            </div>   -->
         </div>
     
         <div class="p-fluid p-formgrid p-grid">

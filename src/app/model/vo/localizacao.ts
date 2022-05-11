@@ -1,4 +1,4 @@
 export class Localizacao{
-    latitude?: String;
-    longitude?: String;
+    latitude?: string;
+    longitude?: string;
 }

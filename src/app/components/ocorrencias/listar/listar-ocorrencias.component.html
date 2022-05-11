@@ -30,7 +30,7 @@
             <td style="text-align: center;">{{ocorrencia.dataAbertura | date : 'dd/MM/yyyy HH:mm'}}</td>
             <td style="text-align: center;" >
                 <button pButton pRipple icon="pi pi-search" class="p-button-rounded p-button-success p-mr-2" (click)="visualizar(ocorrencia)" ></button>
-                <!-- <button pButton pRipple icon="pi pi-times" class="p-button-rounded p-button-danger" (click)="cancelar(ocorrencia)"></button> -->
+                <button pButton pRipple icon="pi pi-times" class="p-button-rounded p-button-danger" (click)="deletar(ocorrencia)"></button>
             </td>
         </tr>
     </ng-template>
@@ -44,3 +44,15 @@
             </div>
         </ng-template>
     </p-table>
+
+    <p-confirmDialog 
+    [style]="{width: '50vw'}" 
+    key="positionDialog" 
+    [position]="position" 
+    [baseZIndex]="10000" 
+    acceptLabel="SIM"
+    acceptButtonStyleClass="p-button-success"
+    rejectLabel="NÃO"
+    rejectButtonStyleClass="p-button-danger">
+</p-confirmDialog>
+    <p-toast position="top-right" (onClose)="reload()"></p-toast>

@@ -1,28 +1,62 @@
-<div class="container">
+
     <p-table>
         <ng-template pTemplate="caption">
             <div class="p-d-flex p-ai-center p-jc-between">
-                <h5 class="p-m-0">Entre com seu email</h5>        
+                <h5 class="p-m-0">Digite seu email e CPF ou CNPJ</h5>        
             </div>
         </ng-template>
     </p-table>
-</div>
+
 <form id="reset-senha" autocomplete="off" #resetSenha="ngForm" (ngSubmit)="submit(resetSenha);">
     <div class="p-col-12 p-d-flex-12  p-ai-center p-jc-center">
         <div class="p-field">
+            <div class="p-fluid p-formgrid p-grid">
+                <div class="p-field p-col">
+                    <label for="email">E-mail</label>              
+                    <input type="text" pInputText ngModel name="email" #email="ngModel" email required> 
+                    <div class="p-inputgroup">
+                        <small class="p-error" *ngIf="email.hasError('required') && email.dirty">* O campo Email é obrigatório.</small>
+                        <small class="p-error" *ngIf="email.hasError('email') && email.dirty">* Informe um Email válido.</small>         
+                    </div>
+                </div>    
+            </div>
+            <div class="p-fluid p-formgrid p-grid">
+                <div class="p-field p-col">
+                    <label for="tipoPessoa">Tipo Pessoa</label>
+                    <p-dropdown [options]="tipoPessoa" name="tipoPessoa" placeholder="Selecione"
+                        [(ngModel)]="tipoPessoaSelecionada" (onChange)="tipoPessoaChange($event)"></p-dropdown>
+                </div>
+    
+                <div class="p-field p-col" *ngIf="tipoPessoaSelecionada == 1">
+                    <label for="cpf">CPF</label>
+                    <p-inputMask id="cpf" name="cpf" mask="999.999.999-99" ngModel [required]="true" #cpf="ngModel">
+                    </p-inputMask>
+                    <small class="p-error" *ngIf="cpf.hasError('required') && cpf.dirty">* O campo CPF é
+                        obrigatório.</small>
+                    <small class="p-error" *ngIf="!validaDocumento(cpf.value, 1)">*CPF invalido.</small>
+                </div>
+    
+                <div class="p-field p-col" *ngIf="tipoPessoaSelecionada == 2">
+                    <label for="cpf">CNPJ</label>
+                    <p-inputMask id="cpf" name="cnpj" mask="99.999.999/9999-99" ngModel [required]="true" #cnpj="ngModel">
+                    </p-inputMask>
+                    <small class="p-error" *ngIf="cnpj.hasError('required') && cnpj.dirty">* O campo CPF é
+                        obrigatório.</small>
+                        <small class="p-error" *ngIf="!validaDocumento(cnpj.value, 2)">*CPF invalido.</small>
+                </div>
+            </div>
             <div class="p-fluid">
+   
+                <p-divider></p-divider>
                 <div class="p-inputgroup">
-                    <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
-                    <input type="text" pInputText ngModel name="email" #email="ngModel" placeholder="Email" email required>                                           
+                    <p-toast></p-toast>
+                    <p-captcha siteKey="6LcavFIeAAAAAHcuZTrsN7TiI3xp9LMkZ35XFL5-" (onResponse)="showResponse($event)"></p-captcha>
                 </div>
-                <div class="p-inputgroup">
-                    <small class="p-error" *ngIf="email.hasError('required') && email.dirty">* O campo Email é obrigatório.</small>
-                    <small class="p-error" *ngIf="email.hasError('email') && email.dirty">* Informe um Email válido.</small>         
-                </div>
+             
             </div>
             <p-divider></p-divider>
             <div class="p-field">
-                <button pButton pRipple label="Enviar"  [disabled]="!resetSenha.valid" class="p-button-success"></button>
+                <button pButton pRipple label="Enviar"  [disabled]="botao" class="p-button-success"></button>
             </div>      
         </div>
     </div>

@@ -70,17 +70,23 @@ export class NovaOcorrenciaComponent implements OnInit {
  private parseData(form: NgForm) : Ocorrencia{
   let ocorrencia: Ocorrencia = {};
   let localizacao: Localizacao = {};
+  let loc =  form.value.localizacao.split(',')
+  let latitude = loc[0];
+  let longitude = loc[1];
 
-  localizacao.latitude = form.value.latitude;
-  localizacao.longitude = form.value.longitude;
+  console.log("antenista", form.value.antenista);
+  console.log("escoltaArmado", form.value.escoltaArmado);
+
+  localizacao.latitude = latitude.replace(/ /g, "");
+  localizacao.longitude = longitude.replace(/ /g, "");
   ocorrencia.tenancyCliente = this.usuarioLogado.tenancy;
   ocorrencia.localizacao = localizacao;
   ocorrencia.observacoes = form.value.observacoes;
   ocorrencia.numeroProcesso = form.value.numProcesso;
   ocorrencia.motivo = form.value.motivo;
-  ocorrencia.antenista = form.value.antenista;
-  ocorrencia.escoltaArmado = form.value.escoltaArmado;
-  ocorrencia.reguladorSinis = form.value.reguladorSinis;
+  ocorrencia.antenista = form.value.antenista == 1 ? true : false;
+  ocorrencia.escoltaArmado = form.value.escoltaArmado == 1 ? true : false;
+  ocorrencia.reguladorSinis = false;
 
   return ocorrencia;  
 }

@@ -5,11 +5,13 @@ import Utils from "src/app/utils/utils";
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from "rxjs/operators";
 import { Tenancy } from "src/app/model/vo/tenancy";
+import { environment } from "src/environments/environment";
 
 @Injectable({
     providedIn: 'root',
 })
 export class UsuarioService{
+  
 
      // Headers
      httpOptions = {
@@ -45,6 +47,11 @@ export class UsuarioService{
         const url = `${this.BASE_URL}/${id}`; 
         console.log(url)
         return this.httpClient.delete(url, this.httpOptions).pipe(catchError(this.handleError));
+      }
+
+      esqueciSenha(dto: {}): Observable<any> {
+        const url = `${environment.baseUrl}/senhaUsuario/esqueciSenha`; 
+        return this.httpClient.post(url, dto, this.httpOptions).pipe(catchError(this.handleError));
       }
 
     // Manipulação de erros

@@ -11,6 +11,7 @@
   },
   "private": true,
   "dependencies": {
+    "@agm/core": "^1.1.0",
     "@angular/animations": "^11.2.14",
     "@angular/cdk": "^11.2.13",
     "@angular/common": "^11.2.14",
@@ -22,6 +23,8 @@
     "@angular/router": "^11.2.14",
     "@auth0/angular-jwt": "^5.0.2",
     "@types/file-saver": "^2.0.3",
+    "@types/google.maps": "^3.47.4",
+    "agm-direction": "^0.8.10",
     "chart.js": "^2.9.4",
     "cpf-cnpj-validator": "^1.0.3",
     "file-saver": "^2.0.5",

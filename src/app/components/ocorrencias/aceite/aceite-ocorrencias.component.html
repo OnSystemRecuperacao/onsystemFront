@@ -4,6 +4,10 @@
         <div class="p-d-flex p-ai-center p-jc-between">
             <h5 class="p-m-0">Selecione um prestador para sua ocorrencia</h5>
         </div>
+        <div class="p-d-flex p-ai-center p-jc-between" *ngIf="mensagemInfo">
+            <h6 class="p-m-0" style="color:red;">Notificamos o prestador, aguarde até 1 minuto para resposta.</h6>
+        </div>
+        <p-messages></p-messages>
     </ng-template>
 
 
@@ -30,4 +34,8 @@
 
 </p-table>
 
-<p-toast position="top-right" (onClose)="redirectToList($event)"></p-toast>
+<p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" acceptLabel="OK" [rejectVisible]=false></p-confirmDialog>
+
+
+<!-- <p-toast position="top-right" (onClose)="redirectToList($event)"></p-toast> -->
+<!-- <p-toast position="top-right"></p-toast> -->

@@ -1,7 +1,7 @@
 <p-table #dt [value]="prestadores" [rows]="10" [paginator]="prestadores.length > 0" [loading]="loading"  *ngIf="prestadores"  [rowHover]="true" dataKey="id">
         <ng-template pTemplate="caption">
             <div class="p-d-flex p-ai-center p-jc-between">
-                <h5 class="p-m-0">Cadastro de Prestadores</h5>
+                <h5 class="p-m-0">Lista de Prestadores</h5>
                 <span class="p-input-icon-left">
                   <button pButton pRipple label="Novo" icon="pi pi-plus" class="p-button-success p-mr-2" (click)="novoPrestador()"></button>
                 </span>

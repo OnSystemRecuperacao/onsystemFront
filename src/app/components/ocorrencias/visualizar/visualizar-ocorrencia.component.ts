@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ComboService } from 'src/app/services/combos/combo.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import MessageUtils from 'src/app/utils/message-util';
@@ -18,13 +18,18 @@ import { UsuarioService } from 'src/app/services/usuario/usuario-service';
 import { DialogService } from 'primeng/dynamicdialog';
 import { EncerrarOcorrenciaComponent } from '../encerrar/encerrar-ocorrencia.component';
 import { MensagemFirebase } from 'src/app/model/vo/mensagem.firebase.model';
+import { LocalizacaoPrestador } from 'src/app/model/vo/localizacao-prestador';
+import { Localizacao } from 'src/app/model/vo/localizacao';
+import { LocalizacaoFireBase } from 'src/app/model/vo/LocalizacaoFireBase';
 
 @Component({
   selector: 'visualizar-ocorrencia',
   templateUrl: './visualizar-ocorrencia.component.html',
-  //styleUrls: ['./visualizar-ocorrencia.component.css'],
+  styleUrls: ['./visualizar-ocorrencia.component.css'],
   providers: [MessageService, FormBuilder, ConfirmationService, DialogService]
 })
+
+
 export class VisualizarOcorrenciaComponent implements OnInit, AfterViewInit {
 
 
@@ -40,11 +45,15 @@ export class VisualizarOcorrenciaComponent implements OnInit, AfterViewInit {
 
   chats: MensagemFirebase[] = []
 
+  localizacao: LocalizacaoFireBase = new LocalizacaoFireBase();
+
   mensagem: MensagemFirebase = {};
 
   mensagemEnviar: string = ""
 
   idBancoFirebase: string = "";
+
+  rota = false;
 
   user = {
     _id: '',
@@ -53,6 +62,14 @@ export class VisualizarOcorrenciaComponent implements OnInit, AfterViewInit {
     avatar: "https://firebasestorage.googleapis.com/v0/b/onsystemapp-38e3c.appspot.com/o/logo.png?alt=media&token=d4969140-f893-4ce1-b877-f60b4458a291"
   }
 
+  lat = -23.548292555642472;
+  lng = -46.55468821799813;
+
+  origin = { lat: -23.53396135665954, lng: -46.49964524856933 };
+  destination = { lat: -23.5604483, lng: -46.5595737 };
+
+  origem = {};
+  destino = {};
 
   @ViewChild('chatcontent') chatcontent: ElementRef | undefined;
 
@@ -83,6 +100,7 @@ export class VisualizarOcorrenciaComponent implements OnInit, AfterViewInit {
   }
   ngAfterViewInit(): void {
     this.updateMessages(this.callback);
+    this.updateLocalizacao(this.callbackLocalizacao);
   }
 
   private buscarOcorrencia() {
@@ -97,6 +115,7 @@ export class VisualizarOcorrenciaComponent implements OnInit, AfterViewInit {
       this.cliente = this.ocorrencia?.tenancyCliente;
       this.idBancoFirebase = idOcorrencia + "-" + this.ocorrencia?.idCentral + "-" + this.cliente?.id 
       this.updateMessages(this.callback);
+      this.updateLocalizacao(this.callbackLocalizacao);
 
     console.log("ID BANCO")
     console.log(this.idBancoFirebase)
@@ -111,6 +130,37 @@ export class VisualizarOcorrenciaComponent implements OnInit, AfterViewInit {
     this.loading = false;
 
   }
+
+  exibirRota(){
+    this.updateLocalizacao(this.callbackLocalizacao);
+    this.origem = {
+      lat: this.localizacao!.latitude,
+      lng: this.localizacao!.longitude
+    }
+    this.destino = {
+      lat: parseFloat(this.ocorrencia!.localizacao!.latitude!),
+      lng: parseFloat(this.ocorrencia!.localizacao!.longitude!)
+    }
+    console.log(this.origem)
+    console.log( this.destino)
+
+    this.rota = !this.rota
+  }
+
+  markerOptions = {
+    origin: {
+        icon: 'https://img.icons8.com/material-rounded/24/000000/public.png',
+        draggable: true,
+    },
+    destination: {
+        icon: 'https://img.icons8.com/material-sharp/24/000000/cancel--v2.png',
+        draggable: true,
+    },
+}
+
+renderOptions = {
+  suppressMarkers: true,
+}
 
   enviarMensagem() {
    
@@ -132,6 +182,7 @@ export class VisualizarOcorrenciaComponent implements OnInit, AfterViewInit {
 
     this.messageService.add(MessageUtils.onSuccessMessage("Mensagem enviada"));
     this.mensagemEnviar = "";
+    this.updateLocalizacao(this.callbackLocalizacao);
 
   }
 
@@ -185,7 +236,9 @@ export class VisualizarOcorrenciaComponent implements OnInit, AfterViewInit {
         console.log("DEPOIS DO BACK")
         this.chats.push(teste)
         console.log(this.chats)
+        this.updateLocalizacao(this.callbackLocalizacao);
       });
+   
     }
    
   }
@@ -203,6 +256,45 @@ export class VisualizarOcorrenciaComponent implements OnInit, AfterViewInit {
     const message = { _id, createdAt, text, image, user };
     return message;
   };
+
+  updateLocalizacao(callbackLocalizacao: any){
+
+    const db = getDatabase();
+    console.log("updateLocalizacao")
+    console.log(this.ocorrencia!.idPrestador)
+    
+    let id = "localizacao-prestador-" + this.ocorrencia!.idPrestador;
+    // let id = "localizacao-prestador-" + 10;
+    console.log(id)
+    
+      const commentsRef = ref(db, id);
+      onChildAdded(commentsRef, (data) => {
+        let teste = callbackLocalizacao(this.parseLocalizacao(data));
+        console.log("DEPOIS DO BACK LOCALIZACAO")
+        this.localizacao.latitude = parseFloat(teste['latitude']);
+        this.localizacao.longitude = parseFloat(teste['longitude']);
+        console.log(this.localizacao)
+      });
+    
+   
+  }
+
+  callbackLocalizacao(data: any){
+    console.log("CALLBACK")
+    let localizacao: LocalizacaoFireBase = new LocalizacaoFireBase();
+    localizacao = data;
+    return localizacao;
+  }
+
+  private parseLocalizacao(snapshot: any){
+    console.log(snapshot.val())
+    const { latitude,longitude, usuario } = snapshot.val();
+    const { key: _id } = snapshot;
+    const message = { latitude, longitude, usuario };
+    return message;
+  };
+
+  
 
 
 }

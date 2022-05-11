@@ -24,12 +24,12 @@ export class NotificacaoService {
         headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     }
 
-    notificarPrestador(notificacao: NotificacaoPrestadorOcorrencia): Promise<any> {
+    notificarPrestador(notificacao: NotificacaoPrestadorOcorrencia): Observable<any> {
         console.log(notificacao)
         this.data = this.parseData(notificacao);  
         console.log("DADOS NOTIFICAÇÃO - " + this.data);
         const url = `${this.BASE_URL}` + '/notificarPrestador';  
-        return this.httpClient.post<any>(url, this.data, this.httpOptions).toPromise();     
+        return this.httpClient.post<any>(url, this.data, this.httpOptions).pipe(catchError(this.handleError));     
     }
    
     private parseData(notificacao: NotificacaoPrestadorOcorrencia): any{

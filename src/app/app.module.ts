@@ -54,6 +54,10 @@ import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { FileUploadModule } from 'primeng/fileupload';
 import { EncerrarOcorrenciaComponent } from './components/ocorrencias/encerrar/encerrar-ocorrencia.component';
 import { ListarPrestadorInativoComponent } from './components/prestadores/listarInativos/listar-prestador-inativo.component';
+import { CaptchaModule } from 'primeng/captcha';
+import { AgmCoreModule } from '@agm/core';
+import { AgmDirectionModule } from 'agm-direction';
+import { ConfirmPopupModule } from "primeng/confirmpopup";
 
 
 
@@ -113,18 +117,25 @@ export function tokenGetter(): any {
     PanelModule,
     ChartModule,
     DynamicDialogModule,
+    CaptchaModule,
+    ConfirmPopupModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyBdnbKYYjx2Uw6kBTCtMUF4Sl9XT4EyFuE'
+    }),
+    AgmDirectionModule,
     JwtModule.forRoot({
       config: {
         tokenGetter,
-        // allowedDomains: ['18.223.1.99:8080'],
-        // disallowedRoutes: ['http://18.223.1.99:8080/onsystem/api/v1/oauth/token']
+        allowedDomains: ['18.223.1.99:8080'],
+        disallowedRoutes: ['http://18.223.1.99:8080/onsystem/api/v1/oauth/token']
 
-        allowedDomains: ['localhost:8080'],
-        disallowedRoutes: ['http://localhost:8080/oauth/token']
+        // allowedDomains: ['localhost:8080'],
+        // disallowedRoutes: ['http://localhost:8080/oauth/token']
       }
     }),
     TieredMenuModule,
-    ProgressBarModule    
+    ProgressBarModule,
+
   ],  
   providers: [
     JwtHelperService,
