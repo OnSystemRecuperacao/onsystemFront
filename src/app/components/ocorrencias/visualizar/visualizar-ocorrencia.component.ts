@@ -21,6 +21,8 @@ import { MensagemFirebase } from 'src/app/model/vo/mensagem.firebase.model';
 import { LocalizacaoPrestador } from 'src/app/model/vo/localizacao-prestador';
 import { Localizacao } from 'src/app/model/vo/localizacao';
 import { LocalizacaoFireBase } from 'src/app/model/vo/LocalizacaoFireBase';
+import { getDownloadURL, getStorage, uploadBytesResumable } from 'firebase/storage';
+import { ref as refStorage } from 'firebase/storage';
 
 @Component({
   selector: 'visualizar-ocorrencia',
@@ -50,6 +52,10 @@ export class VisualizarOcorrenciaComponent implements OnInit, AfterViewInit {
   mensagem: MensagemFirebase = {};
 
   mensagemEnviar: string = ""
+
+  imagemEnviar: string = "";
+
+  imagem: any;
 
   idBancoFirebase: string = "";
 
@@ -175,7 +181,7 @@ renderOptions = {
 
     push(ref(db, this.idBancoFirebase), {
       text: this.mensagemEnviar,
-      image: '',
+      image: this.imagemEnviar,
       user: this.user,
       createdAt: new Date().getTime()
     });
@@ -251,9 +257,9 @@ renderOptions = {
   }
 
   private parse(snapshot: any){
-    const { createdAt, text,image, user } = snapshot.val();
+    const { createdAt, text, audio, image, user } = snapshot.val();
     const { key: _id } = snapshot;
-    const message = { _id, createdAt, text, image, user };
+    const message = { _id, createdAt, text, audio, image, user };
     return message;
   };
 
@@ -293,6 +299,49 @@ renderOptions = {
     const message = { latitude, longitude, usuario };
     return message;
   };
+
+  onUpload(event: any) {
+    console.log("onUpload")
+    for(let file of event.files) {
+      this.imagem = file;
+    }
+
+    const storage = getStorage();
+    var id = Math.floor(Date.now() * Math.random()).toString(36);
+    var ext = this.imagem.type.split('/', 3)[1];
+    var nome = id + '.' + ext;
+    var nomeStorage = "chat/" + this.idBancoFirebase + "/" + nome;
+    const storageRef = refStorage(storage, nomeStorage );
+
+    const uploadTask = uploadBytesResumable(storageRef, this.imagem);
+
+    uploadTask.on('state_changed',
+      (snapshot) => {
+      },
+      (error) => {
+        switch (error.code) {
+          case 'storage/unauthorized':
+            console.error('storage/unauthorized - ', error);
+            break;
+          case 'storage/canceled':
+            console.error('storage/canceled - ', error);
+            break;
+          case 'storage/unknown':
+            console.error('storage/unknown - ', error);
+            break;
+        }
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          this.imagemEnviar = downloadURL;
+          this.enviarMensagem();
+          location.reload();
+        });
+      }
+    );
+
+    this.messageService.add({severity: 'info', summary: 'Imagem carregada '});
+}
 
   
 

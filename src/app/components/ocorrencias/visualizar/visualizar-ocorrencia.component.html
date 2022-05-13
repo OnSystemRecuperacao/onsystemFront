@@ -51,6 +51,7 @@
                 <b *ngIf="chat.user!.tipoTenancy == 3">Prestador - {{chat.createdAt | date : 'dd/MM/yyyy HH:mm'}}</b>
             </div>
         </p-divider>
+        
         <p *ngIf="chat.text">
             {{chat.text}}
         </p>
@@ -60,6 +61,12 @@
             width:300px;
             height:400px;
             margin-left: 385px;" loading="lazy" [src]="chat.image">
+        </p>
+
+        <p *ngIf="chat.audio">
+            <audio controls>
+                <source [src]="chat.audio" type="audio/aac">
+            </audio>
         </p>
     </div>
 
@@ -79,8 +86,20 @@
     <div class="p-field p-col-2">
         <button pButton pRipple label="Enviar" icon="pi pi-check" class="p-button-success"
             (click)="enviarMensagem()"></button>
-    </div>
+            <p-divider></p-divider>
 
+                    <p-fileUpload 
+                        mode="basic"
+                        [auto]="true" 
+                        [customUpload]="true"
+                        (uploadHandler)="onUpload($event)"
+                        accept="image/*"
+                        chooseLabel="Enviar imagem" >
+                    </p-fileUpload>
+             
+        
+    </div>
+    
     <p-divider></p-divider>
 
     <div class="p-field p-col-2">

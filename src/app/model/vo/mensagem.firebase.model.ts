@@ -2,6 +2,7 @@ export class MensagemFirebase{
     _id?: string = '';
     createdAt?: number = 0;
     text?: string = '';
+    audio?: string = '';
     image?: string = '';
     user?: User = {}; 
 }
