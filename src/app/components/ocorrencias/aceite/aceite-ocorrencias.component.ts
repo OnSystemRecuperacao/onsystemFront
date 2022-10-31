@@ -59,17 +59,26 @@ export class AceiteOcorrenciasComponent implements OnInit {
 
 
   ngOnInit() {
-    console.log(this.config.data.idOcorrencia);
+    console.log(this.config.data);
     this.buscarPrestadores()
   }
 
   buscarPrestadores() {
     this.ocorrencia = this.config.data.novaOcorrencia;
-    console.log(this.config.data.idOcorrencia)
-    this.localizacaoPrestadorService.buscarPrestadorLocalizacao(this.config.data.idOcorrencia).then(response => {
+    console.log(this.config.data)
+    const dados =  {
+      idOcorrencia: this.config.data.idOcorrencia,
+      prestadores: this.config.data.prestadores,
+      estados: this.config.data.estados
+    }
+    this.localizacaoPrestadorService.buscarPrestadorLocalizacao(dados).then(response => {
       this.tempoPrestadorOcorrencias = response;
       console.log(this.tempoPrestadorOcorrencias);
       this.loading = false;
+      console.log(this.config.data.prestadores != null)
+      if(this.config.data.prestadores != null){
+        this.messageService.add(MessageUtils.onWarningMessage("Caso algum prestador selicionado não esteja na lista, o mesmo não esta com os dados atualizados na base."));
+      }
     }).catch(error =>
       this.messageService.add(MessageUtils.onErrorMessage(error))
     );

@@ -15,6 +15,8 @@ import { LocalizacaoPrestadorService } from 'src/app/services/localizacaoPrestad
 import { NotificacaoPrestadorOcorrencia } from 'src/app/model/vo/notificacao-prestador-ocorrencia';
 import { Prestador } from 'src/app/model/vo/prestador';
 import { Tenancy } from 'src/app/model/vo/tenancy';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { getDatabase, onChildAdded, push, ref } from 'firebase/database';
 
 
 @Component({
@@ -37,58 +39,78 @@ export class EncerrarOcorrenciaComponent implements OnInit {
   ocorrencia: Ocorrencia = {};
 
   notificacao: NotificacaoPrestadorOcorrencia = {};
- 
+
   pre: Prestador = {};
 
   loading: boolean = true;
+  idBancoFirebase: string = "";
+
+  user = {
+    _id: 0,
+    tipoTenancy: 0,
+    name: '',
+    avatar: "https://firebasestorage.googleapis.com/v0/b/onsystemapp-38e3c.appspot.com/o/logo.png?alt=media&token=d4969140-f893-4ce1-b877-f60b4458a291"
+  }
 
 
-  constructor(private messageService: MessageService, 
-    private localizacaoPrestadorService: LocalizacaoPrestadorService,
-    private notificacaoService: NotificacaoService,
+  constructor(private messageService: MessageService,
     private commomService: CommomService,
     public dialogService: DialogService,
-    public ref: DynamicDialogRef, 
+    public ref: DynamicDialogRef,
     public config: DynamicDialogConfig,
-    private ocorrenciaService: OcorrenciaService) { }
-  
+    private ocorrenciaService: OcorrenciaService,
+    private authService: AuthService,) { }
+
 
   ngOnInit() {
     console.log(this.config.data.idOcorrencia);
-    this.buscarPrestadores()
+    this.idBancoFirebase = this.config.data.idFirebase
   }
 
-  buscarPrestadores(){
-    this.ocorrencia = this.config.data.novaOcorrencia;
-    console.log(this.config.data.idOcorrencia)
-    this.localizacaoPrestadorService.buscarPrestadorLocalizacao(this.config.data.idOcorrencia).then(response => {
-      this.tempoPrestadorOcorrencias = response; 
-      console.log(this.tempoPrestadorOcorrencias);
-      this.loading = false;      
-    }).catch(error => 
-      this.messageService.add(MessageUtils.onErrorMessage(error))
-    );    
-  }
-
-  salvar(form: NgForm){
+  salvar(form: NgForm) {
     let obs = form.value.observacao;
     let ocorrencia = this.config.data.idOcorrencia;
     this.ocorrenciaService.encerrarOcorrencia(obs, ocorrencia).then(response => {
-      console.log(response)
-      
-    }).catch(error => 
-      this.messageService.add(MessageUtils.onErrorMessage(error))
-    );    
-    this.messageService.add(MessageUtils.onSuccessMessage("Ocorrencia encerrada"));  
-    this.ref.close();
-    this.commomService.navigateByUrl(NavigationEnum.LISTAR_OCORRENCIAS)   
+      this.enviarMensagem(obs);
+      setTimeout(() => {
+        this.messageService.add(MessageUtils.onSuccessMessage("Ocorrencia encerrada"));
+        this.ref.close();
+        this.commomService.navigateByUrl(NavigationEnum.LISTAR_OCORRENCIAS)
+      }, 1000);
 
-    
-    
+    }).catch(error =>
+      this.messageService.add(MessageUtils.onErrorMessage(error))
+    );
+
+
+
+
+
   }
 
-  redirectToList(event: any){
+  redirectToList(event: any) {
     this.commomService.navigateByUrl(NavigationEnum.LISTAR_OCORRENCIAS)
+  }
+
+  enviarMensagem(obs: any) {
+    console.log("Enviando msg - ", this.idBancoFirebase)
+
+    this.user = {
+      _id: <number>this.authService.getUsuarioLogado().id_tenancy,
+      tipoTenancy: this.authService.getUsuarioLogado()["tipo_tenancy"].id,
+      name: this.authService.getUsuarioLogado()["nome_usuario"],
+      avatar: "https://firebasestorage.googleapis.com/v0/b/onsystemapp-38e3c.appspot.com/o/logo.png?alt=media&token=d4969140-f893-4ce1-b877-f60b4458a291"
+    }
+
+    const db = getDatabase();
+
+    push(ref(db, this.idBancoFirebase), {
+      text: "Ocorrencia encerrada pelo cliente: Considerações finais - " + obs,
+      image: "",
+      user: this.user,
+      createdAt: new Date().getTime()
+    });
+
   }
 
 }

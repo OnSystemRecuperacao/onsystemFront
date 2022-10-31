@@ -6,6 +6,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from "rxjs/operators";
 import { Tenancy } from "src/app/model/vo/tenancy";
 import { environment } from "src/environments/environment";
+import { Login } from "src/app/model/vo/login";
 
 @Injectable({
     providedIn: 'root',
@@ -22,9 +23,9 @@ export class UsuarioService{
 
     BASE_URL: string = Utils.makeURLRequest("/usuarios");
 
-    create(usuario: Usuario): Promise<Usuario> {  
+    create(usuario: Usuario): Observable<Usuario> {  
        console.log(usuario)  
-       return this.httpClient.post<Usuario>(this.BASE_URL, usuario, this.httpOptions).toPromise();
+       return this.httpClient.post<Usuario>(this.BASE_URL, usuario, this.httpOptions).pipe(catchError(this.handleError));
     }
         
     read(idTenancy: number): Promise<any> {
@@ -54,13 +55,19 @@ export class UsuarioService{
         return this.httpClient.post(url, dto, this.httpOptions).pipe(catchError(this.handleError));
       }
 
+      validaSenhaAdm(login: any): Promise<any> {
+        const url = `${this.BASE_URL}/validaSenha`;
+        console.log(url)
+        return this.httpClient.post(url, login,this.httpOptions).toPromise();
+    }
+
     // Manipulação de erros
     handleError(error: HttpErrorResponse) {
         let errorMessage = '';
         if (error.error instanceof ErrorEvent) {      
-            errorMessage =  error.error.message      
+            errorMessage =  error.error.message     
         } else {  
-            errorMessage =  error.message       
+            errorMessage =  error.error       
         }    
         return throwError(errorMessage);
       }

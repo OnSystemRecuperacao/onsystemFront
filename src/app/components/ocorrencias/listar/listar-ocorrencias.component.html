@@ -1,25 +1,35 @@
-<p-table #dt [value]="ocorrencias" [rows]="10" [paginator]="ocorrencias.length > 0" [rowHover]="true" dataKey="id" [loading]="loading">
+<p-table #dt [value]="ocorrencias" [rows]="10" [paginator]="ocorrencias.length > 0" [rowHover]="true" dataKey="id"
+    [loading]="loading">
 
     <ng-template pTemplate="caption">
         <div class="p-d-flex p-ai-center p-jc-between">
             <h5 class="p-m-0">Lista de ocorrências</h5>
+            <p-dropdown *ngIf="admOcorrencia" [options]="tipoCadastro" name="tipoCadastro" placeholder="Selecione"
+                [(ngModel)]="tipoCadastroSelecionado" (onChange)="tipoCadastroChange($event)"></p-dropdown>
             <span class="p-input-icon-left">
-              <button pButton pRipple label="Novo" icon="pi pi-plus" class="p-button-success p-mr-2" (click)="novaOcorrencia()"></button>
-              <button type="button" pButton pRipple icon="pi pi-file-excel" (click)="exportExcel()" class="p-button-success p-mr-2"  pTooltip="XLS" tooltipPosition="bottom"></button>
+                <button pButton pRipple label="Novo" icon="pi pi-plus" class="p-button-success p-mr-2"
+                    (click)="novaOcorrencia()"></button>
+                <button type="button" pButton pRipple icon="pi pi-file-excel" (click)="exportExcel()"
+                    class="p-button-success p-mr-2" pTooltip="XLS" tooltipPosition="bottom"></button>
             </span>
         </div>
     </ng-template>
 
 
 
-    <ng-template pTemplate="header" >
+    <ng-template pTemplate="header">
         <tr>
-            <th pSortableColumn="id" style="text-align: center;">ID<p-sortIcon field="id"></p-sortIcon></th>
-            <th pSortableColumn="status" style="text-align: center;">Nº Processo <p-sortIcon field="processo"></p-sortIcon></th>
-            <th pSortableColumn="nome" style="text-align: center;">Status <p-sortIcon field="status"></p-sortIcon></th>
-            <th pSortableColumn="nome" style="text-align: center;">Abertura <p-sortIcon field="abertura"></p-sortIcon></th>
+            <th pSortableColumn="id" style="text-align: center;">ID<p-sortIcon field="id"></p-sortIcon>
+            </th>
+            <th pSortableColumn="status" style="text-align: center;">Nº Processo <p-sortIcon field="processo">
+                </p-sortIcon>
+            </th>
+            <th pSortableColumn="nome" style="text-align: center;">Status <p-sortIcon field="status"></p-sortIcon>
+            </th>
+            <th pSortableColumn="nome" style="text-align: center;">Abertura <p-sortIcon field="abertura"></p-sortIcon>
+            </th>
             <th style="text-align: center;">Ações</th>
-          </tr>
+        </tr>
     </ng-template>
 
     <ng-template pTemplate="body" let-ocorrencia *ngIf="!ocorrencias.length">
@@ -28,31 +38,27 @@
             <td style="text-align: center;">{{ocorrencia.numeroProcesso}}</td>
             <td style="text-align: center;">{{ocorrencia.status}}</td>
             <td style="text-align: center;">{{ocorrencia.dataAbertura | date : 'dd/MM/yyyy HH:mm'}}</td>
-            <td style="text-align: center;" >
-                <button pButton pRipple icon="pi pi-search" class="p-button-rounded p-button-success p-mr-2" (click)="visualizar(ocorrencia)" ></button>
-                <button pButton pRipple icon="pi pi-times" class="p-button-rounded p-button-danger" (click)="deletar(ocorrencia)"></button>
+            <td style="text-align: center;">
+                <button pButton pRipple icon="pi pi-search" class="p-button-rounded p-button-success p-mr-2"
+                    (click)="visualizar(ocorrencia)"></button>
+                <button *ngIf="admOcorrencia" pButton pRipple icon="pi pi-times"
+                    class="p-button-rounded p-button-danger" (click)="deletar(ocorrencia)"></button>
             </td>
         </tr>
     </ng-template>
 
 </p-table>
 
-    <p-table *ngIf="error404">
-        <ng-template pTemplate="caption">
-            <div class="p-d-flex p-ai-center p-jc-between">
-                <h6 class="p-m-0">Você ainda não possui ocorrências</h6>        
-            </div>
-        </ng-template>
-    </p-table>
+<p-table *ngIf="error404">
+    <ng-template pTemplate="caption">
+        <div class="p-d-flex p-ai-center p-jc-between">
+            <h6 class="p-m-0">Você ainda não possui ocorrências</h6>
+        </div>
+    </ng-template>
+</p-table>
 
-    <p-confirmDialog 
-    [style]="{width: '50vw'}" 
-    key="positionDialog" 
-    [position]="position" 
-    [baseZIndex]="10000" 
-    acceptLabel="SIM"
-    acceptButtonStyleClass="p-button-success"
-    rejectLabel="NÃO"
+<p-confirmDialog [style]="{width: '50vw'}" key="positionDialog" [position]="position" [baseZIndex]="10000"
+    acceptLabel="SIM" acceptButtonStyleClass="p-button-success" rejectLabel="NÃO"
     rejectButtonStyleClass="p-button-danger">
 </p-confirmDialog>
-    <p-toast position="top-right" (onClose)="reload()"></p-toast>
+<p-toast position="top-right" (onClose)="reload()"></p-toast>

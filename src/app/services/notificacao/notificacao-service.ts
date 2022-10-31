@@ -31,6 +31,13 @@ export class NotificacaoService {
         const url = `${this.BASE_URL}` + '/notificarPrestador';  
         return this.httpClient.post<any>(url, this.data, this.httpOptions).pipe(catchError(this.handleError));     
     }
+
+    notificarPrestadorChat(notificacao: any): Observable<any> {
+        console.log(notificacao)
+        this.data = this.parseData(notificacao);  
+        const url = `${this.BASE_URL}` + '/notificarPrestadorChat';  
+        return this.httpClient.post<any>(url, this.data, this.httpOptions).pipe(catchError(this.handleError));     
+    }
    
     private parseData(notificacao: NotificacaoPrestadorOcorrencia): any{
        let data = notificacao;

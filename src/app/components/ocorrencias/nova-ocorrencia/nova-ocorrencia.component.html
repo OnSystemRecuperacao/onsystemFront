@@ -2,7 +2,7 @@
     <p-table>
         <ng-template pTemplate="caption">
             <div class="p-d-flex p-ai-center p-jc-between">
-                <h5 class="p-m-0">Cadastro de ocorrência</h5>        
+                <h5 class="p-m-0">Cadastro de ocorrência</h5>
             </div>
         </ng-template>
     </p-table>
@@ -10,70 +10,81 @@
 
 <div class="container" style="margin-top: 15px;">
     <form id="nova-ocorrencia" #ocorrencia="ngForm" (ngSubmit)="salvar(ocorrencia)">
-    
+
         <div class="p-fluid p-formgrid p-grid">
             <div class="p-field p-col">
                 <label for="localizacaoOcorrencia">Latitude, Longitude da ocorrência</label>
-                <input type="text" name="localizacao" pInputText id="localizacao" required autofocus #localizacao="ngModel" ngModel required/>
-                <small class="p-error" *ngIf="localizacao.hasError('required') && localizacao.dirty">* A Latitude e Longitude  é
+                <input type="text" name="localizacao" pInputText id="localizacao" required autofocus
+                    #localizacao="ngModel" ngModel required />
+                <small class="p-error" *ngIf="localizacao.hasError('required') && localizacao.dirty">* A Latitude e
+                    Longitude é
                     obrigatório.</small>
-            </div> 
-            
+            </div>
+
             <!-- <div class="p-field p-col">
                 <label for="longitudeOcorrencia">Longitude ocorrencia</label>
                 <input type="text" name="longitude" pInputText id="longitude" required autofocus ngModel/>
             </div>       -->
-    
+
         </div>
-    
+
         <div class="p-fluid p-formgrid p-grid">
             <div class="p-field p-col">
                 <label for="latitudeOcorrencia">Processo</label>
-                <input type="number" name="numProcesso" pInputText id="numProcesso" required autofocus ngModel/>
-            </div> 
-            
+                <input type="number" name="numProcesso" pInputText id="numProcesso" required autofocus ngModel />
+            </div>
+
             <div class="p-field p-col">
                 <label for="longitudeOcorrencia">Motivo</label>
-                <input type="text" name="motivo" pInputText id="motivo" ngModel/>
-            </div>      
-    
+                <input type="text" name="motivo" pInputText id="motivo" ngModel />
+            </div>
+
         </div>
-    
-       
-    
-        
+
+
+
+
         <div class="p-fluid p-formgrid p-grid">
             <div class="p-field p-col">
-                <label for="antenista">Antenista</label>              
+                <label for="antenista">Antenista</label>
                 <p-dropdown [options]="itens" name="antenista" placeholder="Selecione" ngModel></p-dropdown>
-            </div>   
-    
+            </div>
+
             <div class="p-field p-col">
-                <label for="escoltaArmada">Escolta Armada</label>              
+                <label for="escoltaArmada">Escolta Armada</label>
                 <p-dropdown [options]="itens" name="escoltaArmado" placeholder="Selecione" ngModel></p-dropdown>
-            </div>      
-            
-            <!-- <div class="p-field p-col">
-                <label for="escoltaArmada">Regulador sinistro</label>              
-                <p-dropdown [options]="itens" name="reguladorSinis" placeholder="Selecione" ngModel></p-dropdown>
-            </div>   -->
+            </div>
         </div>
-    
+
+        <div class="p-fluid p-formgrid p-grid">
+            <div class="p-field p-col">
+                <label for="estado">Estado da ocorrencia</label>
+                <p-dropdown [options]="estados" name="estado" placeholder="Selecione"  optionLabel="nome" ngModel></p-dropdown>
+            </div>
+
+            <div class="p-field p-col">
+                <label for="escoltaArmada">Encaminhar para prestadores</label>
+                <p-multiSelect [options]="prestadores" defaultLabel="Não" optionLabel="nome"
+                    selectedItemsLabel="{0} Prestadores selecionados" (onChange)="prestadoresChange($event)"></p-multiSelect>
+            </div>
+        </div>
+
         <div class="p-fluid p-formgrid p-grid">
             <div class="p-field p-col">
                 <label for="email">Observações</label>
                 <textarea name="observacoes" [rows]="5" [cols]="30" pInputTextarea ngModel></textarea>
             </div>
         </div>
-    
+
         <div class="p-fluid p-formgrid p-grid  p-jc-end">
-            
+
             <div class="p-field p-col-2">
-                <button pButton pRipple label="Salvar" icon="pi pi-check" class="p-button-success" [disabled]="!ocorrencia.valid"></button> 
-            </div>       
+                <button pButton pRipple label="Salvar" icon="pi pi-check" class="p-button-success"
+                    [disabled]="!ocorrencia.valid"></button>
+            </div>
         </div>
-    
+
     </form>
-    
+
 </div>
 <p-toast position="top-right"></p-toast>

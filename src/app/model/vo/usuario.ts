@@ -11,5 +11,6 @@ export class Usuario {
     email?: string = "";
     senha?: string = "";
     situacao?: string;
+    admSistema?: boolean;
 }
     

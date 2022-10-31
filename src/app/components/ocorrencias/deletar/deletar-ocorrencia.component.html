@@ -1,0 +1,25 @@
+<form id="reset-senha" autocomplete="off" #deleteSenha="ngForm" (ngSubmit)="submit(deleteSenha);">
+    <div class="p-col-12 p-d-flex-12  p-ai-center p-jc-center">
+        <div class="p-field">
+            <div class="p-field">
+                <div class="p-inputgroup">
+                    <span class="p-inputgroup-addon"><i class="pi pi-ellipsis-h"></i></span>
+                    <input type="password" pInputText ngModel name="password" #password="ngModel" placeholder="Senha" required>                                                   
+                </div>
+                <div class="p-inputgroup">
+                    <small class="p-error" *ngIf="password.hasError('required') && password.dirty">* O campo Senha é obrigatório.</small>                                                
+                </div>  
+            </div>
+          
+            <p-divider></p-divider>
+            <div class="p-field">
+                <button pButton pRipple label="Enviar"  class="p-button-success"></button>
+            </div>      
+        </div>
+    </div>
+</form>
+
+<p-toast position="top-center" ></p-toast>
+
+
+    

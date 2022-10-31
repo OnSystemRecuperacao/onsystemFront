@@ -58,6 +58,10 @@ import { CaptchaModule } from 'primeng/captcha';
 import { AgmCoreModule } from '@agm/core';
 import { AgmDirectionModule } from 'agm-direction';
 import { ConfirmPopupModule } from "primeng/confirmpopup";
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { DeleteOcorrenciaComponent } from './components/ocorrencias/deletar/deletar-ocorrencia.component';
+import { CheckboxModule } from 'primeng/checkbox';
+import {MultiSelectModule} from 'primeng/multiselect';
 
 
 
@@ -89,7 +93,8 @@ export function tokenGetter(): any {
     AceiteOcorrenciasComponent,
     EsqueciSenhaComponent,
     EncerrarOcorrenciaComponent,
-    ListarPrestadorInativoComponent
+    ListarPrestadorInativoComponent,
+    DeleteOcorrenciaComponent
   ],
   imports: [
     FileUploadModule,
@@ -119,8 +124,11 @@ export function tokenGetter(): any {
     DynamicDialogModule,
     CaptchaModule,
     ConfirmPopupModule,
+    CheckboxModule,
+    ProgressSpinnerModule,
+    MultiSelectModule,
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyBdnbKYYjx2Uw6kBTCtMUF4Sl9XT4EyFuE'
+      apiKey: 'AIzaSyD2SnSZzX2_lERXPnDhwGmfXit5A7MTsZA'
     }),
     AgmDirectionModule,
     JwtModule.forRoot({
@@ -129,8 +137,11 @@ export function tokenGetter(): any {
         // allowedDomains: ['18.223.1.99:8080'],
         // disallowedRoutes: ['http://18.223.1.99:8080/onsystem/api/v1/oauth/token']
 
-        allowedDomains: ['localhost:8080'],
-        disallowedRoutes: ['http://localhost:8080/oauth/token']
+        // allowedDomains: ['localhost:8080'],
+        // disallowedRoutes: ['http://localhost:8080/oauth/token']
+
+        allowedDomains: ['api.centralonsystem.com.br'],
+        disallowedRoutes: ['//api.centralonsystem.com.br/onsystem/api/v1/oauth/token']
       }
     }),
     TieredMenuModule,

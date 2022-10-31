@@ -2,6 +2,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http
 import { Injectable } from "@angular/core";
 import { Observable, throwError } from "rxjs";
 import { retry, catchError } from "rxjs/operators";
+import { Login } from "src/app/model/vo/login";
 import { Ocorrencia } from "src/app/model/vo/ocorrencia";
 import Utils from "src/app/utils/utils";
 
@@ -10,10 +11,7 @@ import Utils from "src/app/utils/utils";
 })
 
 export class OcorrenciaService {
-
-
-
-
+  
   data = {}
 
   constructor(private httpClient: HttpClient) { }
@@ -60,6 +58,9 @@ export class OcorrenciaService {
     console.log(url)
     return this.httpClient.delete(url, this.httpOptions).pipe(catchError(this.handleError));
   }
+
+  
+
 
   // Manipulação de erros
   handleError(error: HttpErrorResponse) {

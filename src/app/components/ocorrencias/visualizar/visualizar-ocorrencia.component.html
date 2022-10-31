@@ -4,6 +4,7 @@
             <div class="p-d-flex p-ai-center p-jc-between">
                 <h5 class="p-m-0">Ocorrencia {{ocorrencia?.id}}</h5>
             </div>
+
         </ng-template>
     </p-table>
 
@@ -39,6 +40,27 @@
             <th>Motivo - {{ocorrencia?.motivo}}</th>
         </div>
     </div>
+    <div *ngIf="ocorrencia?.status === 'FECHADA'">
+        <button pButton type="button" label="Emitir relatório" class="p-button-raised p-button-warning p-button-rounded"
+            style="margin-bottom: 20px;" (click)="relatorioOco()"></button>
+    </div>
+    <div *ngIf="relatorioOcorrencia">
+        <div class="p-field p-col">
+            <th>Por favor, digite suas considerações finais referente a essa ocorrência</th>
+        </div>
+        <textarea pInputTextarea [rows]="8" [cols]="140" [(ngModel)]="observacoesRelatorio"></textarea>
+        <button pButton type="button" label="Enviar" class="p-button-raised p-button-rounded"
+            style="margin-bottom: 20px;" (click)="download()"></button>
+        <div *ngIf="carregandoDoc">
+            <th>Emitindo relatório</th>
+            <p-progressSpinner [style]="{width: '50px', height: '50px'}" styleClass="custom-spinner" strokeWidth="5"
+                animationDuration=".5s">
+            </p-progressSpinner>
+        </div>
+
+    </div>
+
+
 
 
     <div class="card" *ngFor="let chat of chats">
@@ -48,19 +70,42 @@
                 <b *ngIf="chat.user!.tipoTenancy == 0">Open Code - {{chat.createdAt | date : 'dd/MM/yyyy HH:mm'}}</b>
                 <b *ngIf="chat.user!.tipoTenancy == 1">Central - {{chat.createdAt | date : 'dd/MM/yyyy HH:mm'}}</b>
                 <b *ngIf="chat.user!.tipoTenancy == 2">Cliente - {{chat.createdAt | date : 'dd/MM/yyyy HH:mm'}}</b>
-                <b *ngIf="chat.user!.tipoTenancy == 3">Prestador - {{chat.createdAt | date : 'dd/MM/yyyy HH:mm'}}</b>
+                <b *ngIf="chat.user!.tipoTenancy == 3 && tipoTenancy == 1">{{chat.user!.name}} - {{chat.createdAt | date
+                    : 'dd/MM/yyyy HH:mm'}}</b>
+                <b *ngIf="chat.user!.tipoTenancy == 3 && tipoTenancy != 1">Prestador - {{chat.createdAt | date :
+                    'dd/MM/yyyy HH:mm'}}</b>
             </div>
         </p-divider>
-        
-        <p *ngIf="chat.text">
+
+        <p *ngIf="chat.text && !isPdf(chat.text)">
             {{chat.text}}
         </p>
 
-        <p *ngIf="chat.image">
+
+        <div *ngIf="isPdf(chat.text)" style="margin-left: 15px; margin-bottom: 10px;">
+
+            <button pButton type="button" label="Documento PDF" icon="pi pi-file-pdf" class="p-button-danger"
+                (click)="abrirPdf(chat.text)">
+            </button>
+
+        </div>
+
+
+        <p *ngIf='chat.image && !isVideo(chat.image)'>
             <img style="object-fit:contain;
             width:300px;
             height:400px;
             margin-left: 385px;" loading="lazy" [src]="chat.image">
+        </p>
+
+        <p *ngIf=isVideo(chat.image)>
+            <video width="1000" height="600" [src]="chat.image" controls autoplay>
+                Seu navegador não suporta o elemento <code>video</code>.
+            </video>
+            <!-- <img style="object-fit:contain;
+            width:300px;
+            height:400px;
+            margin-left: 385px;" loading="lazy" [src]="chat.image"> -->
         </p>
 
         <p *ngIf="chat.audio">
@@ -86,20 +131,27 @@
     <div class="p-field p-col-2">
         <button pButton pRipple label="Enviar" icon="pi pi-check" class="p-button-success"
             (click)="enviarMensagem()"></button>
-            <p-divider></p-divider>
 
-                    <p-fileUpload 
-                        mode="basic"
-                        [auto]="true" 
-                        [customUpload]="true"
-                        (uploadHandler)="onUpload($event)"
-                        accept="image/*"
-                        chooseLabel="Enviar imagem" >
-                    </p-fileUpload>
-             
-        
+        <p-divider></p-divider>
+
+        <p-fileUpload mode="basic" [auto]="true" [customUpload]="true" (uploadHandler)="onUpload($event)"
+            accept="image/*" chooseLabel="Enviar imagem">
+        </p-fileUpload>
+
+        <p-divider></p-divider>
+
+        <p-fileUpload mode="basic" [auto]="true" [customUpload]="true" (uploadHandler)="onUpload($event)" 
+            chooseLabel="Enviar vídeo">
+        </p-fileUpload>
+
+        <p-divider></p-divider>
+
+        <p-fileUpload mode="basic" [auto]="true" [customUpload]="true" (uploadHandler)="onUploadPdf($event)"
+            chooseLabel="Enviar pdf">
+        </p-fileUpload>
+
     </div>
-    
+
     <p-divider></p-divider>
 
     <div class="p-field p-col-2">
@@ -116,14 +168,17 @@
     <div *ngIf="localizacao.latitude != 0">
         <agm-map [zoom]="15" [latitude]="localizacao!.latitude" [longitude]="localizacao!.longitude">
             <agm-marker [latitude]="localizacao!.latitude" [longitude]="localizacao!.longitude"></agm-marker>
-            <agm-direction [visible]="rota" [origin]="origem" [destination]="destino"  [markerOptions]="markerOptions" [renderOptions]="renderOptions" >
+            <agm-direction [visible]="rota" [origin]="origem" [destination]="destino" [markerOptions]="markerOptions"
+                [renderOptions]="renderOptions">
             </agm-direction>
         </agm-map>
         <p-divider align="center" type="dashed">
         </p-divider>
         <div class="p-field p-col-2">
-            <button *ngIf="!rota" pButton pRipple label="Exibir rota" icon="pi pi-directions" class="p-button-success" (click)="exibirRota()"></button>
-            <button *ngIf="rota" pButton pRipple label="Ocultar rota" icon="pi pi-directions" class="p-button-success" (click)="exibirRota()"></button>
+            <button *ngIf="!rota" pButton pRipple label="Exibir rota" icon="pi pi-directions" class="p-button-success"
+                (click)="exibirRota()"></button>
+            <button *ngIf="rota" pButton pRipple label="Ocultar rota" icon="pi pi-directions" class="p-button-success"
+                (click)="exibirRota()"></button>
         </div>
     </div>
 

@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MessageService } from 'primeng/api';
+import { finalize } from 'rxjs/operators';
 import { NavigationEnum } from 'src/app/model/enums/navigation.enum';
 import { Tenancy } from 'src/app/model/vo/tenancy';
 import { Usuario } from 'src/app/model/vo/usuario';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { ComboService } from 'src/app/services/combos/combo.service';
 import { CommomService } from 'src/app/services/commons/common.service';
 import { UsuarioService } from 'src/app/services/usuario/usuario-service';
 import MessageUtils from 'src/app/utils/message-util';
@@ -21,12 +23,15 @@ export class AdicionarUsuarioComponent implements OnInit {
     private authService: AuthService,
     private messageService: MessageService, 
     private commomService: CommomService,
-    private usuarioService: UsuarioService
+    private usuarioService: UsuarioService,
+    private comboService: ComboService
   ) { }
 
   usuarioLogado = new Usuario();  
+  itens = [{}]
 
   ngOnInit(): void {
+    this.itens = this.comboService.getSimNaoOptions()
     if(this.authService.jwtIsLoad()){
       this.loadUsuarioLogado();
     }
@@ -43,12 +48,15 @@ export class AdicionarUsuarioComponent implements OnInit {
   private adicionarUsuario(form: NgForm) {
     let usuario = this.parseData(form);
     this.usuarioService.create(usuario)
-      .then(response => {
+      .subscribe(response => {
         this.messageService.add(MessageUtils.onSuccessMessage("Usuário adicionado com sucesso"));
-        form.reset();       
-      }).catch(erro => 
-        this.messageService.add(MessageUtils.onErrorMessage(erro))
-      );
+        form.reset();    
+      
+      }, error => {
+        this.messageService.add(MessageUtils.onErrorMessage(error.mensagem));
+        console.log(error.mensagem)
+
+      })
   }
   
   private parseData(form: NgForm): Usuario {
@@ -57,6 +65,8 @@ export class AdicionarUsuarioComponent implements OnInit {
      usuario.nome = form.value.nome;
      usuario.email = form.value.email;
      usuario.senha = form.value.senha;     
+     usuario.admSistema = form.value.admOcorrencia == 1 ? true : false;
+
      return usuario;
   }
 

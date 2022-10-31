@@ -1,28 +1,32 @@
-import { AfterViewChecked, AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ComboService } from 'src/app/services/combos/combo.service';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import MessageUtils from 'src/app/utils/message-util';
-import { CommomService } from 'src/app/services/commons/common.service';
-import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { Cliente } from 'src/app/model/vo/cliente';
 import { ActivatedRoute } from '@angular/router';
-import { InteracaoOcorrencia } from 'src/app/model/vo/interacao-ocorrencia';
-import { InteracaoService } from 'src/app/services/interacaoOcorrencia/interacao-service';
 import { Ocorrencia } from 'src/app/model/vo/ocorrencia';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { Usuario } from 'src/app/model/vo/usuario';
 import { Tenancy } from 'src/app/model/vo/tenancy';
 import { OcorrenciaService } from 'src/app/services/ocorrencias/ocorrencia-service';
-import { getDatabase, onChildAdded, onValue, push, ref, set } from 'firebase/database';
+import { getDatabase, onChildAdded, push, ref } from 'firebase/database';
 import { UsuarioService } from 'src/app/services/usuario/usuario-service';
 import { DialogService } from 'primeng/dynamicdialog';
 import { EncerrarOcorrenciaComponent } from '../encerrar/encerrar-ocorrencia.component';
 import { MensagemFirebase } from 'src/app/model/vo/mensagem.firebase.model';
-import { LocalizacaoPrestador } from 'src/app/model/vo/localizacao-prestador';
-import { Localizacao } from 'src/app/model/vo/localizacao';
 import { LocalizacaoFireBase } from 'src/app/model/vo/LocalizacaoFireBase';
 import { getDownloadURL, getStorage, uploadBytesResumable } from 'firebase/storage';
-import { ref as refStorage } from 'firebase/storage';
+import { ref as refStorage, uploadBytes  } from 'firebase/storage';
+import { DocumentCreator } from 'src/app/services/relatorioOcorrencia/DocumentCreator';
+import { Packer } from 'docx';
+import * as saveAs from 'file-saver';
+import { RelatorioService } from 'src/app/services/relatorioOcorrencia/relatorio-service';
+import { HistoricoFirebase } from 'src/app/model/vo/historico-firebase';
+import { Observable, Observer } from 'rxjs';
+import * as JSZip from 'jszip';
+import JSZipUtils from 'jszip-utils'
+import { NotificacaoPrestadorOcorrencia } from 'src/app/model/vo/notificacao-prestador-ocorrencia';
+import { NotificacaoService } from 'src/app/services/notificacao/notificacao-service';
 
 @Component({
   selector: 'visualizar-ocorrencia',
@@ -62,17 +66,14 @@ export class VisualizarOcorrenciaComponent implements OnInit, AfterViewInit {
   rota = false;
 
   user = {
-    _id: '',
+    _id: 0,
     tipoTenancy: 0,
     name: '',
     avatar: "https://firebasestorage.googleapis.com/v0/b/onsystemapp-38e3c.appspot.com/o/logo.png?alt=media&token=d4969140-f893-4ce1-b877-f60b4458a291"
   }
 
-  lat = -23.548292555642472;
-  lng = -46.55468821799813;
+  urls: any = [];
 
-  origin = { lat: -23.53396135665954, lng: -46.49964524856933 };
-  destination = { lat: -23.5604483, lng: -46.5595737 };
 
   origem = {};
   destino = {};
@@ -84,23 +85,33 @@ export class VisualizarOcorrenciaComponent implements OnInit, AfterViewInit {
   roomname = '';
 
   position = "top";
+  tipoTenancy!: number;
+  carregandoDoc: boolean = false;
+
+  observacoesRelatorio!: string;
+  relatorioOcorrencia: boolean = false;
+  base64Image: any;
 
   ngOnInit() {
     this.buscarOcorrencia();
     if (this.authService.jwtIsLoad()) {
       this.loadUsuarioLogado();
-    }    
-    
+      this.tipoTenancy = <number>this.authService.getUsuarioLogado().tipo_tenancy.id
+    }
+
+
   }
 
   constructor(
     private messageService: MessageService,
     private route: ActivatedRoute,
     private authService: AuthService,
+    private notificacaoService: NotificacaoService,
     private ocorrenciaService: OcorrenciaService,
     private usuarioService: UsuarioService,
     private confirmationService: ConfirmationService,
-    public dialogService: DialogService
+    public dialogService: DialogService,
+    private relatorioService: RelatorioService
   ) {
 
   }
@@ -111,22 +122,16 @@ export class VisualizarOcorrenciaComponent implements OnInit, AfterViewInit {
 
   private buscarOcorrencia() {
     //let idOcorrencia = <number> this.route.snapshot.params['id'];
-    console.log(<number>this.route.snapshot.params['id'] + "- ID SNAP");
     let idOcorrencia = <number>this.route.snapshot.params['id'];
 
     this.ocorrenciaService.readById(idOcorrencia).then(response => {
-      console.log(response);
       this.ocorrencia = response;
       this.idOcorrencia = idOcorrencia;
       this.cliente = this.ocorrencia?.tenancyCliente;
-      this.idBancoFirebase = idOcorrencia + "-" + this.ocorrencia?.idCentral + "-" + this.cliente?.id 
+      this.idBancoFirebase = idOcorrencia + "-" + this.ocorrencia?.idCentral + "-" + this.cliente?.id
       this.updateMessages(this.callback);
       this.updateLocalizacao(this.callbackLocalizacao);
 
-    console.log("ID BANCO")
-    console.log(this.idBancoFirebase)
-
-      console.log(this.cliente);
 
     }, error => {
       this.messageService.add(MessageUtils.onErrorMessage(error));
@@ -137,41 +142,42 @@ export class VisualizarOcorrenciaComponent implements OnInit, AfterViewInit {
 
   }
 
-  exibirRota(){
+  exibirRota() {
     this.updateLocalizacao(this.callbackLocalizacao);
-    this.origem = {
-      lat: this.localizacao!.latitude,
-      lng: this.localizacao!.longitude
-    }
-    this.destino = {
-      lat: parseFloat(this.ocorrencia!.localizacao!.latitude!),
-      lng: parseFloat(this.ocorrencia!.localizacao!.longitude!)
-    }
-    console.log(this.origem)
-    console.log( this.destino)
+    setTimeout(() => {
+      this.origem = {
+        lat: this.localizacao!.latitude,
+        lng: this.localizacao!.longitude
+      }
+      this.destino = {
+        lat: parseFloat(this.ocorrencia!.localizacao!.latitude!),
+        lng: parseFloat(this.ocorrencia!.localizacao!.longitude!)
+      }
+    
+      this.rota = !this.rota
+    }, 1000);
 
-    this.rota = !this.rota
   }
 
   markerOptions = {
     origin: {
-        icon: 'https://img.icons8.com/material-rounded/24/000000/public.png',
-        draggable: true,
+      icon: 'https://img.icons8.com/material-rounded/24/000000/public.png',
+      draggable: true,
     },
     destination: {
-        icon: 'https://img.icons8.com/material-sharp/24/000000/cancel--v2.png',
-        draggable: true,
+      icon: 'https://img.icons8.com/material-sharp/24/000000/cancel--v2.png',
+      draggable: true,
     },
-}
+  }
 
-renderOptions = {
-  suppressMarkers: true,
-}
+  renderOptions = {
+    suppressMarkers: true,
+  }
 
   enviarMensagem() {
-   
+
     this.user = {
-      _id: this.cliente!.id!.toString(),
+      _id: this.cliente!.id!,
       tipoTenancy: this.authService.getUsuarioLogado()["tipo_tenancy"].id,
       name: this.authService.getUsuarioLogado()["nome_usuario"],
       avatar: "https://firebasestorage.googleapis.com/v0/b/onsystemapp-38e3c.appspot.com/o/logo.png?alt=media&token=d4969140-f893-4ce1-b877-f60b4458a291"
@@ -180,16 +186,30 @@ renderOptions = {
     const db = getDatabase();
 
     push(ref(db, this.idBancoFirebase), {
+      _id: new Date().getTime(),
       text: this.mensagemEnviar,
       image: this.imagemEnviar,
       user: this.user,
       createdAt: new Date().getTime()
     });
-
+    this.notificarPrestador(this.mensagemEnviar);
     this.messageService.add(MessageUtils.onSuccessMessage("Mensagem enviada"));
     this.mensagemEnviar = "";
+    
     this.updateLocalizacao(this.callbackLocalizacao);
 
+  }
+  notificarPrestador(msg: any) {
+    const notificacao = {
+      prestador: new Tenancy(this.ocorrencia!.idPrestador!),
+      mensagem: msg
+    }
+
+    this.notificacaoService.notificarPrestadorChat(notificacao).subscribe(response => {
+
+    }, error =>
+      this.messageService.add(MessageUtils.onErrorMessage("Erro ao notificar prestador"))
+    );
   }
 
   private loadUsuarioLogado() {
@@ -218,7 +238,8 @@ renderOptions = {
       accept: () => {
         const ref = this.dialogService.open(EncerrarOcorrenciaComponent, {
           data: {
-            idOcorrencia: ocorrencia
+            idOcorrencia: ocorrencia,
+            idFirebase: this.idBancoFirebase
           },
           header: 'Observação de encerramento',
           width: '70%'
@@ -229,80 +250,66 @@ renderOptions = {
     });
   }
 
-  updateMessages(callback: any){
+  updateMessages(callback: any) {
 
     const db = getDatabase();
-    console.log("updateMessages")
-    console.log(this.idBancoFirebase)
-
-    if(this.idBancoFirebase){
+    if (this.idBancoFirebase) {
       const commentsRef = ref(db, this.idBancoFirebase);
       onChildAdded(commentsRef, (data) => {
         let teste = callback(this.parse(data));
-        console.log("DEPOIS DO BACK")
         this.chats.push(teste)
-        console.log(this.chats)
         this.updateLocalizacao(this.callbackLocalizacao);
       });
-   
+
     }
-   
+
   }
 
-  callback(data: any){
-    console.log("CALLBACK")
+  callback(data: any) {
     let msg: MensagemFirebase = new MensagemFirebase();
     msg = data;
     return msg;
   }
 
-  private parse(snapshot: any){
+  private parse(snapshot: any) {
     const { createdAt, text, audio, image, user } = snapshot.val();
     const { key: _id } = snapshot;
     const message = { _id, createdAt, text, audio, image, user };
     return message;
   };
 
-  updateLocalizacao(callbackLocalizacao: any){
+  updateLocalizacao(callbackLocalizacao: any) {
 
     const db = getDatabase();
-    console.log("updateLocalizacao")
-    console.log(this.ocorrencia!.idPrestador)
-    
+
     let id = "localizacao-prestador-" + this.ocorrencia!.idPrestador;
     // let id = "localizacao-prestador-" + 10;
-    console.log(id)
-    
-      const commentsRef = ref(db, id);
-      onChildAdded(commentsRef, (data) => {
-        let teste = callbackLocalizacao(this.parseLocalizacao(data));
-        console.log("DEPOIS DO BACK LOCALIZACAO")
-        this.localizacao.latitude = parseFloat(teste['latitude']);
-        this.localizacao.longitude = parseFloat(teste['longitude']);
-        console.log(this.localizacao)
-      });
-    
-   
+
+    const commentsRef = ref(db, id);
+    onChildAdded(commentsRef, (data) => {
+      let teste = callbackLocalizacao(this.parseLocalizacao(data));
+      this.localizacao.latitude = parseFloat(teste['latitude']);
+      this.localizacao.longitude = parseFloat(teste['longitude']);
+    });
+
+
   }
 
-  callbackLocalizacao(data: any){
-    console.log("CALLBACK")
+  callbackLocalizacao(data: any) {
     let localizacao: LocalizacaoFireBase = new LocalizacaoFireBase();
     localizacao = data;
     return localizacao;
   }
 
-  private parseLocalizacao(snapshot: any){
-    console.log(snapshot.val())
-    const { latitude,longitude, usuario } = snapshot.val();
+  private parseLocalizacao(snapshot: any) {
+    const { latitude, longitude, usuario } = snapshot.val();
     const { key: _id } = snapshot;
     const message = { latitude, longitude, usuario };
     return message;
   };
 
   onUpload(event: any) {
-    console.log("onUpload")
-    for(let file of event.files) {
+    for (let file of event.files) {
       this.imagem = file;
     }
 
@@ -311,7 +318,7 @@ renderOptions = {
     var ext = this.imagem.type.split('/', 3)[1];
     var nome = id + '.' + ext;
     var nomeStorage = "chat/" + this.idBancoFirebase + "/" + nome;
-    const storageRef = refStorage(storage, nomeStorage );
+    const storageRef = refStorage(storage, nomeStorage);
 
     const uploadTask = uploadBytesResumable(storageRef, this.imagem);
 
@@ -340,10 +347,149 @@ renderOptions = {
       }
     );
 
-    this.messageService.add({severity: 'info', summary: 'Imagem carregada '});
-}
+    this.messageService.add({ severity: 'info', summary: 'Arquivo carregado' });
+  }
 
-  
+  onUploadPdf(event: any) {
+    const file:File = event.files[0];
+ 
+    const storage = getStorage();
+    var id = Math.floor(Date.now() * Math.random()).toString(36);
+    var nome = id + '.pdf';
+    var nomeStorage = "chat/" + this.idBancoFirebase + "/" + nome;
+    const storageRef = refStorage(storage, nomeStorage);
+
+    const uploadTask = uploadBytesResumable(storageRef, file);
+    
+    uploadTask.on('state_changed',
+      (snapshot) => {
+      },
+      (error) => {
+        switch (error.code) {
+          case 'storage/unauthorized':
+            console.error('storage/unauthorized - ', error);
+            break;
+          case 'storage/canceled':
+            console.error('storage/canceled - ', error);
+            break;
+          case 'storage/unknown':
+            console.error('storage/unknown - ', error);
+            break;
+        }
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          this.mensagemEnviar = downloadURL;
+          this.enviarMensagem();
+          location.reload();
+        });
+      }
+    );
+
+    this.messageService.add({ severity: 'info', summary: 'Arquivo carregado' });
+  }
+
+  public relatorioOco(): void {
+    if (this.relatorioOcorrencia) {
+      this.relatorioOcorrencia = false;
+    } else this.relatorioOcorrencia = true;
+  }
+
+  public download(): void {
+    this.carregandoDoc = true;
+    let observacoes = ""
+    this.relatorioService.read(this.idBancoFirebase).subscribe((data: HistoricoFirebase[]) => {
+      let prestador = "";
+      for (let a of data) {
+        if (a.user!.tipoTenancy! === 3) {
+          prestador = a.user!.name!;
+          break;
+        }
+      }
+
+      data.forEach((url) => {
+        if (url.image != '') {
+          this.urls.push(url.image!)
+        }
+      })
+
+      this.carregandoDoc = false;
+      const teste = data[0].bufferImagem;
+      const documentCreator = new DocumentCreator();
+      const doc = documentCreator.create(this.idBancoFirebase, data, this.observacoesRelatorio,
+        this.ocorrencia!.numeroProcesso, this.ocorrencia!.tenancyCliente!.nome, this.ocorrencia!.motivo, prestador, this.ocorrencia!.observacoes);
+
+      Packer.toBlob(doc).then(blob => {
+        saveAs(blob, `Relatório ocorrencia - ` + this.ocorrencia!.idCentral);
+        this.observacoesRelatorio = "";
+        this.relatorioOcorrencia = false;
+        this.downloadAsZip();
+      });
+
+    }, error => {
+
+    }, () => {
+
+    })
+
+  }
+
+  downloadAsZip(): void {
+    let count = 0;
+    const zip = new JSZip();
+
+    this.urls.forEach((url) => {
+        const split = url.split('/')[url.split('/').length - 1];
+        const filename = split.split('?')[0]
+        JSZipUtils.getBinaryContent(url, (err, data) => {
+          if (err) {
+            console.log(err)
+            throw err;
+          }
+
+          zip.file(filename, data, { binary: true });
+          count++;
+
+          if (count === this.urls.length) {
+            zip.generateAsync({ type: 'blob' }).then((content) => {
+              const objectUrl: string = URL.createObjectURL(content);
+              const link: any = document.createElement('a');
+
+              link.download = `Imagens da ocorrencia - ` + this.ocorrencia!.idCentral;
+              link.href = objectUrl;
+              link.click();
+            });
+          }
+        });
+      
+
+    });
+  }
+
+  isVideo(message: any){
+    if(message  && message.includes('mp4')){
+      return true;
+    }else{return false}
+  }
+
+  isImage(message: any){
+    if(message  && message.includes('mp4')){
+      return false;
+    }else{return true}
+  }
+
+  isPdf(message: any){
+    if(message.includes('com.android.providers.media.documents') || message.includes('.pdf')){
+      return true;
+    }else return false;
+
+  }
+
+  abrirPdf(message:any){
+    window.open(message, "_blank");
+  }
+
+
 
 
 }

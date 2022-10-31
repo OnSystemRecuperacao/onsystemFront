@@ -13,12 +13,22 @@ import { OcorrenciaService } from 'src/app/services/ocorrencias/ocorrencia-servi
 import MessageUtils from 'src/app/utils/message-util';
 import {DialogService, DynamicDialogModule} from 'primeng/dynamicdialog';
 import { AceiteOcorrenciasComponent } from '../aceite/aceite-ocorrencias.component';
+import { Prestador } from 'src/app/model/vo/prestador';
+import { PrestadorService } from 'src/app/services/prestadores/prestador-service';
+import { NotAuthenticatedError } from 'src/app/interceptors/auth.http.interceptor';
+
+interface Estado{
+  nome: string,
+  sigla: string
+
+}
 
 @Component({
   selector: 'app-nova-ocorrencia',
   templateUrl: './nova-ocorrencia.component.html',
   providers: [MessageService, DialogService]
 })
+
 export class NovaOcorrenciaComponent implements OnInit {
 
   ocorrencia: Ocorrencia = {};
@@ -31,24 +41,80 @@ export class NovaOcorrenciaComponent implements OnInit {
 
   usuarioLogado = new Usuario();  
 
-  
+  prestadores!: Prestador[];
+  prestadoresSelect: Prestador[] | undefined;
+
+  estados!: Estado[];
+  estadoSelecionado: Estado | undefined;
+
   constructor(private messageService: MessageService, 
                 private commomService: CommomService, 
                 private comboService: ComboService, 
                 private ocorrenciaService: OcorrenciaService,
                 private authService: AuthService,
-                public dialogService: DialogService) { }
+                public dialogService: DialogService,
+                private prestadorService: PrestadorService) {
+                  
+                  this.estados = [
+                    {"nome": "Acre", "sigla": "AC"},
+                    {"nome": "Alagoas", "sigla": "AL"},
+                    {"nome": "Amapá", "sigla": "AP"},
+                    {"nome": "Amazonas", "sigla": "AM"},
+                    {"nome": "Bahia", "sigla": "BA"},
+                    {"nome": "Ceará", "sigla": "CE"},
+                    {"nome": "Distrito Federal", "sigla": "DF"},
+                    {"nome": "Espírito Santo", "sigla": "ES"},
+                    {"nome": "Goiás", "sigla": "GO"},
+                    {"nome": "Maranhão", "sigla": "MA"},
+                    {"nome": "Mato Grosso", "sigla": "MT"},
+                    {"nome": "Mato Grosso do Sul", "sigla": "MS"},
+                    {"nome": "Minas Gerais", "sigla": "MG"},
+                    {"nome": "Pará", "sigla": "PA"},
+                    {"nome": "Paraíba", "sigla": "PB"},
+                    {"nome": "Paraná", "sigla": "PR"},
+                    {"nome": "Pernambuco", "sigla": "PE"},
+                    {"nome": "Piauí", "sigla": "PI"},
+                    {"nome": "Rio de Janeiro", "sigla": "RJ"},
+                    {"nome": "Rio Grande do Norte", "sigla": "RN"},
+                    {"nome": "Rio Grande do Sul", "sigla": "RS"},
+                    {"nome": "Rondônia", "sigla": "RO"},
+                    {"nome": "Roraima", "sigla": "RR"},
+                    {"nome": "Santa Catarina", "sigla": "SC"},
+                    {"nome": "São Paulo", "sigla": "SP"},
+                    {"nome": "Sergipe", "sigla": "SE"},
+                    {"nome": "Tocantins", "sigla": "TO"}
+                ]
+                
+                 }
 
   ngOnInit(): void {
     this.carregarCombos()
     if(this.authService.jwtIsLoad()){
       this.loadUsuarioLogado();
+      this.carregarPrestadores();
     }
   }
 
   salvar(form: NgForm){
     this.ocorrencia = this.parseData(form)
     this.adicionarOcorrencia(form);
+  }
+
+  private carregarPrestadores(){
+    this.prestadorService.read().then(data => {
+      this.prestadores = data;
+  
+    }).catch(error => {
+      console.error(error)
+      if(error.includes('404')){
+        this.messageService.add(MessageUtils.onErrorMessage("Erro ao carregar prestadores"));
+      }
+      if (error instanceof NotAuthenticatedError) {
+        this.messageService.add(MessageUtils.onErrorMessage("Sua Sessão Expirou, faça Login Novamente")); 
+        this.commomService.navigate(NavigationEnum.LOGIN);   
+      }
+      this.messageService.add(MessageUtils.onErrorMessage(error));
+    })
   }
 
  private adicionarOcorrencia(form: NgForm){
@@ -60,8 +126,8 @@ export class NovaOcorrenciaComponent implements OnInit {
     },error => {
       this.messageService.add(MessageUtils.onErrorMessage(error));        
     },() => {
+      this.show(form.value.estado);
       this.limpar(form);
-      this.show();
       //this.commomService.navigate(NavigationEnum.LISTAR_OCORRENCIAS);   
     } 
   );      
@@ -74,12 +140,11 @@ export class NovaOcorrenciaComponent implements OnInit {
   let latitude = loc[0];
   let longitude = loc[1];
 
-  console.log("antenista", form.value.antenista);
-  console.log("escoltaArmado", form.value.escoltaArmado);
-
   localizacao.latitude = latitude.replace(/ /g, "");
   localizacao.longitude = longitude.replace(/ /g, "");
   ocorrencia.tenancyCliente = this.usuarioLogado.tenancy;
+  ocorrencia.prestadoresSelecionados = this.prestadoresSelect;
+  ocorrencia.estados = form.value.estado;
   ocorrencia.localizacao = localizacao;
   ocorrencia.observacoes = form.value.observacoes;
   ocorrencia.numeroProcesso = form.value.numProcesso;
@@ -108,15 +173,24 @@ carregarCombos(){
   }
 }
 
-show() {
+show(estado: any) {
+  console.log("prestadoresSelect -", this.prestadoresSelect);
+  console.log("estadoSelecionado - ", estado);
+
   const ref = this.dialogService.open(AceiteOcorrenciasComponent, {
     data: {
-        idOcorrencia: this.id
+        idOcorrencia: this.id,
+        prestadores: this.prestadoresSelect !== undefined ? this.prestadoresSelect : null,
+        estados: estado != null && estado.nome !== undefined ? estado : null
       },
       header: 'Lista de Prestadores proximos',
       width: '70%'
   });
   
+}
+
+prestadoresChange(event: any) {
+  this.prestadoresSelect = event.value;
 }
 
 }

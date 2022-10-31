@@ -25,9 +25,9 @@ export class LocalizacaoPrestadorService {
         headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     }
 
-    buscarPrestadorLocalizacao(idOcorrencia: number ): Promise<any> {
-        const url = `${this.BASE_URL}` + '?idOcorrencia=' + idOcorrencia;   
-        return this.httpClient.get<any>(url, this.httpOptions).toPromise();
+    buscarPrestadorLocalizacao(dados: any): Promise<any> {
+        const url = `${this.BASE_URL}` + '/buscarPrestadorLocalizacao';   
+        return this.httpClient.post<any>(url, dados, this.httpOptions).toPromise();
       
     }
    
