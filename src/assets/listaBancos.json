@@ -1,0 +1,705 @@
+[
+  {
+    "id": 103988,
+    "banco": "Banco ABC Brasil S.A.",
+    "codigo": "246",
+    "site": "www.abcbrasil.com.br"
+  },
+  {
+    "id": 105587,
+    "banco": "Banco ABN AMRO S.A.",
+    "codigo": "075",
+    "site": "www.abnamro.com"
+  },
+  {
+    "id": 105541,
+    "banco": "Banco Agibank S.A.",
+    "codigo": "121",
+    "site": "www.agibank.com.br"
+  },
+  {
+    "id": 103999,
+    "banco": "Banco Alfa S.A.",
+    "codigo": "025",
+    "site": "www.bancoalfa.com.br"
+  },
+  {
+    "id": 104678,
+    "banco": "Banco Andbank (Brasil) S.A.",
+    "codigo": "065",
+    "site": "www.andbank-lla.com.br"
+  },
+  {
+    "id": 105447,
+    "banco": "Banco B3 S.A.",
+    "codigo": "096",
+    "site": "www.bmfbovespa.com.br/bancobmfbovespa/"
+  },
+  {
+    "id": 103928,
+    "banco": "Banco BANDEPE S.A.",
+    "codigo": "024",
+    "site": "www.santander.com.br"
+  },
+  {
+    "id": 104001,
+    "banco": "Banco BMG S.A.",
+    "codigo": "318",
+    "site": "www.bancobmg.com.br"
+  },
+  {
+    "id": 104076,
+    "banco": "Banco BNP Paribas Brasil S.A.",
+    "codigo": "752",
+    "site": "www.bnpparibas.com.br"
+  },
+  {
+    "id": 103954,
+    "banco": "Banco BOCOM BBM S.A.",
+    "codigo": "107",
+    "site": "www.bancobbm.com.br"
+  },
+  {
+    "id": 104976,
+    "banco": "Banco Bradescard S.A.",
+    "codigo": "063",
+    "site": "www.ibi.com.br"
+  },
+  {
+    "id": 103937,
+    "banco": "Banco Bradesco BBI S.A.",
+    "codigo": "036",
+    "site": "Não possui "
+  },
+  {
+    "id": 104014,
+    "banco": "Banco Bradesco Financiamentos S.A.",
+    "codigo": "394",
+    "site": "não tem "
+  },
+  {
+    "id": 103984,
+    "banco": "Banco Bradesco S.A.",
+    "codigo": "237",
+    "site": "www.bradesco.com.br"
+  },
+  {
+    "id": 103973,
+    "banco": "Banco BS2 S.A.",
+    "codigo": "218",
+    "site": "www.bs2.com/banco/"
+  },
+  {
+    "id": 103965,
+    "banco": "Banco BTG Pactual S.A.",
+    "codigo": "208",
+    "site": "www.btgpactual.com"
+  },
+  {
+    "id": 104044,
+    "banco": "Banco C6 Consignado S.A.",
+    "codigo": "626",
+    "site": "https://www.c6consig.com.br/"
+  },
+  {
+    "id": 105904,
+    "banco": "Banco C6 S.A.",
+    "codigo": "",
+    "site": "https://www.c6bank.com/"
+  },
+  {
+    "id": 105526,
+    "banco": "Banco Caixa Geral - Brasil S.A.",
+    "codigo": "473",
+    "site": "www.bcgbrasil.com.br"
+  },
+  {
+    "id": 103941,
+    "banco": "Banco Cargill S.A.",
+    "codigo": "040",
+    "site": "www.bancocargill.com.br"
+  },
+  {
+    "id": 105582,
+    "banco": "Banco Caterpillar S.A.",
+    "codigo": "",
+    "site": "www.catfinancial.com.br"
+  },
+  {
+    "id": 104065,
+    "banco": "Banco Cetelem S.A.",
+    "codigo": "739",
+    "site": "www.cetelem.com.br"
+  },
+  {
+    "id": 103982,
+    "banco": "Banco Cifra S.A.",
+    "codigo": "233",
+    "site": "www.bancocifra.com.br"
+  },
+  {
+    "id": 104070,
+    "banco": "Banco Citibank S.A.",
+    "codigo": "745",
+    "site": "www.citibank.com.br"
+  },
+  {
+    "id": 104095,
+    "banco": "Banco CNH Industrial Capital S.A.",
+    "codigo": "",
+    "site": "www.cnhindustrialcapital.com"
+  },
+  {
+    "id": 104079,
+    "banco": "Banco Cooperativo do Brasil S.A. - BANCOOB",
+    "codigo": "756",
+    "site": "www.bancoob.com.br"
+  },
+  {
+    "id": 104073,
+    "banco": "Banco Cooperativo Sicredi S.A.",
+    "codigo": "748",
+    "site": "www.sicredi.com.br"
+  },
+  {
+    "id": 103975,
+    "banco": "Banco Credit Agricole Brasil S.A.",
+    "codigo": "222",
+    "site": "www.calyon.com.br"
+  },
+  {
+    "id": 104035,
+    "banco": "Banco Credit Suisse (Brasil) S.A.",
+    "codigo": "505",
+    "site": "www.csfb.com"
+  },
+  {
+    "id": 105492,
+    "banco": "Banco CSF S.A.",
+    "codigo": "",
+    "site": ""
+  },
+  {
+    "id": 103923,
+    "banco": "Banco da Amazônia S.A.",
+    "codigo": "003",
+    "site": "www.bancoamazonia.com.br"
+  },
+  {
+    "id": 105532,
+    "banco": "Banco da China Brasil S.A.",
+    "codigo": "083",
+    "site": "www.boc-brazil.com"
+  },
+  {
+    "id": 104057,
+    "banco": "Banco Daycoval S.A.",
+    "codigo": "707",
+    "site": "www.daycoval.com.br"
+  },
+  {
+    "id": 104926,
+    "banco": "Banco de Lage Landen Brasil S.A.",
+    "codigo": "",
+    "site": "www.dllgroup.com"
+  },
+  {
+    "id": 104054,
+    "banco": "Banco Digimais S.A.",
+    "codigo": "654",
+    "site": "www.bancodigimais.com.br/"
+  },
+  {
+    "id": 105642,
+    "banco": "Banco Digio S.A.",
+    "codigo": "",
+    "site": "www.aebb.com.br"
+  },
+  {
+    "id": 103922,
+    "banco": "Banco do Brasil S.A.",
+    "codigo": "001",
+    "site": "www.bb.com.br"
+  },
+  {
+    "id": 103944,
+    "banco": "Banco do Estado de Sergipe S.A.",
+    "codigo": "047",
+    "site": "www.banese.com.br"
+  },
+  {
+    "id": 103938,
+    "banco": "Banco do Estado do Pará S.A.",
+    "codigo": "037",
+    "site": "www.banpara.b.br"
+  },
+  {
+    "id": 103942,
+    "banco": "Banco do Estado do Rio Grande do Sul S.A.",
+    "codigo": "041",
+    "site": "www.banrisul.com.br"
+  },
+  {
+    "id": 103924,
+    "banco": "Banco do Nordeste do Brasil S.A.",
+    "codigo": "004",
+    "site": "www.banconordeste.gov.br"
+  },
+  {
+    "id": 103976,
+    "banco": "Banco Fibra S.A.",
+    "codigo": "224",
+    "site": "www.bancofibra.com.br"
+  },
+  {
+    "id": 104920,
+    "banco": "Banco Fidis S.A.",
+    "codigo": "",
+    "site": "www.bancofidis.com.br"
+  },
+  {
+    "id": 105553,
+    "banco": "Banco Finaxis S.A.",
+    "codigo": "094",
+    "site": "www.bancofinaxis.com.br"
+  },
+  {
+    "id": 104094,
+    "banco": "Banco Ford S.A.",
+    "codigo": "",
+    "site": "www.bancoford.com.br"
+  },
+  {
+    "id": 104971,
+    "banco": "Banco GM S.A.",
+    "codigo": "",
+    "site": "www.chevroletsf.com.br"
+  },
+  {
+    "id": 104040,
+    "banco": "Banco Guanabara S.A.",
+    "codigo": "612",
+    "site": "www.bancoguanabara.com.br"
+  },
+  {
+    "id": 105454,
+    "banco": "Banco IBM S.A.",
+    "codigo": "",
+    "site": "www.ibm.com/financing/br"
+  },
+  {
+    "id": 105506,
+    "banco": "Banco Inbursa S.A.",
+    "codigo": "012",
+    "site": "www.bancoinbursa.com"
+  },
+  {
+    "id": 104037,
+    "banco": "Banco Industrial do Brasil S.A.",
+    "codigo": "604",
+    "site": "www.bancoindustrial.com.br"
+  },
+  {
+    "id": 104053,
+    "banco": "Banco Indusval S.A.",
+    "codigo": "653",
+    "site": "www.bip.b.br"
+  },
+  {
+    "id": 105515,
+    "banco": "Banco Inter S.A.",
+    "codigo": "077",
+    "site": "www.bancointer.com.br"
+  },
+  {
+    "id": 104923,
+    "banco": "Banco Investcred Unibanco S.A.",
+    "codigo": "249",
+    "site": "Não possui "
+  },
+  {
+    "id": 103945,
+    "banco": "Banco Itaú BBA S.A.",
+    "codigo": "184",
+    "site": "www.itaubba.com.br"
+  },
+  {
+    "id": 103931,
+    "banco": "Banco Itaú Consignado S.A.",
+    "codigo": "029",
+    "site": ""
+  },
+  {
+    "id": 104090,
+    "banco": "Banco Itaú Veículos S.A.",
+    "codigo": "",
+    "site": "www.bancofiat.com.br"
+  },
+  {
+    "id": 104025,
+    "banco": "Banco ItauBank S.A",
+    "codigo": "479",
+    "site": "www.itaubank.com.br"
+  },
+  {
+    "id": 105524,
+    "banco": "Banco Itaucard S.A.",
+    "codigo": "",
+    "site": "www.itau.com.br"
+  },
+  {
+    "id": 105540,
+    "banco": "Banco Itauleasing S.A.",
+    "codigo": "",
+    "site": "www.itau.com.br"
+  },
+  {
+    "id": 104011,
+    "banco": "Banco J. P. Morgan S.A.",
+    "codigo": "376",
+    "site": "www.jpmorgan.com"
+  },
+  {
+    "id": 103943,
+    "banco": "Banco J. Safra S.A.",
+    "codigo": "074",
+    "site": "www.safra.com.br"
+  },
+  {
+    "id": 103972,
+    "banco": "Banco John Deere S.A.",
+    "codigo": "217",
+    "site": "www.johndeere.com.br"
+  },
+  {
+    "id": 104036,
+    "banco": "Banco Luso Brasileiro S.A.",
+    "codigo": "600",
+    "site": "www.lusobrasileiro.com.br"
+  },
+  {
+    "id": 103986,
+    "banco": "Banco Máxima S.A.",
+    "codigo": "243",
+    "site": "www.bancomaxima.com.br"
+  },
+  {
+    "id": 104012,
+    "banco": "Banco Mercantil do Brasil S.A.",
+    "codigo": "389",
+    "site": "www.mercantil.com.br"
+  },
+  {
+    "id": 104918,
+    "banco": "Banco Mizuho do Brasil S.A.",
+    "codigo": "370",
+    "site": "www.mizuhobank.com/brazil/pt/"
+  },
+  {
+    "id": 104071,
+    "banco": "Banco Modal S.A.",
+    "codigo": "746",
+    "site": "www.bancomodal.com.br"
+  },
+  {
+    "id": 104020,
+    "banco": "Banco MUFG Brasil S.A.",
+    "codigo": "456",
+    "site": "www.br.bk.mufg.jp"
+  },
+  {
+    "id": 105643,
+    "banco": "Banco Olé Bonsucesso Consignado S.A.",
+    "codigo": "169",
+    "site": "www.oleconsignado.com.br"
+  },
+  {
+    "id": 103968,
+    "banco": "Banco Original S.A.",
+    "codigo": "212",
+    "site": "www.original.com.br"
+  },
+  {
+    "id": 104042,
+    "banco": "Banco PAN S.A.",
+    "codigo": "623",
+    "site": "www.bancopan.com.br"
+  },
+  {
+    "id": 104039,
+    "banco": "Banco Paulista S.A.",
+    "codigo": "611",
+    "site": "www.bancopaulista.com.br"
+  },
+  {
+    "id": 104051,
+    "banco": "Banco Pine S.A.",
+    "codigo": "643",
+    "site": "www.pine.com"
+  },
+  {
+    "id": 104072,
+    "banco": "Banco Rabobank International Brasil S.A.",
+    "codigo": "747",
+    "site": "www.rabobank.com.br"
+  },
+  {
+    "id": 105664,
+    "banco": "Banco RCI Brasil S.A.",
+    "codigo": "",
+    "site": "www.bancorenault.com.br"
+  },
+  {
+    "id": 104046,
+    "banco": "Banco Rendimento S.A.",
+    "codigo": "633",
+    "site": "www.rendimento.com.br"
+  },
+  {
+    "id": 104088,
+    "banco": "Banco Rodobens S.A.",
+    "codigo": "120",
+    "site": "www.rodobens.com.br"
+  },
+  {
+    "id": 104018,
+    "banco": "Banco Safra S.A.",
+    "codigo": "422",
+    "site": "www.safra.com.br"
+  },
+  {
+    "id": 103925,
+    "banco": "Banco Santander  (Brasil)  S.A.",
+    "codigo": "033",
+    "site": "www.santander.com.br"
+  },
+  {
+    "id": 104068,
+    "banco": "Banco Semear S.A.",
+    "codigo": "743",
+    "site": "www.bancosemear.com.br"
+  },
+  {
+    "id": 105916,
+    "banco": "Banco Senff S.A.",
+    "codigo": "276",
+    "site": "https://www.senff.com.br/"
+  },
+  {
+    "id": 104045,
+    "banco": "Banco Smartbank S.A.",
+    "codigo": "630",
+    "site": ""
+  },
+  {
+    "id": 104924,
+    "banco": "Banco Société Générale Brasil S.A.",
+    "codigo": "366",
+    "site": "www.sgbrasil.com.br"
+  },
+  {
+    "id": 105917,
+    "banco": "Banco Sorocred S.A. - Banco Múltiplo (AFINZ)",
+    "codigo": "299",
+    "site": "afinz.com.br"
+  },
+  {
+    "id": 104021,
+    "banco": "Banco Sumitomo Mitsui Brasileiro S.A.",
+    "codigo": "464",
+    "site": "www.smbcgroup.com.br"
+  },
+  {
+    "id": 105525,
+    "banco": "Banco Topázio S.A.",
+    "codigo": "082",
+    "site": "www.bancotopazio.com.br"
+  },
+  {
+    "id": 104096,
+    "banco": "Banco Toyota do Brasil S.A.",
+    "codigo": "",
+    "site": "www.bancotoyota.com.br"
+  },
+  {
+    "id": 104047,
+    "banco": "Banco Triângulo S.A.",
+    "codigo": "634",
+    "site": "www.tribanco.com.br"
+  },
+  {
+    "id": 104082,
+    "banco": "Banco Volvo Brasil S.A.",
+    "codigo": "",
+    "site": "Não possui "
+  },
+  {
+    "id": 104055,
+    "banco": "Banco Votorantim S.A.",
+    "codigo": "655",
+    "site": "www.bancovotorantim.com.br"
+  },
+  {
+    "id": 104038,
+    "banco": "Banco VR S.A.",
+    "codigo": "610",
+    "site": "www.vrinvestimentos.com.br"
+  },
+  {
+    "id": 105563,
+    "banco": "Banco Western Union do Brasil S.A.",
+    "codigo": "119",
+    "site": "www.bancowesternunion.com.br"
+  },
+  {
+    "id": 105913,
+    "banco": "Banco XP S.A.",
+    "codigo": "102",
+    "site": ""
+  },
+  {
+    "id": 105518,
+    "banco": "Banco Yamaha Motor do Brasil S.A.",
+    "codigo": "",
+    "site": "www.yamaha-motor.com.br"
+  },
+  {
+    "id": 103926,
+    "banco": "BANESTES S.A. Banco do Estado do Espírito Santo",
+    "codigo": "021",
+    "site": "www.banestes.com.br"
+  },
+  {
+    "id": 104925,
+    "banco": "Bank of America Merrill Lynch Banco Múltiplo S.A.",
+    "codigo": "755",
+    "site": "www.ml.com"
+  },
+  {
+    "id": 103991,
+    "banco": "BCV - Banco de Crédito e Varejo S.A.",
+    "codigo": "250",
+    "site": "www.bancobcv.com.br"
+  },
+  {
+    "id": 105634,
+    "banco": "BEXS Banco de Câmbio S.A.",
+    "codigo": "144",
+    "site": "www.bexs.com.br"
+  },
+  {
+    "id": 105586,
+    "banco": "BNY Mellon Banco S.A.",
+    "codigo": "017",
+    "site": "www.bnymellon.com.br"
+  },
+  {
+    "id": 103952,
+    "banco": "BRB - Banco de Brasília S.A.",
+    "codigo": "070",
+    "site": "www.brb.com.br"
+  },
+  {
+    "id": 103953,
+    "banco": "Caixa Econômica Federal",
+    "codigo": "104",
+    "site": "www.caixa.gov.br"
+  },
+  {
+    "id": 104002,
+    "banco": "China Construction Bank (Brasil) Banco Múltiplo S.A.",
+    "codigo": "320",
+    "site": "www.br.ccb.com"
+  },
+  {
+    "id": 104024,
+    "banco": "Citibank N.A.",
+    "codigo": "477",
+    "site": "www.citibank.com"
+  },
+  {
+    "id": 104027,
+    "banco": "Deutsche Bank S.A. - Banco Alemão",
+    "codigo": "487",
+    "site": "www.deutsche-bank.com.br"
+  },
+  {
+    "id": 103947,
+    "banco": "Hipercard Banco Múltiplo S.A.",
+    "codigo": "062",
+    "site": "www.hipercard.com.br"
+  },
+  {
+    "id": 105845,
+    "banco": "HSBC Brasil S.A. - Banco de Investimento",
+    "codigo": "269",
+    "site": ""
+  },
+  {
+    "id": 104029,
+    "banco": "ING Bank N.V.",
+    "codigo": "492",
+    "site": "www.ing.com"
+  },
+  {
+    "id": 104003,
+    "banco": "Itaú Unibanco S.A.",
+    "codigo": "341",
+    "site": "www.itau.com.br"
+  },
+  {
+    "id": 104028,
+    "banco": "JPMorgan Chase Bank, National Association",
+    "codigo": "488",
+    "site": "www.jpmorganchase.com"
+  },
+  {
+    "id": 104015,
+    "banco": "Kirton Bank S.A. - Banco Múltiplo",
+    "codigo": "399",
+    "site": ""
+  },
+  {
+    "id": 105633,
+    "banco": "MS Bank S.A. Banco de Câmbio",
+    "codigo": "128",
+    "site": "www.msbank.com.br"
+  },
+  {
+    "id": 103993,
+    "banco": "Paraná Banco S.A.",
+    "codigo": "254",
+    "site": "www.paranabanco.com.br"
+  },
+  {
+    "id": 105581,
+    "banco": "Plural S.A. - Banco Múltiplo",
+    "codigo": "125",
+    "site": "www.brasilplural.com"
+  },
+  {
+    "id": 105542,
+    "banco": "Scania Banco S.A.",
+    "codigo": "",
+    "site": "www.scaniabanco.com.br"
+  },
+  {
+    "id": 104075,
+    "banco": "Scotiabank Brasil S.A. Banco Múltiplo",
+    "codigo": "751",
+    "site": "www.br.scotiabank.com"
+  },
+  {
+    "id": 105578,
+    "banco": "Travelex Banco de Câmbio S.A.",
+    "codigo": "095",
+    "site": "www.bancoconfidence.com.br"
+  },
+  {
+    "id": 105589,
+    "banco": "UBS Brasil Banco de Investimento S.A.",
+    "codigo": "129",
+    "site": "www.ubs.com"
+  }
+]
+

@@ -40,7 +40,7 @@ export class CommomService {
    }
 
    getListaBancos() {
-      const url = `${this.BASE_URL}/buscarBancos`;
+      const url = `../../../assets/listaBancos.json`;
       return this.httpClient.get<ListaBancos[]>(url, this.httpOptions).pipe(catchError(this.handleError));
    }
 
