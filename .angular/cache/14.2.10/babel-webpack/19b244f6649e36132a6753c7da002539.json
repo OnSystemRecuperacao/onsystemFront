@@ -1,0 +1,1 @@
+{"ast":null,"code":"export class LocalizacaoFireBase {\n  constructor() {\n    this.latitude = 0;\n    this.longitude = 0;\n  }\n}","map":null,"metadata":{},"sourceType":"module"}

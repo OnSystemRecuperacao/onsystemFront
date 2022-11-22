@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import MessageUtils from 'src/app/utils/message-util';
-import { FormBuilder } from '@angular/forms';
+import { UntypedFormBuilder } from '@angular/forms';
 import { Cliente } from 'src/app/model/vo/cliente';
 import { ActivatedRoute } from '@angular/router';
 import { Ocorrencia } from 'src/app/model/vo/ocorrencia';
@@ -32,7 +32,7 @@ import { NotificacaoService } from 'src/app/services/notificacao/notificacao-ser
   selector: 'visualizar-ocorrencia',
   templateUrl: './visualizar-ocorrencia.component.html',
   styleUrls: ['./visualizar-ocorrencia.component.css'],
-  providers: [MessageService, FormBuilder, ConfirmationService, DialogService]
+  providers: [MessageService, UntypedFormBuilder, ConfirmationService, DialogService]
 })
 
 

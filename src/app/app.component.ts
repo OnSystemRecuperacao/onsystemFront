@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
 import { CommomService } from './services/commons/common.service';
 import { initializeApp } from 'firebase/app';
+import { Component } from '@angular/core';
 
 const firebaseConfig  = {
   apiKey: "AIzaSyD8xenqqDNZODMTnYVq-OchiwQTRrvOx-A",

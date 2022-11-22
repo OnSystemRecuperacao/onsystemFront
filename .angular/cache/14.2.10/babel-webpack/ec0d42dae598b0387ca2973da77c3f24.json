@@ -1,0 +1,1 @@
+{"ast":null,"code":"export var SituacaoEnum = /*#__PURE__*/(() => {\n  (function (SituacaoEnum) {\n    SituacaoEnum[SituacaoEnum[\"ATIVO\"] = 1] = \"ATIVO\";\n    SituacaoEnum[SituacaoEnum[\"INATIVO\"] = 2] = \"INATIVO\";\n  })(SituacaoEnum || (SituacaoEnum = {}));\n  return SituacaoEnum;\n})();","map":null,"metadata":{},"sourceType":"module"}

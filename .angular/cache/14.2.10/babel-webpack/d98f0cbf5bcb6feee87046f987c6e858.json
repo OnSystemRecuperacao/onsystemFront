@@ -1,0 +1,1 @@
+{"ast":null,"code":"export var Permissao = /*#__PURE__*/(() => {\n  (function (Permissao) {\n    Permissao[\"CREATE\"] = \"ROLE_CREATE\";\n    Permissao[\"UPDATE\"] = \"ROLE_UPDADE\";\n    Permissao[\"DELETE\"] = \"ROLE_DELETE\";\n  })(Permissao || (Permissao = {}));\n  return Permissao;\n})();","map":null,"metadata":{},"sourceType":"module"}

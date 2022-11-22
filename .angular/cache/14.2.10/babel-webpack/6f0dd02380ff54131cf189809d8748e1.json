@@ -1,0 +1,1 @@
+{"ast":null,"code":"export class Tenancy {\n  constructor(id) {\n    this.id = id;\n  }\n}","map":null,"metadata":{},"sourceType":"module"}

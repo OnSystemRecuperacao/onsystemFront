@@ -1,0 +1,1 @@
+{"ast":null,"code":"export class Endereco {\n  constructor() {\n    this.idEndereco = 0;\n    this.logradouro = \"\";\n    this.numero = \"\";\n    this.complemento = \"\";\n    this.bairro = \"\";\n    this.cidade = \"\";\n    this.estado = \"\";\n    this.cep = \"\";\n    this.pais = \"\";\n  }\n}","map":null,"metadata":{},"sourceType":"module"}

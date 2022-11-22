@@ -13,7 +13,6 @@ import { ClienteService } from 'src/app/services/clientes/cliente-service';
 import { Cliente } from 'src/app/model/vo/cliente';
 import { ActivatedRoute } from '@angular/router';
 import Utils from 'src/app/utils/utils';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { cpf, cnpj } from 'cpf-cnpj-validator'; 
 import { ListaBancos } from 'src/app/model/vo/lista-bancos';
 
