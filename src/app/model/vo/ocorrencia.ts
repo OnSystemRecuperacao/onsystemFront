@@ -18,7 +18,9 @@ export class Ocorrencia{
     idPrestador?: number;
     status?: String;
     idCentral?: string;
+    placa?: string;
     prestadoresSelecionados?: Prestador[];
     estados?: any;
+    dataAbertura?: string;
 
 }

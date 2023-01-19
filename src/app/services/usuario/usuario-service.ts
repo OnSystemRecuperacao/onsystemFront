@@ -44,6 +44,12 @@ export class UsuarioService{
         return this.httpClient.patch<Usuario>(url, usuario, this.httpOptions).toPromise();
      }
 
+     aterarUsuario(usuario: Usuario): Promise<Usuario> {  
+        console.log(usuario)
+        const url = `${this.BASE_URL}/${usuario.id}`;  
+        return this.httpClient.put<Usuario>(url, usuario, this.httpOptions).toPromise();
+     }
+
     delete(id: number): Observable<{}> {
         const url = `${this.BASE_URL}/${id}`; 
         console.log(url)

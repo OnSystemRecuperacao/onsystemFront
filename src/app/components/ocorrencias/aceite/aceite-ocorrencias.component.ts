@@ -18,6 +18,7 @@ import { Tenancy } from 'src/app/model/vo/tenancy';
 import { finalize } from 'rxjs/operators';
 import { getDatabase, onChildAdded, push, ref } from 'firebase/database';
 import { MensagemFirebase } from 'src/app/model/vo/mensagem.firebase.model';
+import { EncerrarOcorrenciaComponent } from '../encerrar/encerrar-ocorrencia.component';
 
 
 @Component({
@@ -55,7 +56,8 @@ export class AceiteOcorrenciasComponent implements OnInit {
     public dialogService: DialogService,
     public ref: DynamicDialogRef,
     public config: DynamicDialogConfig,
-    private confirmationService: ConfirmationService) { }
+    private confirmationService: ConfirmationService,
+    private ocorrenciaService: OcorrenciaService) { }
 
 
   ngOnInit() {
@@ -103,7 +105,7 @@ export class AceiteOcorrenciasComponent implements OnInit {
     })).subscribe(response => {
       // this.tempoPrestadorOcorrencias = response; 
       if (response) {
-        console.log(this.tempoPrestadorOcorrencias);
+        console.log("aprovar", response);
         this.loading = false;
         this.gravarControleAceite(this.notificacao)
         this.mensagemInfo = true;
@@ -124,6 +126,8 @@ export class AceiteOcorrenciasComponent implements OnInit {
   }
 
   gravarControleAceite(oco: NotificacaoPrestadorOcorrencia) {
+    console.log("chamou gravarControleAceite");
+
     let controleAceite = 'controleAceite - ' + oco.ocorrencia?.id;
   
     const db = getDatabase();
@@ -193,6 +197,27 @@ export class AceiteOcorrenciasComponent implements OnInit {
         this.commomService.navigateWithParams(NavigationEnum.VISUALIZAR_OCORRENCIA, id);
       }
 
+    });
+  }
+
+  encerrar() {
+    this.confirmationService.confirm({
+      message: 'Tem certeza que deseja encerrar a ocorrencia ?',
+      header: 'Confirmação',
+      icon: 'pi pi-info-circle',
+      accept: () => {
+        this.ocorrenciaService.encerrarOcorrencia("Ocorrencia cancelada", this.config.data.idOcorrencia).then(response => {
+          setTimeout(() => {
+            this.messageService.add(MessageUtils.onSuccessMessage("Ocorrencia encerrada"));
+            this.ref.close();
+            this.commomService.navigateByUrl(NavigationEnum.LISTAR_OCORRENCIAS)
+          }, 1000);
+    
+        }).catch(error =>
+          this.messageService.add(MessageUtils.onErrorMessage(error))
+        );
+
+      },
     });
   }
 

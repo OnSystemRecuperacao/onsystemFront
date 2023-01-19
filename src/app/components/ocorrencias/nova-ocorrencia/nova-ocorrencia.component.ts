@@ -149,6 +149,7 @@ export class NovaOcorrenciaComponent implements OnInit {
   ocorrencia.observacoes = form.value.observacoes;
   ocorrencia.numeroProcesso = form.value.numProcesso;
   ocorrencia.motivo = form.value.motivo;
+  ocorrencia.placa = form.value.placa;
   ocorrencia.antenista = form.value.antenista == 1 ? true : false;
   ocorrencia.escoltaArmado = form.value.escoltaArmado == 1 ? true : false;
   ocorrencia.reguladorSinis = false;

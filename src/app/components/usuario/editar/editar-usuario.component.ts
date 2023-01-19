@@ -91,7 +91,8 @@ export class EditarUsuarioComponent implements OnInit {
     usuario.tenancy = this.usuarioLogado.tenancy;
     usuario.nome = form.value.nome;
     usuario.email = form.value.email;
-    usuario.senha = form.value.senha;     
+    usuario.senha = form.value.senha;   
+    usuario.situacao = this.situacaoSelecionada == 1 ? "ATIVO" : "INATIVO";
     return usuario;
  }
 

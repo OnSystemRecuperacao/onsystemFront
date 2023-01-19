@@ -54,12 +54,13 @@ export class ClienteService {
     }
 
     // Manipulação de erros
-    handleError(error: HttpErrorResponse) {
+    handleError(error: any) {
       let errorMessage = '';
+      console.log("handleError", error)
       if (error.error instanceof ErrorEvent) {      
-          errorMessage =  error.error.message      
+          errorMessage =  error.error.mensagem      
       } else {  
-          errorMessage =  error.message       
+          errorMessage =  error.error.mensagem       
       }    
       return throwError(errorMessage);
     }
