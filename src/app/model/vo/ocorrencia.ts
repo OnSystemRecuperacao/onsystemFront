@@ -8,15 +8,15 @@ export class Ocorrencia{
     id?: number;
     tenancyCliente?: Tenancy = {};
     localizacao?: Localizacao = {};
-    observacoes?: String;
+    observacoes?: string;
     numeroProcesso?: number;
-    motivo?: String;
+    motivo?: string;
     antenista?: Boolean;
     escoltaArmado?: Boolean;
     reguladorSinis?: Boolean;
     visivel?: Boolean;
     idPrestador?: number;
-    status?: String;
+    status?: string;
     idCentral?: string;
     placa?: string;
     prestadoresSelecionados?: Prestador[];

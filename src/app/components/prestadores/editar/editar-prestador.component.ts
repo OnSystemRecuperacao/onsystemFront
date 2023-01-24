@@ -12,6 +12,8 @@ import { PrestadorService } from "src/app/services/prestadores/prestador-service
 import MessageUtils from "src/app/utils/message-util";
 import { cpf, cnpj } from 'cpf-cnpj-validator'; 
 import { ListaBancos } from "src/app/model/vo/lista-bancos";
+import { getDatabase, onChildAdded, ref } from "firebase/database";
+import { MensagemFirebase } from "src/app/model/vo/mensagem.firebase.model";
 
 @Component({
     selector: 'editar-prestador',
@@ -34,6 +36,9 @@ export class EditarPrestadorComponent implements OnInit{
    listaBancos: ListaBancos[] = [];
 
    bancoSelecionado!: ListaBancos;
+
+   fotoCnh: string = "";
+   fotoPrestador: string = "";
     
    constructor(
         private messageService: MessageService, 
@@ -90,13 +95,41 @@ export class EditarPrestadorComponent implements OnInit{
       this.prestadorService.readByID(idPrestador).subscribe((data: Prestador) => {
            this.prestador = data; 
            this.antenista = data.antenista == 'SIM' ? 1: 2
-           this.escoltaArmada = data.regSinistro == 'SIM' ? 1: 2                
+           this.escoltaArmada = data.regSinistro == 'SIM' ? 1: 2         
+           this.buscarFotos(this.callback)       
          }, error => {
            this.messageService.add(MessageUtils.onErrorMessage(error));                   
          } 
       );      
    }
+   buscarFotos(callback: any) {
+      console.log("buscarFotos")
+         const db = getDatabase();
+         const commentsRefCnh = ref(db, "fotoCnhPrestador-" + this.prestador.id);
+         onChildAdded(commentsRefCnh, (data) => {
+           let teste = callback(this.parse(data));
+           this.fotoCnh = teste.text;
+         });
+       
+     
+         const commentsRefPerfil = ref(db, "fotoPerfilPrestador-" + this.prestador.id);
+         onChildAdded(commentsRefPerfil, (data) => {
+           let teste = callback(this.parse(data));
+           this.fotoPrestador = teste.text;
+         });   
+      }
+      callback(data: any) {
+         let msg: MensagemFirebase = new MensagemFirebase();
+         msg = data;
+         return msg;
+       }
 
+       private parse(snapshot: any) {
+         const { createdAt, text } = snapshot.val();
+         const { key: _id } = snapshot;
+         const message = { _id, createdAt, text };
+         return message;
+       };
    private carregarCombos(){      
       this.itens = this.comboService.getSimNaoOptions()
    }

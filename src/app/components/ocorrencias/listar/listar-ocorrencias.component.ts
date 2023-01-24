@@ -12,6 +12,8 @@ import { Tenancy } from 'src/app/model/vo/tenancy';
 import { Permissao } from 'src/app/utils/permissao.enum';
 import { DialogService } from 'primeng/dynamicdialog';
 import { DeleteOcorrenciaComponent } from '../deletar/deletar-ocorrencia.component';
+import { RelatorioOcorrencia } from 'src/app/model/vo/relatorio-ocorrencia';
+import { DatePipe, formatDate } from '@angular/common';
 
 
 @Component({
@@ -145,12 +147,46 @@ export class OcorrenciasComponent implements OnInit {
 
 
   exportExcel() {
+    let relatorio = this.parseRelatorio(this.ocorrencias)
     import("xlsx").then(xlsx => {
-      const worksheet = xlsx.utils.json_to_sheet(this.ocorrencias);
+      const worksheet = xlsx.utils.json_to_sheet(relatorio);
       const workbook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
       const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
       this.saveAsExcelFile(excelBuffer, "ocorrencias");
     });
+  }
+  parseRelatorio(ocorrencias: Ocorrencia[]) {
+    let retorno: RelatorioOcorrencia[] = []
+    retorno = ocorrencias.map((ocorrencia: any) => ({
+      idCentral: ocorrencia.idCentral,
+      status: ocorrencia.status,
+      observacoes: ocorrencia.observacoes,
+      dataAbertura: formatDate(
+        ocorrencia.dataAbertura,
+        'dd-MM-yyyy -  HH:mm:ss',
+        'en-US'
+      ),
+      nomeCliente: ocorrencia.tenancyCliente.nome,
+      dataInicio: formatDate(
+        ocorrencia.dataInicio,
+        'dd-MM-yyyy -  HH:mm:ss',
+        'en-US'
+      ),
+      dataFim: formatDate(
+        ocorrencia.dataFim,
+        'dd-MM-yyyy -  HH:mm:ss',
+        'en-US'
+      ),
+      numeroProcesso: ocorrencia.numeroProcesso,
+      motivo: ocorrencia.motivo,
+      placa: ocorrencia.placa,
+      encerradoPrestador: ocorrencia.encerradoPrestador,
+      kmInicial: ocorrencia.kmInicial,
+      kmFinal: ocorrencia.kmFinal ,
+      endereco: ocorrencia.endereco,
+    }))
+
+    return retorno
   }
 
   saveAsExcelFile(buffer: any, fileName: string): void {

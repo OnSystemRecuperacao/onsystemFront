@@ -24,11 +24,6 @@
         </div>
     </div>
 
-    <!-- <div class="p-fluid p-formgrid p-grid">
-        <div class="p-field p-col">
-            <th>Prestador empenhado - </th>
-        </div>
-    </div> -->
     <div class="p-fluid p-formgrid p-grid">
         <div class="p-field p-col">
             <th>Status - {{ocorrencia?.status}}</th>
@@ -67,13 +62,7 @@
         <p-divider align="center" type="dashed">
             <div class="p-d-inline-flex p-ai-center">
                 <i class="pi pi-user p-mr-2"></i>
-                <b *ngIf="chat.user!.tipoTenancy == 0">Open Code - {{chat.createdAt | date : 'dd/MM/yyyy HH:mm'}}</b>
-                <b *ngIf="chat.user!.tipoTenancy == 1">Central - {{chat.createdAt | date : 'dd/MM/yyyy HH:mm'}}</b>
-                <b *ngIf="chat.user!.tipoTenancy == 2">Cliente - {{chat.createdAt | date : 'dd/MM/yyyy HH:mm'}}</b>
-                <b *ngIf="chat.user!.tipoTenancy == 3 && tipoTenancy == 1">{{chat.user!.name}} - {{chat.createdAt | date
-                    : 'dd/MM/yyyy HH:mm'}}</b>
-                <b *ngIf="chat.user!.tipoTenancy == 3 && tipoTenancy != 1">Prestador - {{chat.createdAt | date :
-                    'dd/MM/yyyy HH:mm'}}</b>
+                <b >{{chat.user!.name}} - {{chat.createdAt | date : 'dd/MM/yyyy HH:mm'}}</b>
             </div>
         </p-divider>
 
@@ -122,15 +111,15 @@
     <div class="p-fluid p-formgrid p-grid ">
         <div class="p-field p-col">
             <label>Digite sua mensagem</label>
-            <textarea name="mensagem" [rows]="5" [cols]="30" pInputTextarea id="mensagem"
-                [(ngModel)]="mensagemEnviar"></textarea>
+            <textarea name="mensagem" [rows]="4" [cols]="30" pInputTextarea id="mensagem"
+                [(ngModel)]="mensagemEnviar" (keyup.enter)="enviarMensagem()"></textarea>
         </div>
 
     </div>
 
     <div class="p-field p-col-2">
         <button pButton pRipple label="Enviar" icon="pi pi-check" class="p-button-success"
-            (click)="enviarMensagem()"></button>
+            (click)="enviarMensagem()" ></button>
 
         <p-divider></p-divider>
 
@@ -154,7 +143,7 @@
 
     <p-divider></p-divider>
 
-    <div class="p-field p-col-2">
+    <div class="p-field p-col-2" *ngIf="ocorrencia?.status != 'FECHADA'">
         <button pButton pRipple label="Encerrar ocorrencia" icon="pi pi-check" class="p-button-danger"
             (click)="encerrar()"></button>
     </div>
