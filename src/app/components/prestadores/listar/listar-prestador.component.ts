@@ -72,7 +72,6 @@ export class ListarPrestadorComponent implements OnInit{
       this.messageService.add(MessageUtils.onSuccessMessage(data.mensagem));
     }, 
     error => {
-      console.log(error);
       this.messageService.add(MessageUtils.onErrorMessage("Ocorreu um erro ao processar a requisição."));        
      } 
     );

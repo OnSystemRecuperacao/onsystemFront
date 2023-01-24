@@ -40,7 +40,6 @@ export class AdicionarClienteComponent implements OnInit{
     ngOnInit() {
         this.tipoPessoa = this.comboService.getTipoPessoa();
         this.commomService.getListaBancos().subscribe(dados => {
-          console.log(dados);
           this.listaBancos = dados;
         });
     }
@@ -60,7 +59,6 @@ export class AdicionarClienteComponent implements OnInit{
     }
 
     validaDocumento(documento: string, tipoPessoa: number){
-      console.log(documento);
       if(tipoPessoa == 1 && documento != ""){
         return cpf.isValid(documento);
       }
@@ -70,17 +68,17 @@ export class AdicionarClienteComponent implements OnInit{
       else return true;
     }
 
-    buscaCep(cep: String){
+  buscaCep(cep: String) {
 
+    if (cep != "") {
       this.commomService.buscaCep(cep).subscribe((data: Endereco) => {
-        console.log(data);    
-        this.endereco = data;           
+        this.endereco = data;
       }, error => {
-        this.messageService.add(MessageUtils.onErrorMessage(error));                   
-      } 
-   ); 
-    
+        this.messageService.add(MessageUtils.onInfoMessage('CEP não encontrado'));
+      }
+      );
     }
+  }
     
     cancelar(){
        this.commomService.navigate(NavigationEnum.LISTAR_CLIENTES)
@@ -135,10 +133,10 @@ export class AdicionarClienteComponent implements OnInit{
   
      private getDadosBancarios(form: NgForm): DadosBancarios{
        let contaBancaria: DadosBancarios = {};
-       //contaBancaria.banco = form.value.banco;
-       contaBancaria.banco = 341; //this.bancoSelecionado.codigo;
+       contaBancaria.banco = form.value.banco;
        contaBancaria.agencia = form.value.agencia;
        contaBancaria.conta = form.value.conta;      
+       contaBancaria.chavePix = form.value.chavePix;
        return contaBancaria;
      }
   

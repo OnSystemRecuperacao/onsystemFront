@@ -119,9 +119,7 @@ export class NovaOcorrenciaComponent implements OnInit {
 
  private adicionarOcorrencia(form: NgForm){
   this.ocorrenciaService.create(this.ocorrencia).subscribe((data: any) => {
-    console.log(data);
     this.id = data.id;
-    console.log(this.id);
       this.messageService.add(MessageUtils.onSuccessMessage("Ocorrencia cadastrada, buscando prestador"));       
     },error => {
       this.messageService.add(MessageUtils.onErrorMessage(error));        
@@ -175,9 +173,6 @@ carregarCombos(){
 }
 
 show(estado: any) {
-  console.log("prestadoresSelect -", this.prestadoresSelect);
-  console.log("estadoSelecionado - ", estado);
-
   const ref = this.dialogService.open(AceiteOcorrenciasComponent, {
     data: {
         idOcorrencia: this.id,

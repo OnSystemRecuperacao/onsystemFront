@@ -53,7 +53,6 @@ export class PrestadorService {
 
     delete(id: number): Observable<{}> {
       const url = `${this.BASE_URL}/${id}`; 
-      console.log(url)
       return this.httpClient.delete(url, this.httpOptions).pipe(catchError(this.handleError));
     }
 

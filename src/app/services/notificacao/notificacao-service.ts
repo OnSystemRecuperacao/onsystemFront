@@ -25,15 +25,12 @@ export class NotificacaoService {
     }
 
     notificarPrestador(notificacao: NotificacaoPrestadorOcorrencia): Observable<any> {
-        console.log(notificacao)
         this.data = this.parseData(notificacao);  
-        console.log("DADOS NOTIFICAÇÃO - " + this.data);
         const url = `${this.BASE_URL}` + '/notificarPrestador';  
         return this.httpClient.post<any>(url, this.data, this.httpOptions).pipe(catchError(this.handleError));     
     }
 
     notificarPrestadorChat(notificacao: any): Observable<any> {
-        console.log(notificacao)
         this.data = this.parseData(notificacao);  
         const url = `${this.BASE_URL}` + '/notificarPrestadorChat';  
         return this.httpClient.post<any>(url, this.data, this.httpOptions).pipe(catchError(this.handleError));     
@@ -41,7 +38,6 @@ export class NotificacaoService {
    
     private parseData(notificacao: NotificacaoPrestadorOcorrencia): any{
        let data = notificacao;
-       console.log("DADOS NOTIFICAÇÃO - " + JSON.parse(JSON.stringify(data)));
        return data;
     }
 

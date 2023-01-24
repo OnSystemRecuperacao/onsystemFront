@@ -92,7 +92,6 @@ export class EsqueciSenhaComponent implements OnInit {
     }))
     .subscribe(response => {
     },error => {
-      console.log(error);
       this.messageService.add(MessageUtils.onErrorMessage(error));        
     });
   
@@ -103,7 +102,6 @@ export class EsqueciSenhaComponent implements OnInit {
   }
 
   validaDocumento(documento: string, tipoPessoa: number){
-    console.log(documento);
     if(tipoPessoa == 1 && documento != ""){
       return cpf.isValid(documento);
     }

@@ -47,7 +47,6 @@ export class EditarPrestadorComponent implements OnInit{
       this.carregarCombos();
       this.buscarPrestador();
       this.commomService.getListaBancos().subscribe(dados => {
-         console.log(dados);
          this.listaBancos = dados;
        });      
    } 
@@ -65,7 +64,6 @@ export class EditarPrestadorComponent implements OnInit{
     }
 
    salvar(form: NgForm){
-      console.log(form); 
       let prestador = this.parseData(form)
       this.adicionarPrestador(prestador);
    }
@@ -90,7 +88,6 @@ export class EditarPrestadorComponent implements OnInit{
       let idPrestador = <number> this.route.snapshot.params['id'];
       
       this.prestadorService.readByID(idPrestador).subscribe((data: Prestador) => {
-           console.log(data)
            this.prestador = data; 
            this.antenista = data.antenista == 'SIM' ? 1: 2
            this.escoltaArmada = data.regSinistro == 'SIM' ? 1: 2                

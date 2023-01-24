@@ -63,7 +63,6 @@ export class EncerrarOcorrenciaComponent implements OnInit {
 
 
   ngOnInit() {
-    console.log(this.config.data.idOcorrencia);
     this.idBancoFirebase = this.config.data.idFirebase
   }
 
@@ -93,8 +92,6 @@ export class EncerrarOcorrenciaComponent implements OnInit {
   }
 
   enviarMensagem(obs: any) {
-    console.log("Enviando msg - ", this.idBancoFirebase)
-
     this.user = {
       _id: <number>this.authService.getUsuarioLogado().id_tenancy,
       tipoTenancy: this.authService.getUsuarioLogado()["tipo_tenancy"].id,

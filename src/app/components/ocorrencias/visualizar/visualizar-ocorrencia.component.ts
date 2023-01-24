@@ -443,7 +443,6 @@ export class VisualizarOcorrenciaComponent implements OnInit, AfterViewInit {
         const filename = split.split('?')[0]
         JSZipUtils.getBinaryContent(url, (err, data) => {
           if (err) {
-            console.log(err)
             throw err;
           }
 

@@ -74,7 +74,6 @@ export class OcorrenciasComponent implements OnInit {
       })
     } else {
       this.ocorrenciaService.read().subscribe(response => {
-        console.log("OCORRENCIAS - ", response)
         this.todasOcorrencias = response;
         this.ordenarOcorrenciasAtivas() ;
         this.loading = false;
@@ -110,9 +109,7 @@ export class OcorrenciasComponent implements OnInit {
 
   visualizar(ocorrencia: Ocorrencia) {
     this.ocorrencia = ocorrencia;
-    console.log(ocorrencia);
     let id = <number>this.ocorrencia.id;
-    console.log("VISUALIZAR - " + id);
     this.commomService.navigateWithParams(NavigationEnum.VISUALIZAR_OCORRENCIA, id);
   }
 
@@ -171,8 +168,6 @@ export class OcorrenciasComponent implements OnInit {
       this.usuarioLogado.id = this.authService.getUsuarioLogado().id_usuario;
       this.usuarioLogado.tipo = this.authService.getUsuarioLogado().tipo_tenancy
       this.usuarioLogado.tenancy = new Tenancy(idTenancy);
-      console.log("USUARIO LOGADO - ", this.authService.getUsuarioLogado())
-
     }
   }
   reload() {

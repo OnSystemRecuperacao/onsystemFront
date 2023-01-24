@@ -36,7 +36,6 @@ export class DeleteOcorrenciaComponent implements OnInit {
         this.usuarioService.validaSenhaAdm(login).then(response => {
             this.removerOcorrencia(this.config.data.idOcorrencia);      
           }).catch(error => {
-            console.log(error)
             this.messageService.add(MessageUtils.onErrorMessage("Senha invalida"))
           }
             

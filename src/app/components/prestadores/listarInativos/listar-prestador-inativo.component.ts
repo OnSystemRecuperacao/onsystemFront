@@ -85,33 +85,24 @@ export class ListarPrestadorInativoComponent implements OnInit {
 
   carregarCnh(callback: any) {
     const db = getDatabase();
-    console.log("updateMessages")
-    console.log("fotoCnhPrestador-" + this.prestador.id)
     const commentsRef = ref(db, "fotoCnhPrestador-" + this.prestador.id);
     onChildAdded(commentsRef, (data) => {
       let teste = callback(this.parse(data));
-      console.log("DEPOIS DO BACK")
       this.fotoCnh = teste.text;
-      console.log(this.fotoCnh)
     });
   }
 
   carregarFotoPerfil(callback: any) {
     const db = getDatabase();
-    console.log("updateMessages")
     const commentsRef = ref(db, "fotoPerfilPrestador-" + this.prestador.id);
     onChildAdded(commentsRef, (data) => {
-      console.log(data)
       let teste = callback(this.parse(data));
-      console.log("DEPOIS DO BACK")
       this.fotoPrestador = teste.text;
-      console.log(this.fotoCnh)
     });
   }
 
 
   callback(data: any) {
-    console.log("CALLBACK")
     let msg: MensagemFirebase = new MensagemFirebase();
     msg = data;
     return msg;

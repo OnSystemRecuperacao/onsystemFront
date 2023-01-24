@@ -75,11 +75,16 @@
         </div>
 
         <div class="p-fluid p-formgrid p-grid">
+            <div class="p-field p-col-2">
+                <label for="cep">CEP</label>
+                <p-inputMask #cep id="cep" name="cep" mask="99999-999" (onBlur)="buscaCep(cep.value)" ngModel>
+                </p-inputMask>
+            </div>
             <div class="p-field  p-col-9">
                 <label for="name">Endereço</label>
                 <input type="text" name="endereco" pInputText id="endereco" [(ngModel)]="endereco.logradouro" />
             </div>
-            <div class="p-field  p-col-3">
+            <div class="p-field  p-col">
                 <label for="numero">Número</label>
                 <input type="text" name="numero" pInputText id="numero" ngModel />
             </div>
@@ -96,11 +101,7 @@
                 <input type="text" name="bairro" pInputText id="bairro" [(ngModel)]="endereco.bairro" />
             </div>
 
-            <div class="p-field p-col-2">
-                <label for="cep">CEP</label>
-                <p-inputMask #cep id="cep" name="cep" mask="99999-999" (onBlur)="buscaCep(cep.value)" ngModel>
-                </p-inputMask>
-            </div>
+            
 
             <div class="p-field p-col">
                 <label for="estado">Estado</label>
@@ -111,22 +112,20 @@
         <div class="p-fluid p-formgrid p-grid">
             <div class="p-field p-col">
                 <label for="banco">Banco</label>
-                <p-dropdown [options]="listaBancos" [(ngModel)]="bancoSelecionado" optionLabel="banco"
-                    [showClear]="true" (onChange)="bancoChange($event)" placeholder="Selecione">
-                    <ng-template let-banco pTemplate="item">
-                        <div>{{banco.banco}} - {{banco.codigo}}</div>
-                    </ng-template>
-                </p-dropdown>
+                <input type="text" id="banco" name="banco" pInputText ngModel />
             </div>
 
             <div class="p-field p-col">
                 <label for="agencia">Agência</label>
                 <input type="text" id="agencia" name="agencia" pInputText ngModel />
             </div>
-
             <div class="p-field p-col">
                 <label for="conta">Conta</label>
                 <input type="text" id="conta" name="conta" pInputText ngModel />
+            </div>
+            <div class="p-field p-col-4">
+                <label for="conta">Chave PIX</label>
+                <input type="text" id="chavePix" name="chavePix" pInputText ngModel />
             </div>
         </div>
 

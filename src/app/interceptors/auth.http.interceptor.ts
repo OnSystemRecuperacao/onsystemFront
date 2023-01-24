@@ -16,7 +16,6 @@ export class AuthHttpInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (!req.url.includes('/oauth/token') && this.auth.isAccessTokenInvalido()) {
-      console.log("Acesso não autorizado, realizando logoff")
       localStorage.setItem("access_token", ""); 
       this.commomService.navigateByUrl(NavigationEnum.NAO_AUTORIZADO);
     }

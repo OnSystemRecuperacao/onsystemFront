@@ -49,14 +49,12 @@ export class ClienteService {
 
     private parseData(cliente: Cliente): any{
        let data = cliente;
-       console.log(JSON.parse(JSON.stringify(data)));
        return data;
     }
 
     // Manipulação de erros
     handleError(error: any) {
       let errorMessage = '';
-      console.log("handleError", error)
       if (error.error instanceof ErrorEvent) {      
           errorMessage =  error.error.mensagem      
       } else {  

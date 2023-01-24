@@ -34,7 +34,6 @@ export class InteracaoService{
 
   private parseData(interacao: InteracaoOcorrencia): any{
     let data = interacao;
-   console.log(JSON.parse(JSON.stringify(data)));
    return data;
  }
 

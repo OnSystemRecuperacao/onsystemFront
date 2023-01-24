@@ -24,7 +24,6 @@ export class UsuarioService{
     BASE_URL: string = Utils.makeURLRequest("/usuarios");
 
     create(usuario: Usuario): Observable<Usuario> {  
-       console.log(usuario)  
        return this.httpClient.post<Usuario>(this.BASE_URL, usuario, this.httpOptions).pipe(catchError(this.handleError));
     }
         
@@ -39,20 +38,17 @@ export class UsuarioService{
     }
 
     updateUserStatus(usuario: Usuario): Promise<Usuario> {  
-        console.log(usuario)
         const url = `${this.BASE_URL}/${usuario.id}`;  
         return this.httpClient.patch<Usuario>(url, usuario, this.httpOptions).toPromise();
      }
 
      aterarUsuario(usuario: Usuario): Promise<Usuario> {  
-        console.log(usuario)
         const url = `${this.BASE_URL}/${usuario.id}`;  
         return this.httpClient.put<Usuario>(url, usuario, this.httpOptions).toPromise();
      }
 
     delete(id: number): Observable<{}> {
         const url = `${this.BASE_URL}/${id}`; 
-        console.log(url)
         return this.httpClient.delete(url, this.httpOptions).pipe(catchError(this.handleError));
       }
 
@@ -63,7 +59,6 @@ export class UsuarioService{
 
       validaSenhaAdm(login: any): Promise<any> {
         const url = `${this.BASE_URL}/validaSenha`;
-        console.log(url)
         return this.httpClient.post(url, login,this.httpOptions).toPromise();
     }
 

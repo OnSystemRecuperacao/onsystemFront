@@ -69,7 +69,6 @@ export class ListarClienteComponent implements OnInit{
         this.messageService.add(MessageUtils.onSuccessMessage("O registro foi excluído com sucesso !"));            
      }, 
      error => {
-       console.log(error);
        this.messageService.add(MessageUtils.onErrorMessage(error));        
      }
     );

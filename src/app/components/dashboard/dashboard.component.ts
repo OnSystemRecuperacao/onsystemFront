@@ -46,11 +46,9 @@ export class DashboardComponent implements OnInit {
         }
         this.commomService.setNovaOcorrencia("teste")
         this.messageService.add(MessageUtils.onWarningMessage("Nova Ocorrencia aceita - "));
-        console.log(this.usuarioLogado)
         if (this.usuarioLogado.tipo!.id === 0) {
             this.commomService.getNovaOcorrencia().subscribe((oco) => {
                 this.ocorrencia = oco;
-                console.log("Ocorrencia - ", this.ocorrencia)
                 if (this.ocorrencia) {
                     this.messageService.add(MessageUtils.onWarningMessage("Nova Ocorrencia aceita - " + this.ocorrencia));
                 }

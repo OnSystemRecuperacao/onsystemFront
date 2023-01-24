@@ -26,7 +26,6 @@ export class OcorrenciaService {
 
   read(): Observable<Ocorrencia[]> {
     let dados = this.httpClient.get<any>(this.BASE_URL, this.httpOptions).toPromise();
-    console.log(dados);
     //return this.httpClient.get<any>(this.BASE_URL).pipe(retry(2), catchError(this.handleError))
     return this.httpClient.get<any>(this.BASE_URL, this.httpOptions).pipe(catchError(this.handleError));
   }
@@ -49,13 +48,11 @@ export class OcorrenciaService {
 
   encerrarOcorrencia(obs: String, idOcorrencia: number): Promise<any> {
     const url = `${this.BASE_URL}/encerrarOcorrenciaCliente/${idOcorrencia}`;
-    console.log(url)
     return this.httpClient.put(url, this.httpOptions).toPromise();
   }
 
   delete(id: number): Observable<{}> {
     const url = `${this.BASE_URL}/${id}`;
-    console.log(url)
     return this.httpClient.delete(url, this.httpOptions).pipe(catchError(this.handleError));
   }
 
@@ -75,7 +72,6 @@ export class OcorrenciaService {
 
   private parseData(ocorrencia: Ocorrencia): any {
     let data = ocorrencia;
-    console.log(JSON.parse(JSON.stringify(data)));
     return data;
   }
 }

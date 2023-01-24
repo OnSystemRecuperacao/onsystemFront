@@ -54,7 +54,6 @@ export class AdicionarUsuarioComponent implements OnInit {
       
       }, error => {
         this.messageService.add(MessageUtils.onErrorMessage(error.mensagem));
-        console.log(error.mensagem)
 
       })
   }

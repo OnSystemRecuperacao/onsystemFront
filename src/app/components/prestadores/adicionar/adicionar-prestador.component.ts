@@ -48,7 +48,6 @@ export class AdicionarPrestadorComponent implements OnInit{
    ngOnInit(): void {
     this.carregarCombos()
     this.commomService.getListaBancos().subscribe(dados => {
-      console.log(dados);
       this.listaBancos = dados;
     });
    }
@@ -78,7 +77,6 @@ onUploadFotoPrestador(event: { files: any; }) {
    buscaCep(cep: String){
 
       this.commomService.buscaCep(cep).subscribe((data: Endereco) => {
-        console.log(data);    
         this.endereco = data;           
       }, error => {
         this.messageService.add(MessageUtils.onErrorMessage(error));                   
@@ -96,24 +94,9 @@ onUploadFotoPrestador(event: { files: any; }) {
     }
 
     ver(){
-      const reader = new FileReader();
-
-      //const teste = reader.readAsDataURL(this.fotoCnh[0]);
-
       let file = this.fotoCnh[0];
       let formData = new FormData();
       formData.append('file', file);
-
-      console.log("TESTE")
-      console.log(formData)
-
-      console.log("foto Prestador ")
-      console.log(this.fotoPrestador)
-      //console.log(this.fotoPrestador?.arrayBuffer)
-  
-      console.log("foto CNH")
-      console.log(this.fotoCnh)
-
     }
 
    salvar(form: NgForm){  

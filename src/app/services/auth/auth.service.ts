@@ -40,11 +40,9 @@ export class AuthService {
         const body = 'grant_type=refresh_token';        
        return this.httpClient.post<any>(this.BASE_URL, body, this.httpOptions).toPromise()
        .then(response =>{
-            console.log(response);
             this.decodeToken(response['access_token'])    
             return Promise.resolve();
        }).catch( response =>{
-            console.log(response);
             return Promise.resolve();
        });        
     }

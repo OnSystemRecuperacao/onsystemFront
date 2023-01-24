@@ -243,7 +243,7 @@ export class CommomService {
       if (error.error instanceof ErrorEvent) {
          errorMessage = error.error.message
       } else {
-         errorMessage = error.message
+         errorMessage = error.error.message
       }
       return throwError(errorMessage);
    }

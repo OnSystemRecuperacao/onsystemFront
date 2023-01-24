@@ -61,13 +61,11 @@ export class AceiteOcorrenciasComponent implements OnInit {
 
 
   ngOnInit() {
-    console.log(this.config.data);
     this.buscarPrestadores()
   }
 
   buscarPrestadores() {
     this.ocorrencia = this.config.data.novaOcorrencia;
-    console.log(this.config.data)
     const dados =  {
       idOcorrencia: this.config.data.idOcorrencia,
       prestadores: this.config.data.prestadores,
@@ -75,9 +73,7 @@ export class AceiteOcorrenciasComponent implements OnInit {
     }
     this.localizacaoPrestadorService.buscarPrestadorLocalizacao(dados).then(response => {
       this.tempoPrestadorOcorrencias = response;
-      console.log(this.tempoPrestadorOcorrencias);
       this.loading = false;
-      console.log(this.config.data.prestadores != null)
       if(this.config.data.prestadores != null){
         this.messageService.add(MessageUtils.onWarningMessage("Caso algum prestador selicionado não esteja na lista, o mesmo não esta com os dados atualizados na base."));
       }
@@ -96,7 +92,6 @@ export class AceiteOcorrenciasComponent implements OnInit {
 
     this.notificacao.prestador = new Tenancy(tempo.idPrestador!);
     this.notificacao.ocorrencia = this.ocorrencia;
-    console.log(this.notificacao);
     this.notificacaoService.notificarPrestador(this.notificacao).pipe(finalize(() => {
       setTimeout(() => {
         this.verificarControleAceite(this.callback, this.notificacao.ocorrencia?.id);
@@ -105,7 +100,6 @@ export class AceiteOcorrenciasComponent implements OnInit {
     })).subscribe(response => {
       // this.tempoPrestadorOcorrencias = response; 
       if (response) {
-        console.log("aprovar", response);
         this.loading = false;
         this.gravarControleAceite(this.notificacao)
         this.mensagemInfo = true;
@@ -126,12 +120,8 @@ export class AceiteOcorrenciasComponent implements OnInit {
   }
 
   gravarControleAceite(oco: NotificacaoPrestadorOcorrencia) {
-    console.log("chamou gravarControleAceite");
-
     let controleAceite = 'controleAceite - ' + oco.ocorrencia?.id;
-  
     const db = getDatabase();
-
     push(ref(db, controleAceite), {
       id: oco.ocorrencia?.id,
       aceito: 0,
@@ -149,15 +139,9 @@ export class AceiteOcorrenciasComponent implements OnInit {
     };
     onChildAdded(commentsRef, (data) => {
       retorno = callback(this.parse(data));
-      console.log("DEPOIS DO BACK")
-      console.log(retorno)
-      
-
     });
 
     setTimeout(() => {
-      console.log("Aceite");
-    console.log(retorno.aceito);
     if (retorno.aceito) {
       this.confirm(id);
     }
@@ -173,8 +157,6 @@ export class AceiteOcorrenciasComponent implements OnInit {
       id: data.id,
       aceito: data.aceito == 0 ? false : true
     }
-    console.log("CALLBACK")
-    console.log(retorno)
     return retorno;
   }
 
