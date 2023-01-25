@@ -171,10 +171,10 @@ onUploadFotoPrestador(event: { files: any; }) {
 
    private getDadosBancarios(form: NgForm): DadosBancarios{
      let contaBancaria: DadosBancarios = {};
-     //contaBancaria.banco = form.value.banco;
-     contaBancaria.banco = this.bancoSelecionado.codigo;
+     contaBancaria.banco = form.value.banco;
      contaBancaria.agencia = form.value.agencia;
      contaBancaria.conta = form.value.conta;     
+     contaBancaria.chavePix = form.value.chavePix
      return contaBancaria;
    }
 

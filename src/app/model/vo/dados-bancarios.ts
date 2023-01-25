@@ -1,6 +1,6 @@
 export class DadosBancarios{   
     agencia?: string = "";
-    banco?: number = 0;
+    banco?: string = "";
     conta?: string = ""    
     chavePix?: string = ""
 }

@@ -94,6 +94,7 @@ export class EditarPrestadorComponent implements OnInit{
       
       this.prestadorService.readByID(idPrestador).subscribe((data: Prestador) => {
            this.prestador = data; 
+           console.log(this.prestador)
            this.antenista = data.antenista == 'SIM' ? 1: 2
            this.escoltaArmada = data.regSinistro == 'SIM' ? 1: 2         
            this.buscarFotos(this.callback)       

@@ -81,12 +81,7 @@
     <div class="p-fluid p-formgrid p-grid">
         <div class="p-field p-col">
             <label for="banco">Banco</label>
-            <p-dropdown [options]="listaBancos" [(ngModel)]="bancoSelecionado" optionLabel="banco"
-                [showClear]="true" (onChange)="bancoChange($event)" placeholder="Selecione">
-                <ng-template let-banco pTemplate="item">
-                    <div>{{banco.banco}} - {{banco.codigo}}</div>
-                </ng-template>
-            </p-dropdown>
+            <input type="text" id="banco" name="banco" pInputText ngModel />
         </div>
 
         <div class="p-field p-col"> 
@@ -97,7 +92,11 @@
         <div class="p-field p-col">
             <label for="conta">Conta</label>              
             <input type="text" id="conta" name="conta" pInputText ngModel />
-        </div>        
+        </div>  
+        <div class="p-field p-col-4">
+            <label for="conta">Chave PIX</label>
+            <input type="text" id="chavePix" name="chavePix" pInputText ngModel />
+        </div>      
     </div>
 
     <div class="p-fluid p-formgrid p-grid">
