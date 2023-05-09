@@ -283,13 +283,13 @@ export class VisualizarOcorrenciaComponent implements OnInit, AfterViewInit {
     const db = getDatabase();
 
     let id = "localizacao-prestador-" + this.ocorrencia!.idPrestador;
-    // let id = "localizacao-prestador-" + 10;
 
     const commentsRef = ref(db, id);
     onChildAdded(commentsRef, (data) => {
       let teste = callbackLocalizacao(this.parseLocalizacao(data));
       this.localizacao.latitude = parseFloat(teste['latitude']);
       this.localizacao.longitude = parseFloat(teste['longitude']);
+      
     });
 
 

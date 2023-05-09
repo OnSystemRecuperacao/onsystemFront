@@ -138,7 +138,7 @@ export function tokenGetter(): any {
         // disallowedRoutes: ['http://18.223.1.99:8080/onsystem/api/v1/oauth/token']
 
         allowedDomains: ['localhost:8080'],
-        disallowedRoutes: ['http://localhost:8080/oauth/token']
+        disallowedRoutes: ['http://localhost:8080/onsystem/api/v1/oauth/token']
 
         // allowedDomains: ['api.centralonsystem.com.br'],
         // disallowedRoutes: ['//api.centralonsystem.com.br/onsystem/api/v1/oauth/token']
